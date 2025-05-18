@@ -6,7 +6,7 @@ require_once '../commons/function.php'; // Hàm hỗ trợ
 
 // Require toàn bộ file Controllers
 require_once 'controllers/DashboardController.php';
-
+require_once 'controllers/CategoriesController.php';
 // Require toàn bộ file Models
 
 // Route
@@ -17,4 +17,5 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
     // Dashboards
     '/'                 => (new DashboardController())->index(),
+    'Categories'        =>(new CategoriesController())->index(),  
 };

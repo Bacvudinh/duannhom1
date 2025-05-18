@@ -18,5 +18,3 @@ match ($act) {
     // Trang chủ
     '/'                 => (new HomeController())->index(),
 };
-
-// test
