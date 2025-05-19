@@ -37,5 +37,15 @@ public function getProducts($keyword = null)
     $this->setQuery($sql);
     return $this->loadAllRows([$category_id, $exclude_id]);
 }
+public function deleteProductsByCategoryId($categoryId) {
+    $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0"); // Vô hiệu hóa kiểm tra khóa ngoại
 
+    $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE category_id = :category_id");
+    $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+    $result = $stmt->execute();
+
+    $this->pdo->exec("SET FOREIGN_KEY_CHECKS=1"); // Kích hoạt lại kiểm tra khóa ngoại
+
+    return $result;
+}
 }

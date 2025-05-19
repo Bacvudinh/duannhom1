@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // Require file Common
 require_once '../commons/env.php'; // Khai báo biến môi trường
@@ -16,6 +16,12 @@ $act = $_GET['act'] ?? '/';
 
 match ($act) {
     // Dashboards
-    '/'                 => (new DashboardController())->index(),
-    'Categories'        =>(new CategoriesController())->index(),  
+    '/'                     => (new DashboardController())->index(),
+    'Categories'            => (new CategoriesController())->index(),
+    'addCategories'         => (new CategoriesController())->add(),
+    'saveCategory'          => (new CategoriesController())->save(),
+    'editCategories'        => isset($_GET['id']) && ($_GET['id']) ? (new CategoriesController())->edit($_GET['id']) : (new CategoriesController())->index(),
+    'updateCategory'        => isset($_GET['id']) && ($_GET['id']) ? (new CategoriesController())->update($_GET['id']) : (new CategoriesController())->index(),
+    'deleteCategory'        => isset($_GET['id']) && ($_GET['id']) ? (new CategoriesController())->delete($_GET['id']) : (new CategoriesController())->index(),
+    'xoadm'                 => isset($_GET['id']) && ($_GET['id']) ? (new CategoriesController())->delete($_GET['id']) : (new CategoriesController())->index(), // Thêm case này
 };
