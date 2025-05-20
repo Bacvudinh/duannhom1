@@ -6,7 +6,6 @@
             require_once 'views/login.php';
             $error = '';
         }
-
         public function  login(){
             if($_SERVER['REQUEST_METHOD']== 'POST'){
                 $email = $_POST['email'];
@@ -16,10 +15,10 @@
                 $user = $userModel->login($email,$password);
 
                 if ($user) {
-                    session_start();
+                    
                     $_SESSION['user']= $user;
                     echo("Đăng Nhập Thành Công");
-                    header("Location: index.php");
+                    header("Location: views/home.php");
                     
                 }else{
                     $error = "Sai email hoặc mật khẩu";

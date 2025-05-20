@@ -1,4 +1,4 @@
-    <?php 
+    <?php
 
     // Require file Common
     require_once './commons/env.php'; // Khai báo biến môi trường
@@ -9,12 +9,12 @@
     require_once './models/BaseModel.php'; // Model cơ sở
     require_once './models/Products.php'; // Model sản phẩm
 
-// Require toàn bộ file Controllers
-require_once './controllers/HomeController.php';
-require_once './controllers/LoginController.php';
+    // Require toàn bộ file Controllers
+    require_once './controllers/HomeController.php';
+    require_once './controllers/LoginController.php';
 
-// Require toàn bộ file Models
-require_once './models/User.php';
+    // Require toàn bộ file Models
+    require_once './models/User.php';
 
 
     // Require toàn bộ file Controllers
@@ -32,15 +32,8 @@ require_once './models/User.php';
         // Trang chủ
         '/'                 => (new HomeController())->index(),
         'listproducts' => (new ProductController())->index(),
-        'product_detail'=> (new ProductController())->productDetail(),
+        'product_detail' => (new ProductController())->productDetail(),
+        'loginForm'                 => (new LoginController())->showLogin(),
+        'log    in'                 => (new LoginController())->login(),
     };
     require_once './views/layout/footer.php'; // Footer
-match ($act) {
-    // Trang chủ
-    '/'                 => (new HomeController())->index(),
-
-    //login
-    'loginForm'                 => (new LoginController())->showLogin(),
-    'login'                 => (new LoginController())->login(),
-};
-
