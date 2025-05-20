@@ -12,15 +12,13 @@
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($user){
+                 
                 if($password === $user['password']){
                 return $user;
             }
-             
             }
-
         return false;
         }
-
 
     }
 ?> 
