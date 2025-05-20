@@ -9,6 +9,14 @@
     require_once './models/BaseModel.php'; // Model cơ sở
     require_once './models/Products.php'; // Model sản phẩm
 
+// Require toàn bộ file Controllers
+require_once './controllers/HomeController.php';
+require_once './controllers/LoginController.php';
+
+// Require toàn bộ file Models
+require_once './models/User.php';
+
+
     // Require toàn bộ file Controllers
     require_once './controllers/HomeController.php';
     require_once './controllers/ProductController.php';
@@ -16,6 +24,7 @@
 
     // Route
     $act = $_GET['act'] ?? '/';
+
 
     // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
@@ -26,3 +35,12 @@
         'product_detail'=> (new ProductController())->productDetail(),
     };
     require_once './views/layout/footer.php'; // Footer
+match ($act) {
+    // Trang chủ
+    '/'                 => (new HomeController())->index(),
+
+    //login
+    'loginForm'                 => (new LoginController())->showLogin(),
+    'login'                 => (new LoginController())->login(),
+};
+
