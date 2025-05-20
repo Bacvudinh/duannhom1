@@ -6,8 +6,10 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 
 // Require toàn bộ file Controllers
 require_once './controllers/HomeController.php';
+require_once './controllers/LoginController.php';
 
 // Require toàn bộ file Models
+require_once './models/User.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -17,4 +19,8 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
     // Trang chủ
     '/'                 => (new HomeController())->index(),
+
+    //login
+    'loginForm'                 => (new LoginController())->showLogin(),
+    'login'                 => (new LoginController())->login(),
 };
