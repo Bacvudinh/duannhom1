@@ -31,7 +31,7 @@
                          </div>
                          <!-- Product Badge End -->
                          <div class="swiper-wrapper">
-                             <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-1.png" alt="Signature Blend Roast Coffee"></div>
+                             <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-2.png" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-3.png" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-4.png" alt="Signature Blend Roast Coffee"></div>
@@ -45,7 +45,7 @@
                      <!-- Product Thumbnail Carousel Start -->
                      <div class="product-thumb-carousel swiper">
                          <div class="swiper-wrapper">
-                             <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-1.jpg" alt="Signature Blend Roast Coffee"></div>
+                             <div class="swiper-slide"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-2.jpg" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-3.jpg" alt="Signature Blend Roast Coffee"></div>
                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-4.jpg" alt="Signature Blend Roast Coffee"></div>
@@ -437,13 +437,15 @@
          <div class="product-carousel swiper">
 
              <div class="swiper-wrapper">
+            
+
                  <?php foreach ($relatedProducts as $item): ?>
                      <div class="swiper-slide">
                          <div class="product">
 
                              <div class="product-thumb">
                                  <a href="index.php?act=product_detail&id=<?= $item->id ?> class=" product-image">
-                                     <img loading="lazy" src="assets/images/products/product-2.png" alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
+                                     <img loading="lazy" src="uploads/product/<?= $item->image ?>" alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
                                  </a>
 
                                  <!-- Badge right -->

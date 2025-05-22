@@ -82,7 +82,7 @@ class Products extends BaseModel
             'image' => $image,
         ];
         $where = ['id' => $id];
-        return $this->update($data, $where);
+      return $this->update($id, $data);
     }
 
     public function delete($id)

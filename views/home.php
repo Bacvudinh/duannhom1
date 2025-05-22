@@ -217,9 +217,9 @@
                     <div class="swiper-slide">
                         <div class="product">
                             <div class="product-thumb">
-                                <a href="product_detail.php?id=<?= $product->id ?>" class="product-image">
-                                    <img loading="lazy" src="uploads/<?= $product->image ?>" alt="<?= htmlspecialchars($product->name) ?>" width="268" height="306">
-                                </a>
+                                <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
+                                    <img loading="lazy"  src="uploads/product/<?= $product->image ?>" alt="<?= htmlspecialchars($product->name) ?>" width="268" height="306">
+                                                           
 
                                 <?php if (!empty($product->is_new)): ?>
                                     <div class="product-badge-left">

@@ -110,7 +110,7 @@
                                                             <td><?= htmlspecialchars($product->id) ?></td>
                                                             <td>
                                                                 <?php if ($product->image): ?>
-                                                                    <img src="../uploads/products/<?= htmlspecialchars($product->image) ?>" alt="<?= htmlspecialchars($product->name) ?>" class="product-image">
+                                                                    <img src="../uploads/product/<?= htmlspecialchars($product->image) ?>" alt="<?= htmlspecialchars($product->name) ?>" class="product-image">
                                                                 <?php else: ?>
                                                                     No Image
                                                                 <?php endif; ?>
