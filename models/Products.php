@@ -1,51 +1,93 @@
 <?php
+// models/Products.php
+
+// Đảm bảo rằng BaseModel được include ở đây hoặc đã được autoload
+// require_once 'BaseModel.php'; 
+
 class Products extends BaseModel
 {
-public function getProducts($keyword = null)
-{
-    if ($keyword) {
-        // Nếu có từ khóa tìm kiếm
-        $sql = "SELECT * FROM `products` WHERE name LIKE ? OR description LIKE ?";
+    protected $table = 'products'; 
+
+    public function getProducts($keyword = null)
+    {
+        $sql = "SELECT p.*, c.name AS category_name 
+                FROM `{$this->table}` AS p 
+                JOIN `categories` AS c ON p.category_id = c.id";
+        $params = [];
+
+        if ($keyword) {
+            $sql .= " WHERE p.name LIKE ? OR p.description LIKE ?";
+            $params = ['%' . $keyword . '%', '%' . $keyword . '%'];
+        }
+
         $this->setQuery($sql);
-        return $this->loadAllRows(['%' . $keyword . '%', '%' . $keyword . '%']);
-    } else {
-        // Nếu không có từ khóa, lấy tất cả sản phẩm
-        $sql = "SELECT * FROM `products`";
-        $this->setQuery($sql);
-        return $this->loadAllRows();
+        return $this->loadAllRows($params);
     }
-}
+
     public function getProductById($id)
     {
-        $sql = "SELECT products.*, categories.name AS category_name
-            FROM products
-            JOIN categories ON products.category_id = categories.id
-            WHERE products.id = ?";
+        $sql = "SELECT p.*, c.name AS category_name
+                FROM `{$this->table}` AS p
+                JOIN `categories` AS c ON p.category_id = c.id
+                WHERE p.id = ?";
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
     
     public function getProductByName($name)
     {
-        $sql = "SELECT * FROM products WHERE name LIKE ?";
+        $sql = "SELECT * FROM `{$this->table}` WHERE name LIKE ?";
         $this->setQuery($sql);
         return $this->loadAllRows(['%' . $name . '%']);
     }
+
     public function getRelatedProducts($category_id, $exclude_id, $limit = 4)
-{
-    $sql = "SELECT * FROM products WHERE category_id = ? AND id != ? ORDER BY id DESC LIMIT $limit";
-    $this->setQuery($sql);
-    return $this->loadAllRows([$category_id, $exclude_id]);
-}
-public function deleteProductsByCategoryId($categoryId) {
-    $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0"); // Vô hiệu hóa kiểm tra khóa ngoại
+    {
+        $sql = "SELECT * FROM `{$this->table}` WHERE category_id = ? AND id != ? ORDER BY id DESC LIMIT {$limit}";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$category_id, $exclude_id]);
+    }
 
-    $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE category_id = :category_id");
-    $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
-    $result = $stmt->execute();
+    public function deleteProductsByCategoryId($categoryId) {
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0"); 
 
-    $this->pdo->exec("SET FOREIGN_KEY_CHECKS=1"); // Kích hoạt lại kiểm tra khóa ngoại
+        $sql = "DELETE FROM `{$this->table}` WHERE category_id = ?";
+        $this->setQuery($sql);
+        $result = $this->execute([$categoryId]);
 
-    return $result;
-}
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=1"); 
+
+        return $result;
+    }
+
+    public function addProduct($name, $price, $categoryId, $description = null, $image = null)
+    {
+        $data = [
+            'name' => $name,
+            'price' => $price,
+            'category_id' => $categoryId,
+            'description' => $description,
+            'image' => $image,
+        ];
+        return $this->insert($data);
+    }
+
+    public function updateProduct($id, $name, $price, $categoryId, $description = null, $image = null)
+    {
+        $data = [
+            'name' => $name,
+            'price' => $price,
+            'category_id' => $categoryId,
+            'description' => $description,
+            'image' => $image,
+        ];
+        $where = ['id' => $id];
+        return $this->update($data, $where);
+    }
+
+    public function delete($id)
+    {
+        $where = ['id' => $id];
+        return $this->deleteRow($where);
+    }
 }
