@@ -137,4 +137,21 @@ class BaseModel
         $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+     public function deleteRow(array $where) // Đây là phương thức bị thiếu hoặc sai
+    {
+        if (empty($this->table)) {
+            throw new Exception("Table name not set for delete operation.");
+        }
+
+        $whereParts = [];
+        foreach ($where as $key => $value) {
+            $whereParts[] = "`{$key}` = ?";
+        }
+        $whereClause = implode(" AND ", $whereParts);
+
+        $sql = "DELETE FROM `{$this->table}` WHERE {$whereClause}";
+        
+        $this->setQuery($sql);
+        return $this->execute(array_values($where));
+    }
 }

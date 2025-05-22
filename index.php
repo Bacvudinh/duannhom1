@@ -12,7 +12,7 @@
     // Require toàn bộ file Controllers
     require_once './controllers/HomeController.php';
     require_once './controllers/LoginController.php';
-
+    require_once './controllers/CartController.php';
     // Require toàn bộ file Models
     require_once './models/User.php';
 
@@ -34,6 +34,7 @@
         'listproducts' => (new ProductController())->index(),
         'product_detail' => (new ProductController())->productDetail(),
         'loginForm'                 => (new LoginController())->showLogin(),
-        'log    in'                 => (new LoginController())->login(),
+        'login'                 => (new LoginController())->login(),
+        'cart'                     =>(new CartController())->cart(),
     };
     require_once './views/layout/footer.php'; // Footer

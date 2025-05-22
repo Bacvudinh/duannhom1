@@ -81,7 +81,7 @@
                                         <a href="index-4.html">Others</a>
 
                                         <ul>
-                                            <li><a href="shopping-cart.html">Shopping Cart</a></li>
+                                            <li><a href="index.php?act=cart">Shopping Cart</a></li>
                                             <li><a href="checkout.html">Checkout</a></li>
 
 
@@ -114,7 +114,7 @@
                             </button>
                         </div>
                         <div class="header-action-item">
-                            <a href="shopping-cart.html" class="header-action-toggle">
+                            <a href="index.php?act=cart" class="header-action-toggle">
                                 <i class="sli-basket-loaded">
                                     <span class="count">02</span>
                                 </i>
