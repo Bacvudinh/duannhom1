@@ -3,6 +3,12 @@ require_once 'models/User.php';
 
 class LoginController
 {
+        public $product;
+    public function __construct() {
+            {
+        $this->product = new Products();
+    }
+    }
 
     public function showLogin()
     {
@@ -21,7 +27,7 @@ class LoginController
             if ($user) {
 
                 $_SESSION['user'] = $user;
-
+  $products = $this->product->getProducts();
                 require_once 'views/home.php';
                 exit();
             } else {

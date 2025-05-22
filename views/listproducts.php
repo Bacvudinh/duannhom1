@@ -82,7 +82,8 @@
                                     <div class="product">
                                         <div class="product-thumb">
                                         <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
-                                                <img loading="lazy" src="assets/images/products/product-1.png" alt="<?= htmlspecialchars($product->name) ?>" width="268" height="306">
+                                               <img src="uploads/product/<?= $product->image ?>" alt="<?= $product->name ?>" width="200">
+                                      
                                             </a>
 
                                             <div class="product-badge-left">
@@ -134,6 +135,7 @@
 
                             <div class="col mb-6">
                                 <?php foreach ($products as $product): ?>
+                                    <?php echo 'uploads/product/' . $product->image; ?>
                                     <div class="product product-list">
                                         <div class="product-thumb">
                                             <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
