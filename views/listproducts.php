@@ -38,29 +38,19 @@
                     </div>
 
                     <div class="shop-top-bar-item">
-                        <label for="paginateBy">Show :</label>
-                        <select name="paginateBy" id="paginateBy">
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12" selected>12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        <form id="paginationLimitForm" method="GET" action="index.php">
+                            <input type="hidden" name="act" value="listproducts">
+                            <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword ?? '') ?>">
+                            <input type="hidden" name="page" value="1"> <!-- reset về trang 1 mỗi khi thay limit -->
 
+                            <label for="paginateBy">Hiển thị:</label>
+                            <select name="limit" id="paginateBy" onchange="document.getElementById('paginationLimitForm').submit();">
+                                <?php for ($i = 3; $i <= 20; $i++): ?>
+                                    <option value="<?= $i ?>" <?= ($limit == $i ? 'selected' : '') ?>><?= $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </form>
 
-                        </select>
                     </div>
 
                     <div class="shop-top-bar-item">
@@ -81,9 +71,9 @@
                                 <div class="col mb-6">
                                     <div class="product">
                                         <div class="product-thumb">
-                                        <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
-                                               <img src="uploads/product/<?= $product->image ?>" alt="<?= $product->name ?>" width="200">
-                                      
+                                            <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
+                                                <img src="uploads/product/<?= $product->image ?>" alt="<?= $product->name ?>" width="200">
+
                                             </a>
 
                                             <div class="product-badge-left">
@@ -211,13 +201,24 @@
                 <!-- Shop Bottom Bar Start -->
                 <div class="shop-bottom-bar">
                     <ul class="pagination">
-                        <li class="disabled"><a href="#prev"><i class="sli-arrow-left"></i></a></li>
-                        <li><a class="active" href="#page=1">1</a></li>
-                        <li><a href="#page=2">2</a></li>
-                        <li><a href="#page=3">3</a></li>
-                        <li><a href="#next"><i class="sli-arrow-right"></i></a></li>
+                        <?php if ($page > 1): ?>
+                            <li><a href="index.php?act=listproducts&page=<?= $page - 1 ?>&keyword=<?= $keyword ?>"><i class="sli-arrow-left"></i></a></li>
+                        <?php else: ?>
+                            <li class="disabled"><span><i class="sli-arrow-left"></i></span></li>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li><a href="index.php?act=listproducts&page=<?= $i ?>&keyword=<?= $keyword ?>" <?= ($i == $page ? 'class="active"' : '') ?>><?= $i ?></a></li>
+                        <?php endfor; ?>
+
+                        <?php if ($page < $totalPages): ?>
+                            <li><a href="index.php?act=listproducts&page=<?= $page + 1 ?>&keyword=<?= $keyword ?>"><i class="sli-arrow-right"></i></a></li>
+                        <?php else: ?>
+                            <li class="disabled"><span><i class="sli-arrow-right"></i></span></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
+
                 <!-- Shop Bottom Bar End -->
 
             </div>
@@ -226,14 +227,19 @@
                 <div class="accordion" id="accordionSidebar">
 
                     <!-- Sidebar Price Start -->
-                    <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button" data-bs-toggle="collapse" data-bs-target="#sidebarPrice">Price</button>
-                        <div id="sidebarPrice" class="accordion-collapse collapse show">
-                            <div class="shop-sidebar-body accordion-body">
-                                <input type="text" id="price-range" />
-                            </div>
+                    <hr>
+                    <label class="fw-bold">Filter by Price</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="number" class="form-control mb-2" name="min_price" placeholder="Min" value="<?= $_GET['min_price'] ?? '' ?>">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" class="form-control mb-2" name="max_price" placeholder="Max" value="<?= $_GET['max_price'] ?? '' ?>">
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-sm btn-dark w-100">Apply</button>
+                    </form>
+
                     <!-- Sidebar Price End -->
 
                     <!-- Sidebar Availability Start -->
@@ -254,118 +260,55 @@
                     </div>
                     <!-- Sidebar Availability End -->
 
-                    <!-- Sidebar Product Type Start -->
+                    <!-- Sidebar Filter by Category -->
                     <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarProductType">Product Type</button>
-                        <div id="sidebarProductType" class="accordion-collapse collapse">
+                        <button class="shop-sidebar-toggle accordion-button" data-bs-toggle="collapse" data-bs-target="#sidebarCategory">Category</button>
+                        <div id="sidebarCategory" class="accordion-collapse collapse show">
                             <div class="shop-sidebar-body accordion-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="type" id="type-1">
-                                    <label class="form-check-label" for="type-1">Type 1 <span class="ms-auto">(2)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="type" id="type-2">
-                                    <label class="form-check-label" for="type-2">Type 2 <span class="ms-auto">(3)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="type" id="type-3">
-                                    <label class="form-check-label" for="type-3">Type 3 <span class="ms-auto">(2)</span></label>
-                                </div>
+                                <form id="filterForm" method="GET" action="index.php">
+                                    <input type="hidden" name="act" value="listproducts">
+                                    <input type="hidden" name="min_price" value="<?= $_GET['min_price'] ?? '' ?>">
+                                    <input type="hidden" name="max_price" value="<?= $_GET['max_price'] ?? '' ?>">
+                                    <input type="hidden" name="limit" value="<?= $_GET['limit'] ?? 5 ?>">
 
+                                    <?php foreach ($categories as $cat): ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="category[]" value="<?= $cat->id ?>"
+                                                <?= (isset($_GET['category']) && in_array($cat->id, $_GET['category'])) ? 'checked' : '' ?>
+                                                onchange="document.getElementById('filterForm').submit();">
+                                            <label class="form-check-label"><?= $cat->name ?></label>
+                                        </div>
+                                    <?php endforeach; ?>
+
+                                </form>
+
+                                <!-- Sidebar Size Start -->
+                                <div class="accordion-item shop-sidebar-item">
+                                    <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarSize">Size</button>
+                                    <div id="sidebarSize" class="accordion-collapse collapse">
+                                        <div class="shop-sidebar-body accordion-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" name="size" id="s">
+                                                <label class="form-check-label" for="s">S <span class="ms-auto">(8)</span></label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" name="size" id="m">
+                                                <label class="form-check-label" for="m">M <span class="ms-auto">(11)</span></label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" name="size" id="l">
+                                                <label class="form-check-label" for="l">L <span class="ms-auto">(11)</span></label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Sidebar Size End -->
 
                             </div>
                         </div>
+
                     </div>
-                    <!-- Sidebar Product Type End -->
-
-                    <!-- Sidebar Brand Start -->
-                    <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarBrand">Brand</button>
-                        <div id="sidebarBrand" class="accordion-collapse collapse">
-                            <div class="shop-sidebar-body accordion-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="vendor" id="vendor-1">
-                                    <label class="form-check-label" for="vendor-1">Vendor 1 <span class="ms-auto">(2)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="vendor" id="vendor-2">
-                                    <label class="form-check-label" for="vendor-2">Vendor 2 <span class="ms-auto">(3)</span></label>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sidebar Brand End -->
-
-                    <!-- Sidebar Color Start -->
-                    <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarColor">Color</button>
-                        <div id="sidebarColor" class="accordion-collapse collapse">
-                            <div class="shop-sidebar-body accordion-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="color" id="black">
-                                    <label class="form-check-label" for="black">Black <span class="ms-auto">(4)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="color" id="blue">
-                                    <label class="form-check-label" for="blue">Blue <span class="ms-auto">(7)</span></label>
-                                </div>
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sidebar Color End -->
-
-                    <!-- Sidebar Material Start -->
-                    <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarMaterial">Material</button>
-                        <div id="sidebarMaterial" class="accordion-collapse collapse">
-                            <div class="shop-sidebar-body accordion-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="material" id="fiber">
-                                    <label class="form-check-label" for="fiber">Fiber <span class="ms-auto">(2)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="material" id="leather">
-                                    <label class="form-check-label" for="leather">Leather <span class="ms-auto">(2)</span></label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sidebar Material End -->
-
-                    <!-- Sidebar Size Start -->
-                    <div class="accordion-item shop-sidebar-item">
-                        <button class="shop-sidebar-toggle accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sidebarSize">Size</button>
-                        <div id="sidebarSize" class="accordion-collapse collapse">
-                            <div class="shop-sidebar-body accordion-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="size" id="s">
-                                    <label class="form-check-label" for="s">S <span class="ms-auto">(8)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="size" id="m">
-                                    <label class="form-check-label" for="m">M <span class="ms-auto">(11)</span></label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" name="size" id="l">
-                                    <label class="form-check-label" for="l">L <span class="ms-auto">(11)</span></label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sidebar Size End -->
-
                 </div>
             </div>
-
-        </div>
-    </div>
-</div>
-<!-- Product Section End -->
+            <!-- Product Section End -->

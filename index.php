@@ -7,6 +7,7 @@
 
     // Require toàn bộ file Models
     require_once './models/BaseModel.php'; // Model cơ sở
+    require_once './models/Categories.php'; // Model danh sách loại
     require_once './models/Products.php'; // Model sản phẩm
 
     // Require toàn bộ file Controllers
