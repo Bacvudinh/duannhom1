@@ -6,22 +6,62 @@
 
 class Products extends BaseModel
 {
-    protected $table = 'products'; 
+    protected $table = 'products';
 
-    public function getProducts($keyword = null)
+    public function getProducts($keyword = null, $limit = '', $offset = 0)
     {
         $sql = "SELECT p.*, c.name AS category_name 
-                FROM `{$this->table}` AS p 
-                JOIN `categories` AS c ON p.category_id = c.id";
+            FROM `products` AS p 
+            JOIN `categories` AS c ON p.category_id = c.id 
+            WHERE 1";
         $params = [];
 
         if ($keyword) {
-            $sql .= " WHERE p.name LIKE ? OR p.description LIKE ?";
+            $sql .= " AND (p.name LIKE ? OR p.description LIKE ?)";
+            $params[] = "%$keyword%";
+            $params[] = "%$keyword%";
+        }
+
+        // Lọc theo danh mục
+        if (!empty($_GET['category'])) {
+            $placeholders = implode(',', array_fill(0, count($_GET['category']), '?'));
+            $sql .= " AND p.category_id IN ($placeholders)";
+            $params = array_merge($params, $_GET['category']);
+        }
+
+        // Lọc theo giá
+        if (!empty($_GET['min_price'])) {
+            $sql .= " AND p.price >= ?";
+            $params[] = $_GET['min_price'];
+        }
+
+        if (!empty($_GET['max_price'])) {
+            $sql .= " AND p.price <= ?";
+            $params[] = $_GET['max_price'];
+        }
+
+        // Phân trang
+        $limit = $_GET['limit'] ?? 5;
+        $page = $_GET['page'] ?? 1;
+        $offset = ($page - 1) * $limit;
+
+        $sql .= " LIMIT $limit OFFSET $offset";
+
+        $this->setQuery($sql);
+        return $this->loadAllRows($params);
+    }
+    public function countProducts($keyword = null)
+    {
+        $sql = "SELECT COUNT(*) FROM `{$this->table}` AS p ";
+        $params = [];
+
+        if ($keyword) {
+            $sql .= "WHERE p.name LIKE ? OR p.description LIKE ?";
             $params = ['%' . $keyword . '%', '%' . $keyword . '%'];
         }
 
         $this->setQuery($sql);
-        return $this->loadAllRows($params);
+        return $this->execute($params)->fetchColumn(); // trả về số lượng
     }
 
     public function getProductById($id)
@@ -33,7 +73,7 @@ class Products extends BaseModel
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
-    
+
     public function getProductByName($name)
     {
         $sql = "SELECT * FROM `{$this->table}` WHERE name LIKE ?";
@@ -48,14 +88,15 @@ class Products extends BaseModel
         return $this->loadAllRows([$category_id, $exclude_id]);
     }
 
-    public function deleteProductsByCategoryId($categoryId) {
-        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0"); 
+    public function deleteProductsByCategoryId($categoryId)
+    {
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=0");
 
         $sql = "DELETE FROM `{$this->table}` WHERE category_id = ?";
         $this->setQuery($sql);
         $result = $this->execute([$categoryId]);
 
-        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=1"); 
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS=1");
 
         return $result;
     }
@@ -82,7 +123,7 @@ class Products extends BaseModel
             'image' => $image,
         ];
         $where = ['id' => $id];
-      return $this->update($id, $data);
+        return $this->update($id, $data);
     }
 
     public function delete($id)

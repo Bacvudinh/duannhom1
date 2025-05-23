@@ -1,24 +1,39 @@
 <?php
-require_once './models/Products.php'; // Model sản phẩm
+
 class ProductController
 {
     public $product;
+     public $category;
 
     public function __construct()
     {
         $this->product = new Products();
+        $this->category = new Categories();
     }
     public function index()
     {
-        // Kiểm tra nếu có từ khóa tìm kiếm
+        // Lấy từ khóa tìm kiếm nếu có
         $keyword = $_GET['keyword'] ?? null;
 
-        // Lấy danh sách sản phẩm (có hoặc không có từ khóa)
-        $products = $this->product->getProducts($keyword);
+        // Phân trang
+        $limit = $_GET['limit'] ?? 5; // Mặc định là 5 nếu không truyền gì
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
 
-        // Gọi view
+        $offset = ($page - 1) * $limit;
+
+        // Lấy tổng số sản phẩm
+        $totalProducts = $this->product->countProducts($keyword);
+        $totalPages = ceil($totalProducts / $limit);
+
+        // Lấy danh sách sản phẩm theo trang
+        $products = $this->product->getProducts($keyword, $limit, $offset);
+        // Lấy danh sách sản phẩm theo loại 
+        $categories  = $this->category->getAllCategories();
+        // Gọi view và truyền biến
         require_once './views/listproducts.php';
     }
+
     public function productDetail()
     {
         // Lấy id từ url
