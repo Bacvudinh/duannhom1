@@ -1,5 +1,4 @@
-    <?php
-
+<?php
     // Require file Common
     require_once './commons/env.php'; // Khai báo biến môi trường
     require_once './commons/function.php'; // Hàm hỗ trợ
@@ -34,6 +33,6 @@
         'listproducts' => (new ProductController())->index(),
         'product_detail' => (new ProductController())->productDetail(),
         'loginForm'                 => (new LoginController())->showLogin(),
-        'log    in'                 => (new LoginController())->login(),
+        'login'                 => (new LoginController())->login(),
     };
     require_once './views/layout/footer.php'; // Footer
