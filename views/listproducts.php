@@ -1,4 +1,8 @@
 <!-- Page Banner Section Start -->
+ <?php
+ require_once './views/layout/header.php'; // Header
+ ?>
+
 <div class="page-banner-section section">
     <div class="container">
         <ul class="breadcrumb">

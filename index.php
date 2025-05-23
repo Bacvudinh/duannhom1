@@ -21,7 +21,7 @@
     // Require toàn bộ file Controllers
     require_once './controllers/HomeController.php';
     require_once './controllers/ProductController.php';
-    require_once './views/layout/header.php'; // Header
+    // require_once './views/layout/header.php'; // Header
 
     // Route
     $act = $_GET['act'] ?? '/';

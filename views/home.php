@@ -1,3 +1,6 @@
+ <?php
+ require_once './views/layout/header.php'; // Header
+ ?>
 <section class="hero-section">
     <div class="swiper hero-slider">
         <div class="swiper-wrapper">

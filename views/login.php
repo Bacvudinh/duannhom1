@@ -1,4 +1,6 @@
-
+ <?php
+ require_once './views/layout/header.php'; // Header
+ ?>
 
     <!-- Page Banner Section Start -->
     <div class="page-banner-section section">
