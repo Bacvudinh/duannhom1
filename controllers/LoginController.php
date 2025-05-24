@@ -53,4 +53,37 @@ require_once 'models/User.php';
                     exit();
                 }
 
+            public function showRegisterForm() {
+                require_once 'views/register.php';
+            }
+
+            public function register() {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $name = trim($_POST['name']);
+                    $email = trim($_POST['email']);
+                    $password = $_POST['password'];
+                    $confirmPassword = $_POST['confirm_password'];
+
+                    // Kiểm tra mật khẩu nhập lại
+                    if ($password !== $confirmPassword) {
+                        $error = "Mật khẩu không khớp.";
+                        require_once 'views/register.php';
+                        return;
+                    }
+
+                    $userModel = new UserModel();
+                    $result = $userModel->register($name, $email, $password);
+
+                    if ($result) {
+                        header('Location: index.php?act=loginForm');
+                        exit();
+                    } else {
+                        $error = "Email đã tồn tại.";
+                        require_once 'views/register.php';
+                    }
+                } else {
+                    require_once 'views/register.php';
+                }
+            }
+
     }

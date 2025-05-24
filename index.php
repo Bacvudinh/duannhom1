@@ -38,5 +38,7 @@
         'login'                 => (new LoginController())->login(),
         'cart'                     =>(new CartController())->cart(),
         'logout'     => (new LoginController())->logout(),
+        'registerForm' => (new LoginController())->showRegisterForm(),
+        'register' => (new LoginController())->register(),
     };
     require_once './views/layout/footer.php'; // Footer

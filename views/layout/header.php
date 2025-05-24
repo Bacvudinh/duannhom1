@@ -76,14 +76,18 @@
                             <div class="dropdown-menu header-dropdown-menu">
                                 <h6 class="header-dropdown-menu-title">Account</h6>
                                 <ul>
-                                    <?php if (!isset($_SESSION['user'])): ?>
-                                        <li><a href="index.php?act=loginForm">Đăng nhập</a></li>
-                                        <li><a href="register.html">Register</a></li>
-                                    <?php else: ?>
-                                        <li><span>Xin chào, <?= htmlspecialchars($_SESSION['user']['NAME']) ?></span></li>
+                                    <?php if (isset($_SESSION['user']) && is_array($_SESSION['user'])): ?>
+                                        <li>
+                                            <span>
+                                                Xin chào, 
+                                                <?= htmlspecialchars($_SESSION['user']['NAME'] ?? 'Khách') ?>
+                                            </span>
+                                        </li>
                                         <li><a href="index.php?act=logout">Đăng xuất</a></li>
+                                    <?php else: ?>
+                                        <li><a href="index.php?act=loginForm">Đăng nhập</a></li>
+                                        <li><a href="index.php?act=registerForm">Đănh kí</a></li>
                                     <?php endif; ?>                   
-                                    
                                 </ul>
                             </div>
                         </div>
