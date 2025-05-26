@@ -35,5 +35,10 @@ match ($act) {
     'updateProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->update($_GET['id']) : (new ProductsController())->index(),
     'deleteProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->delete($_GET['id']) : (new ProductsController())->index(),
 
+    // Users (quản lý người dùng)
+    'Users'                 => (new UsersController())->index(),
+    'editUser'              => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->edit($_GET['id']) : (new UsersController())->index(),
+    'updateUser'            => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->update($_GET['id']) : (new UsersController())->index(),
+    'toggleStatusUser'      => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->toggleStatus($_GET['id']) : (new UsersController())->index(),
     default => throw new Exception("Action '$act' không tìm thấy."),
 };
