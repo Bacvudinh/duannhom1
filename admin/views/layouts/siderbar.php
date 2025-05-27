@@ -78,6 +78,12 @@
                         </ul>
                     </div>
                 </li>
+                 <!-- Thêm Quản lý người dùng -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="index.php?act=Users">
+                        <i class="ri-user-line"></i> <span data-key="t-users">Quản lý người dùng</span>
+                    </a>
+                </li>
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Bán hàng</span></li>
 

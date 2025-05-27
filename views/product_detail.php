@@ -155,22 +155,32 @@
                           </li>
                       </ul>
                       <div class="single-product-additional-information">
+
                           <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-shipping-policy"><i class="sli-plane"></i> Shipping</button>
                           <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-enquiry"><i class="sli-envelope"></i> Ask About This product</button>
                       </div>
                       <div class="single-product-actions">
+
                           <div class="single-product-actions-item">
-                              <div class="product-quantity-count">
-                                  <button class="dec qty-btn">-</button>
-                                  <input class="product-quantity-box" type="text" name="quantity" value="1">
-                                  <button class="inc qty-btn">+</button>
-                              </div>
+                              <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3">
+                                  <input type="hidden" name="product_id" value="<?= $product->id ?>">
+                                  <div class="quantity-wrapper">
+                                      <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary d-flex align-items-center gap-2" style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
+                                      <i class="sli-bag"></i> Thêm vào giỏ
+                                  </button>
+                              </form>
+
+
                           </div>
-                          <div class="single-product-actions-item"><button class="btn btn-dark btn-primary-hover rounded-0">ADD TO CART</button></div>
                           <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-heart"></i></button></div>
                           <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-refresh"></i></button></div>
                       </div>
-                  </div>
+                      <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-heart"></i></button></div>
+                      <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-refresh"></i></button></div>
+                  </div
+                      </div>
               </div>
 
               <!-- Product Content End -->
@@ -492,6 +502,7 @@
 
 
 
+
                                           $<?= number_format($item->price, 2) ?>
 
                                       </div>
@@ -514,6 +525,7 @@
           </div>
 
       </div>
+
   </div>
   <!-- Product Section End -->
 
