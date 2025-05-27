@@ -14,6 +14,7 @@
     require_once './controllers/HomeController.php';
     require_once './controllers/LoginController.php';
     require_once './controllers/CartController.php';
+    require_once './controllers/CommentController.php';
     // Require toàn bộ file Models
     require_once './models/User.php';
 
@@ -34,6 +35,8 @@
         '/'                 => (new HomeController())->index(),
         'listproducts' => (new ProductController())->index(),
         'product_detail' => (new ProductController())->productDetail(),
+        'addComment' => (new CommentController())->handleAddComment($_GET['product_id'] ?? 0),
+        'deleteComment' => (new CommentController())->deleteComment($_GET['id'], $_GET['product_id']),
         'loginForm'                 => (new LoginController())->showLogin(),
         'login'                 => (new LoginController())->login(),
         'cart'                     =>(new CartController())->cart(),
