@@ -13,9 +13,11 @@
 
             if ($user && password_verify($password, $user['password'])) {
                 return $user; // Đăng nhập thành công
+            }else{
+                return ['error' => 'Sai email hoặc mật khẩu']; // Sai email hoặc mật khẩu
             }
 
-            return false; // Sai email hoặc mật khẩu
+            ; // Sai email hoặc mật khẩu
         }
         public function register($name, $email, $password) {
         // Kiểm tra email đã tồn tại chưa

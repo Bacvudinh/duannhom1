@@ -3,10 +3,11 @@
 class ProductController
 {
     public $product;
-     public $category;
+    public $category;
 
     public function __construct()
     {
+
         $this->product = new Products();
         $this->category = new Categories();
     }
@@ -34,28 +35,39 @@ class ProductController
         require_once './views/listproducts.php';
     }
 
-    public function productDetail()
-    {
-        // Lấy id từ url
-        $id = $_GET['id'];
-        // Kiểm tra id có tồn tại không
-        // if ($id <= 0) {
-        //     header('Location: index.php?act=listproducts');
-        //     exit;
-        // }
-        // // Kiểm tra id có tồn tại trong csdl không
-        // $product = $this->product->getProductById($id);
-        // if (!$product) {
-        //     header('Location: index.php?act=listproducts');
-        //     exit;
-        // }
+   public function productDetail()
+{
+    $id = $_GET['id'] ?? 0;
 
-        // Lấy danh sách sản phẩm
-        $product = $this->product->getProductById($id);
-        // Lấy danh sách sản phẩm liên quan
-
-        $relatedProducts = $this->product->getRelatedProducts($product->category_id, $product->id);
-        // Gọi view
-        require_once './views/product_detail.php';
+    $product = $this->product->getProductById($id);
+    if (!$product) {
+        header('Location: index.php?act=listproducts');
+        exit;
     }
+
+    $relatedProducts = $this->product->getRelatedProducts($product->category_id, $product->id);
+
+    require_once 'models/Comment.php';
+    $commentModel = new Comment();
+    $comments = $commentModel->getCommentsByProductId($id);
+
+    // Thêm bình luận
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+     $userId = $_SESSION['user']['id'] ?? null;
+        $commentText = $_POST['comment'] ?? '';
+
+        if ($userId && !empty($commentText)) {
+            $commentModel->addComment([
+                'user_id' => $userId,
+                'product_id' => $id,
+                'comment' => $commentText
+            ]);
+            header("Location: index.php?act=productDetail&id=$id");
+            exit;
+        }
+    }
+
+    require_once './views/product_detail.php';
+}
+
 }

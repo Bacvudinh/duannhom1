@@ -156,6 +156,8 @@
                       </ul>
                       <div class="single-product-additional-information">
 
+                          <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-shipping-policy"><i class="sli-plane"></i> Shipping</button>
+                          <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-enquiry"><i class="sli-envelope"></i> Ask About This product</button>
                       </div>
                       <div class="single-product-actions">
 
@@ -177,341 +179,353 @@
                       </div>
                       <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-heart"></i></button></div>
                       <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-refresh"></i></button></div>
-                  </div>
+                  </div
+                      </div>
               </div>
+
+              <!-- Product Content End -->
+
           </div>
+          <!-- Single Product Top Area End -->
 
-          <!-- Product Content End -->
-
-      </div>
-      <!-- Single Product Top Area End -->
-
-      <!-- Single Product Bottom (Description) Area Start -->
-      <div class="single-product-description-area">
-          <div class="nav single-product-description-area-nav">
-              <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
-              <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
-              <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
-              <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
-              <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
-          </div>
-          <div class="tab-content">
-              <!-- Description Start -->
-              <div class="tab-pane fade show active" id="product-description">
-                  <div class="single-product-description">
-                      <p><?= htmlspecialchars($product->description) ?></p>
-                  </div>
+          <!-- Single Product Bottom (Description) Area Start -->
+          <div class="single-product-description-area">
+              <div class="nav single-product-description-area-nav">
+                  <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
               </div>
-              <!-- Description End -->
-
-              <!-- Comments Start -->
-              <div class="tab-pane fade" id="product-comments">
-
-                  <div class="block-title-2">
-                      <h4 class="title">Comments (2)</h4>
-
+              <div class="tab-content">
+                  <!-- Description Start -->
+                  <div class="tab-pane fade show active" id="product-description">
+                      <div class="single-product-description">
+                          <p><?= htmlspecialchars($product->description) ?></p>
+                      </div>
                   </div>
+                  <!-- Description End -->
 
-                  <!-- Comment List Start -->
-                  <ul class="comment-list">
+                  <!-- Comments Start -->
+                  <div class="tab-pane fade" id="product-comments">
+
+                      <div class="block-title-2">
+                          <h4 class="title">Comments (2)</h4>
+                      </div>
+
+                      <!-- Comment List Start -->
+
                       <li>
-                          <div class="comment-item">
-                              <div class="comment-thumb"><img src="assets/images/testimonial/testimonial-1.png" alt="Edna Watson"></div>
-                              <div class="comment-content">
-                                  <div class="comment-meta">
-                                      <h5 class="comment-name">Edna Watson</h5>
-                                      <span class="comment-date">November 27, 2023</span>
-                                  </div>
-                                  <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
-                                  <a href="#" class="comment-reply">Reply</a>
-                              </div>
-                          </div>
-                          <ul class="comment-child">
-                              <li>
-                                  <div class="comment-item">
-                                      <div class="comment-thumb"><img src="assets/images/testimonial/testimonial-2.png" alt="Hester Perkins"></div>
-                                      <div class="comment-content">
-                                          <div class="comment-meta">
-                                              <h5 class="comment-name">Hester Perkins</h5>
-                                              <span class="comment-date">November 27, 2023</span>
-                                          </div>
-                                          <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
-                                          <a href="#" class="comment-reply">Reply</a>
-                                      </div>
-                                  </div>
-                              </li>
+                          <h3>Bình luận</h3>
+
+
+                          <!-- Form thêm bình luận mới -->
+                          <?php if (isset($_SESSION['user'])): ?>
+                              <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
+                                  <textarea name="comment" required></textarea>
+                                  <button type="submit">Gửi bình luận</button>
+                              </form>
+                          <?php else: ?>
+                              <p>Vui lòng <a href="index.php?act=loginForm">đăng nhập</a> để bình luận.</p>
+                          <?php endif; ?>
+
+                          <!-- Danh sách bình luận -->
+                          <ul>
+                              <?php foreach ($comments as $comment): ?>
+                                  <?php if (!$comment['parent_id']): // chỉ hiển thị comment cha 
+                                    ?>
+                                      <li>
+                                          <strong><?= htmlspecialchars($comment['user_name']) ?></strong>: <?= htmlspecialchars($comment['comment']) ?>
+                                          <br>
+                                          <small><?= $comment['created_at'] ?></small>
+
+                                          <!-- Nếu là người gửi thì có quyền xóa -->
+                                          <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
+                                              <form action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>" method="post" style="display:inline;">
+                                                  <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
+                                              </form>
+                                          <?php endif; ?>
+
+                                          <!-- Nút trả lời -->
+                                          <?php if (isset($_SESSION['user'])): ?>
+                                              <a href="#" onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block'; return false;">REPLY</a>
+                                              <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 5px;" action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
+                                                  <textarea name="comment" required></textarea>
+                                                  <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
+                                                  <button type="submit">Gửi trả lời</button>
+                                              </form>
+                                          <?php endif; ?>
+
+                                          <!-- Danh sách trả lời -->
+                                          <ul style="margin-left: 20px;">
+                                              <?php foreach ($comments as $reply): ?>
+                                                  <?php if ($reply['parent_id'] == $comment['id']): ?>
+                                                      <li>
+                                                          <strong><?= htmlspecialchars($reply['user_name']) ?></strong>: <?= htmlspecialchars($reply['comment']) ?>
+                                                          <br>
+                                                          <small><?= $reply['created_at'] ?></small>
+
+                                                          <!-- Nếu là người gửi thì có quyền xóa -->
+                                                          <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
+                                                              <form action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>" method="post" style="display:inline;">
+                                                                  <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
+                                                              </form>
+                                                          <?php endif; ?>
+                                                      </li>
+                                                  <?php endif; ?>
+                                              <?php endforeach; ?>
+                                          </ul>
+                                      </li>
+                                  <?php endif; ?>
+                              <?php endforeach; ?>
                           </ul>
+
+
+
+                          <ul class="comment-list">
                       </li>
-                  </ul>
-                  <!-- Comment List End -->
+                      </ul>
+                      <!-- Comment List End -->
 
-                  <div class="block-title-2">
-                      <h4 class="title">Leave your thought here</h4>
 
-                  </div>
+                      <!-- Reviews Start -->
+                      <div class="tab-pane fade" id="product-reviews">
 
-                  <!-- Comment Form Start -->
-                  <div class="comment-form">
-                      <form action="#">
-                          <div class="row g-4">
-                              <div class="col-sm-6">
-                                  <label for="comment-name">Name</label>
-                                  <input class="form-field" id="comment-name" name="name" type="text" placeholder="Enter your name">
+                          <div class="block-title-2">
+                              <h4 class="title">Customer Reviews</h4>
+
+                          </div>
+
+                          <!-- Review List Start -->
+                          <div class="review-list">
+                              <div class="review-item">
+                                  <div class="review-thumb"><img src="assets/images/testimonial/testimonial-1.png" alt="Edna Watson"></div>
+                                  <div class="review-content">
+                                      <div class="review-rating">
+                                          <span class="review-rating-bg"><span class="review-rating-active" style="width: 90%"></span></span>
+                                      </div>
+                                      <div class="review-meta">
+                                          <h5 class="review-name">Edna Watson</h5>
+                                          <span class="review-date">November 27, 2023</span>
+                                      </div>
+                                      <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
+                                  </div>
                               </div>
-                              <div class="col-sm-6">
-                                  <label for="comment-email">Email</label>
-                                  <input class="form-field" id="comment-email" name="email" type="email" placeholder="john.smith@example.com">
-                              </div>
-                              <div class="col-12">
-                                  <label for="comment-message">Message</label>
-                                  <textarea class="form-field" id="comment-message" name="message" placeholder="Write your messages here"></textarea>
-                              </div>
-                              <div class="col-12">
-                                  <input type="submit" class="btn btn-dark btn-primary-hover rounded-0" value="Submit">
+                              <div class="review-item">
+                                  <div class="review-thumb"><img src="assets/images/testimonial/testimonial-2.png" alt="Hester Perkins"></div>
+                                  <div class="review-content">
+                                      <div class="review-rating">
+                                          <span class="review-rating-bg"><span class="review-rating-active" style="width: 100%"></span></span>
+                                      </div>
+                                      <div class="review-meta">
+                                          <h5 class="review-name">Hester Perkins</h5>
+                                          <span class="review-date">November 27, 2023</span>
+                                      </div>
+                                      <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
+                                  </div>
                               </div>
                           </div>
-                      </form>
-                  </div>
-                  <!-- Comment Form End -->
-              </div>
-              <!-- Comments End -->
+                          <!-- Review List End -->
 
-              <!-- Reviews Start -->
-              <div class="tab-pane fade" id="product-reviews">
+                          <div class="block-title-2">
+                              <h4 class="title">Write a review</h4>
 
-                  <div class="block-title-2">
-                      <h4 class="title">Customer Reviews</h4>
-
-                  </div>
-
-                  <!-- Review List Start -->
-                  <div class="review-list">
-                      <div class="review-item">
-                          <div class="review-thumb"><img src="assets/images/testimonial/testimonial-1.png" alt="Edna Watson"></div>
-                          <div class="review-content">
-                              <div class="review-rating">
-                                  <span class="review-rating-bg"><span class="review-rating-active" style="width: 90%"></span></span>
-                              </div>
-                              <div class="review-meta">
-                                  <h5 class="review-name">Edna Watson</h5>
-                                  <span class="review-date">November 27, 2023</span>
-                              </div>
-                              <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
                           </div>
+
+                          <!-- Review Form Start -->
+                          <div class="review-form">
+                              <form action="#">
+                                  <div class="row g-4">
+                                      <div class="col-12">
+                                          <label for="review-rating">Rating</label>
+                                          <select class="form-field" name="rating" id="review-rating">
+                                              <option value="1">One</option>
+                                              <option value="2">Two</option>
+                                              <option value="3">Three</option>
+                                              <option value="4">Four</option>
+                                              <option value="5">Five</option>
+                                          </select>
+                                      </div>
+                                      <div class="col-sm-6">
+                                          <label for="review-name">Name</label>
+                                          <input class="form-field" id="review-name" name="name" type="text" placeholder="Enter your name">
+                                      </div>
+                                      <div class="col-sm-6">
+                                          <label for="review-email">Email</label>
+                                          <input class="form-field" id="review-email" name="email" type="email" placeholder="john.smith@example.com">
+                                      </div>
+                                      <div class="col-12">
+                                          <label for="review-comment">Body of Review (1500)</label>
+                                          <textarea class="form-field" id="review-comment" name="comment" placeholder="Write your comments here"></textarea>
+                                      </div>
+                                      <div class="col-12">
+                                          <input type="submit" class="btn btn-dark btn-primary-hover rounded-0" value="Submit Review">
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                          <!-- Review Form End -->
+
                       </div>
-                      <div class="review-item">
-                          <div class="review-thumb"><img src="assets/images/testimonial/testimonial-2.png" alt="Hester Perkins"></div>
-                          <div class="review-content">
-                              <div class="review-rating">
-                                  <span class="review-rating-bg"><span class="review-rating-active" style="width: 100%"></span></span>
-                              </div>
-                              <div class="review-meta">
-                                  <h5 class="review-name">Hester Perkins</h5>
-                                  <span class="review-date">November 27, 2023</span>
-                              </div>
-                              <p>Thanks for always keeping your WordPress themes up to date. Your level of support and dedication is second to none.</p>
-                          </div>
+                      <!-- Reviews End -->
+
+                      <!-- Size Chart Start -->
+                      <div class="tab-pane fade" id="product-size-chart">
+                          <table class="table table-bordered">
+                              <tbody>
+                                  <tr>
+                                      <td class="cun-name"><span>UK</span></td>
+                                      <td>18</td>
+                                      <td>20</td>
+                                      <td>22</td>
+                                      <td>24</td>
+                                      <td>26</td>
+                                  </tr>
+                                  <tr>
+                                      <td class="cun-name"><span>European</span></td>
+                                      <td>46</td>
+                                      <td>48</td>
+                                      <td>50</td>
+                                      <td>52</td>
+                                      <td>54</td>
+                                  </tr>
+                                  <tr>
+                                      <td class="cun-name"><span>usa</span></td>
+                                      <td>14</td>
+                                      <td>16</td>
+                                      <td>18</td>
+                                      <td>20</td>
+                                      <td>22</td>
+                                  </tr>
+                                  <tr>
+                                      <td class="cun-name"><span>Australia</span></td>
+                                      <td>28</td>
+                                      <td>10</td>
+                                      <td>12</td>
+                                      <td>14</td>
+                                      <td>16</td>
+                                  </tr>
+                                  <tr>
+                                      <td class="cun-name"><span>Canada</span></td>
+                                      <td>24</td>
+                                      <td>18</td>
+                                      <td>14</td>
+                                      <td>42</td>
+                                      <td>36</td>
+                                  </tr>
+                              </tbody>
+                          </table>
                       </div>
-                  </div>
-                  <!-- Review List End -->
+                      <!-- Size Chart End -->
 
-                  <div class="block-title-2">
-                      <h4 class="title">Write a review</h4>
+                      <!-- Shipping Policy Start -->
+                      <div class="tab-pane fade" id="product-shipping-policy">
+                          <div class="block-title-2">
+                              <h4 class="title">Shipping policy of our store</h4>
 
-                  </div>
-
-                  <!-- Review Form Start -->
-                  <div class="review-form">
-                      <form action="#">
-                          <div class="row g-4">
-                              <div class="col-12">
-                                  <label for="review-rating">Rating</label>
-                                  <select class="form-field" name="rating" id="review-rating">
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
-                                      <option value="4">Four</option>
-                                      <option value="5">Five</option>
-                                  </select>
-                              </div>
-                              <div class="col-sm-6">
-                                  <label for="review-name">Name</label>
-                                  <input class="form-field" id="review-name" name="name" type="text" placeholder="Enter your name">
-                              </div>
-                              <div class="col-sm-6">
-                                  <label for="review-email">Email</label>
-                                  <input class="form-field" id="review-email" name="email" type="email" placeholder="john.smith@example.com">
-                              </div>
-                              <div class="col-12">
-                                  <label for="review-comment">Body of Review (1500)</label>
-                                  <textarea class="form-field" id="review-comment" name="comment" placeholder="Write your comments here"></textarea>
-                              </div>
-                              <div class="col-12">
-                                  <input type="submit" class="btn btn-dark btn-primary-hover rounded-0" value="Submit Review">
-                              </div>
                           </div>
-                      </form>
-                  </div>
-                  <!-- Review Form End -->
-
-              </div>
-              <!-- Reviews End -->
-
-              <!-- Size Chart Start -->
-              <div class="tab-pane fade" id="product-size-chart">
-                  <table class="table table-bordered">
-                      <tbody>
-                          <tr>
-                              <td class="cun-name"><span>UK</span></td>
-                              <td>18</td>
-                              <td>20</td>
-                              <td>22</td>
-                              <td>24</td>
-                              <td>26</td>
-                          </tr>
-                          <tr>
-                              <td class="cun-name"><span>European</span></td>
-                              <td>46</td>
-                              <td>48</td>
-                              <td>50</td>
-                              <td>52</td>
-                              <td>54</td>
-                          </tr>
-                          <tr>
-                              <td class="cun-name"><span>usa</span></td>
-                              <td>14</td>
-                              <td>16</td>
-                              <td>18</td>
-                              <td>20</td>
-                              <td>22</td>
-                          </tr>
-                          <tr>
-                              <td class="cun-name"><span>Australia</span></td>
-                              <td>28</td>
-                              <td>10</td>
-                              <td>12</td>
-                              <td>14</td>
-                              <td>16</td>
-                          </tr>
-                          <tr>
-                              <td class="cun-name"><span>Canada</span></td>
-                              <td>24</td>
-                              <td>18</td>
-                              <td>14</td>
-                              <td>42</td>
-                              <td>36</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              <!-- Size Chart End -->
-
-              <!-- Shipping Policy Start -->
-              <div class="tab-pane fade" id="product-shipping-policy">
-                  <div class="block-title-2">
-                      <h4 class="title">Shipping policy of our store</h4>
+                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
+                          <ul>
+                              <li>1-2 business days (Typically by end of day)</li>
+                              <li>30 days money back guaranty</li>
+                              <li>24/7 live support</li>
+                              <li>odio dignissim qui blandit praesent</li>
+                              <li>luptatum zzril delenit augue duis dolore</li>
+                              <li>te feugait nulla facilisi.</li>
+                          </ul>
+                          <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
+                          <p>claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
+                          <p>seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+                      </div>
+                      <!-- Shipping Policy End -->
 
                   </div>
-                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
-                  <ul>
-                      <li>1-2 business days (Typically by end of day)</li>
-                      <li>30 days money back guaranty</li>
-                      <li>24/7 live support</li>
-                      <li>odio dignissim qui blandit praesent</li>
-                      <li>luptatum zzril delenit augue duis dolore</li>
-                      <li>te feugait nulla facilisi.</li>
-                  </ul>
-                  <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
-                  <p>claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
-                  <p>seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
               </div>
-              <!-- Shipping Policy End -->
+              <!-- Single Product Bottom (Description) Area End -->
 
           </div>
       </div>
-      <!-- Single Product Bottom (Description) Area End -->
+      <!-- Product Details Section End -->
 
-  </div>
-  </div>
-  <!-- Product Details Section End -->
+      <!-- Product Section Start -->
+      <div class="h1-product-section section section-padding pt-0">
+          <div class="container">
+              <div class="section-title section-title-center">
+                  <p class="title">POPULAR ITEM</p>
+                  <h2 class="sub-title">Related Products</h2>
 
-  <!-- Product Section Start -->
-  <div class="h1-product-section section section-padding pt-0">
-      <div class="container">
-          <div class="section-title section-title-center">
-              <p class="title">POPULAR ITEM</p>
-              <h2 class="sub-title">Related Products</h2>
-
-          </div>
+              </div>
 
 
-          <div class="product-carousel swiper">
+              <div class="product-carousel swiper">
 
-              <div class="swiper-wrapper">
+                  <div class="swiper-wrapper">
 
 
-                  <?php foreach ($relatedProducts as $item): ?>
-                      <div class="swiper-slide">
-                          <div class="product">
+                      <?php foreach ($relatedProducts as $item): ?>
+                          <div class="swiper-slide">
+                              <div class="product">
 
-                              <div class="product-thumb">
-                                  <a href="index.php?act=product_detail&id=<?= $item->id ?> class=" product-image">
-                                      <img loading="lazy" src="uploads/product/<?= $item->image ?>" alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
-                                  </a>
+                                  <div class="product-thumb">
+                                      <a href="index.php?act=product_detail&id=<?= $item->id ?> class=" product-image">
+                                          <img loading="lazy" src="uploads/product/<?= $item->image ?>" alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
+                                      </a>
 
-                                  <!-- Badge right -->
-                                  <div class="product-badge-right">
+                                      <!-- Badge right -->
+                                      <div class="product-badge-right">
 
+                                      </div>
+
+                                      <div class="product-action">
+                                          <button class="product-action-btn" data-tooltip-text="Quick View" data-bs-toggle="modal" data-bs-target="#exampleProductModal"><i class="sli-magnifier"></i></button>
+                                          <button class="product-action-btn" data-tooltip-text="Add to wishlist"><i class="sli-heart"></i></button>
+                                          <button class="product-action-btn" data-tooltip-text="Compare"><i class="sli-refresh"></i></button>
+                                          <button class="product-action-btn" data-tooltip-text="Add to cart"><i class="sli-bag"></i></button>
+                                      </div>
+
+                                      <!-- Variations giữ nguyên -->
+                                      <div class="product-variation">
+                                          <div class="product-variation-type">
+                                              <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-1.jpg" alt="white" width="23" height="23"></button>
+                                              <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-2.jpg" alt="gold" width="23" height="23"></button>
+                                              <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-3.jpg" alt="black" width="23" height="23"></button>
+                                          </div>
+                                      </div>
                                   </div>
 
-                                  <div class="product-action">
-                                      <button class="product-action-btn" data-tooltip-text="Quick View" data-bs-toggle="modal" data-bs-target="#exampleProductModal"><i class="sli-magnifier"></i></button>
-                                      <button class="product-action-btn" data-tooltip-text="Add to wishlist"><i class="sli-heart"></i></button>
-                                      <button class="product-action-btn" data-tooltip-text="Compare"><i class="sli-refresh"></i></button>
-                                      <button class="product-action-btn" data-tooltip-text="Add to cart"><i class="sli-bag"></i></button>
-                                  </div>
+                                  <div class="product-content">
+                                      <h5 class="product-title">
+                                          <a href="index.php?action=product-detail&id=<?= $item->id ?>"><?= htmlspecialchars($item->name) ?></a>
+                                      </h5>
+                                      <div class="product-price">
 
-                                  <!-- Variations giữ nguyên -->
-                                  <div class="product-variation">
-                                      <div class="product-variation-type">
-                                          <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-1.jpg" alt="white" width="23" height="23"></button>
-                                          <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-2.jpg" alt="gold" width="23" height="23"></button>
-                                          <button class="product-variation-type-btn"><img loading="lazy" src="assets/images/products/variation/type/type-3.jpg" alt="black" width="23" height="23"></button>
+
+
+
+
+                                          $<?= number_format($item->price, 2) ?>
+
+                                      </div>
+                                      <div class="product-rating">
+                                          <span class="product-rating-bg">
+                                              <span class="product-rating-active" style="width: 80%;"></span>
+                                          </span>
                                       </div>
                                   </div>
                               </div>
-
-                              <div class="product-content">
-                                  <h5 class="product-title">
-                                      <a href="index.php?action=product-detail&id=<?= $item->id ?>"><?= htmlspecialchars($item->name) ?></a>
-                                  </h5>
-                                  <div class="product-price">
-
-
-
-
-                                      $<?= number_format($item->price, 2) ?>
-
-                                  </div>
-                                  <div class="product-rating">
-                                      <span class="product-rating-bg">
-                                          <span class="product-rating-active" style="width: 80%;"></span>
-                                      </span>
-                                  </div>
-                              </div>
                           </div>
-                      </div>
-                  <?php endforeach; ?>
+                      <?php endforeach; ?>
+                  </div>
+
               </div>
 
+              <div class="swiper-pagination d-md-none"></div>
+              <div class="swiper-button-prev d-none d-md-flex"></div>
+              <div class="swiper-button-next d-none d-md-flex"></div>
           </div>
 
-          <div class="swiper-pagination d-md-none"></div>
-          <div class="swiper-button-prev d-none d-md-flex"></div>
-          <div class="swiper-button-next d-none d-md-flex"></div>
       </div>
 
-  </div>
   </div>
   <!-- Product Section End -->
 
