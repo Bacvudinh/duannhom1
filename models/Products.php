@@ -41,7 +41,7 @@ class Products extends BaseModel
         }
 
         // Phân trang
-        $limit = $_GET['limit'] ?? 5;
+        $limit = $_GET['limit'] ?? 100;
         $page = $_GET['page'] ?? 1;
         $offset = ($page - 1) * $limit;
 

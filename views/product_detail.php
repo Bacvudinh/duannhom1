@@ -73,7 +73,6 @@
                           <?php endif; ?>
                       </div>
                       <ul class="single-product-meta">
-                          <li><span class="label">SKU :</span> <span class="value"><?= htmlspecialchars($product->id) ?></span></li>
                           <li><span class="label">vendor :</span> <span class="value"><?= htmlspecialchars($product->category_name) ?></span></li>
 
                           <li><span class="label">Stock :</span> <span class="value"><?= intval($product->stock) ?></span></li>
@@ -168,17 +167,14 @@
                                       <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
                                   </div>
                                   <button type="submit" class="btn btn-primary d-flex align-items-center gap-2" style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
-                                      <i class="sli-bag"></i> Thêm vào giỏ
+                                      <i class="sli-bag"></i> Thêm vào giỏ hàng
                                   </button>
                               </form>
 
 
                           </div>
-                          <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-heart"></i></button></div>
-                          <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-refresh"></i></button></div>
+
                       </div>
-                      <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-heart"></i></button></div>
-                      <div class="single-product-actions-item"><button class="btn btn-icon btn-light btn-primary-hover rounded-0"><i class="sli-refresh"></i></button></div>
                   </div
                       </div>
               </div>
