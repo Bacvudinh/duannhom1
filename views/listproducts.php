@@ -1,7 +1,7 @@
 <!-- Page Banner Section Start -->
- <?php
- require_once './views/layout/header.php'; // Header
- ?>
+<?php
+require_once './views/layout/header.php'; // Header
+?>
 
 <div class="page-banner-section section">
     <div class="container">
@@ -203,25 +203,46 @@
                 <!-- Product Tab End -->
 
                 <!-- Shop Bottom Bar Start -->
-                <div class="shop-bottom-bar">
-                    <ul class="pagination">
+                <nav aria-label=" Page navigation">
+                    <ul class="pagination justify-content-center">
+
+                        <!-- Nút Prev -->
                         <?php if ($page > 1): ?>
-                            <li><a href="index.php?act=listproducts&page=<?= $page - 1 ?>&keyword=<?= $keyword ?>"><i class="sli-arrow-left"></i></a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="index.php?act=listproducts&page=<?= $page - 1 ?>&limit=<?= $limit ?>&keyword=<?= urlencode($keyword ?? '') ?>">
+                                    <i class="sli-arrow-left"></i>
+                                </a>
+                            </li>
                         <?php else: ?>
-                            <li class="disabled"><span><i class="sli-arrow-left"></i></span></li>
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="sli-arrow-left"></i></span>
+                            </li>
                         <?php endif; ?>
 
+                        <!-- Các số trang -->
                         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li><a href="index.php?act=listproducts&page=<?= $i ?>&keyword=<?= $keyword ?>" <?= ($i == $page ? 'class="active"' : '') ?>><?= $i ?></a></li>
+                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="index.php?act=listproducts&page=<?= $i ?>&limit=<?= $limit ?>&keyword=<?= urlencode($keyword ?? '') ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
                         <?php endfor; ?>
 
+                        <!-- Nút Next -->
                         <?php if ($page < $totalPages): ?>
-                            <li><a href="index.php?act=listproducts&page=<?= $page + 1 ?>&keyword=<?= $keyword ?>"><i class="sli-arrow-right"></i></a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="index.php?act=listproducts&page=<?= $page + 1 ?>&limit=<?= $limit ?>&keyword=<?= urlencode($keyword ?? '') ?>">
+                                    <i class="sli-arrow-right"></i>
+                                </a>
+                            </li>
                         <?php else: ?>
-                            <li class="disabled"><span><i class="sli-arrow-right"></i></span></li>
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="sli-arrow-right"></i></span>
+                            </li>
                         <?php endif; ?>
+
                     </ul>
-                </div>
+                </nav>
 
                 <!-- Shop Bottom Bar End -->
 
