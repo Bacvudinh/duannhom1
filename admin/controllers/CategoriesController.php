@@ -15,7 +15,7 @@ class categoriesController
 
     public function index()
     {
-          if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
+        if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
             $keyword = $_GET['keyword'];
             $listDanhMuc = $this->categoryModel->searchCategories($keyword);
         } else {
@@ -35,8 +35,10 @@ class categoriesController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
-            if (!empty($name)) {
-                if ($this->categoryModel->addCategory($name)) {
+         $status = $_POST['status'];
+            if (!empty($name) && isset($_POST['status'])) {
+                // Kiểm tra xem tên danh mục có hợp lệ không
+                if ($this->categoryModel->addCategory($name ,$status)) {
                     header("Location: index.php?act=Categories&success=add"); // Chuyển hướng về trang danh sách
                     exit();
                 } else {
@@ -73,9 +75,11 @@ class categoriesController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
-            if (!empty($name)) {
+            $status = $_POST['status']; // Mặc định là 0 nếu không có giá trị
+            if (!empty($name) && isset($_POST['status'])) {
+                // Kiểm tra xem ID có hợp lệ không
                 if (is_numeric($id) && $id > 0) {
-                    if ($this->categoryModel->updateCategory($id, $name)) {
+                    if ($this->categoryModel->updateCategory($id, $name, $status)) {
                         header("Location: index.php?act=Categories&success=update");
                         exit();
                     } else {

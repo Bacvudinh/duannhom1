@@ -33,9 +33,16 @@
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Tên loại</label>
                                                 <input type="text" class="form-control" id="name" name="name" required>
+                                            </div> <div class="mb-3">
+                                                <label for="name" class="form-label">Trạng thái</label>
+                                                <select name="status" class="form-select">
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Tạm dừng</option>
                                             </div>
                                             <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                               <input type="submit" value="Thêm danh mục" class="btn btn-primary">
+                                            </div>
+                                            <div class="mb-3">
                                                 <a href="index.php?act=Categories" class="btn btn-secondary">Quay lại danh sách</a>
                                             </div>
                                         </form>

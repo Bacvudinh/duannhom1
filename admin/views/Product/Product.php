@@ -94,6 +94,7 @@
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Category</th>
                                                     <th scope="col">Description</th>
+                                                    <th scope="col">Status</th>
                                                     <th scope="col" class="text-end">Actions</th>
                                                 </tr>
                                             </thead>
@@ -119,6 +120,13 @@
                                                             <td><?= number_format(htmlspecialchars($product->price), 0, ',', '.') ?> VND</td>
                                                             <td><?= htmlspecialchars($product->category_name ?? 'N/A') ?></td>
                                                             <td><?= htmlspecialchars(substr($product->description, 0, 100)) . (strlen($product->description) > 100 ? '...' : '') ?></td>
+                                                             <td>
+                                                                <?php if($product->status == 1): ?>
+                                                                    <span class="badge bg-success">Hiển thị</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge bg-danger">Ẩn</span>
+                                                                <?php endif; ?>
+                                                            </td>
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editProduct&id=<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>

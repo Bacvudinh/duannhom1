@@ -55,6 +55,7 @@
                                                     </th>
                                                     <th scope="col">Mã loại</th>
                                                     <th scope="col">Tên loại</th>
+                                                    <th scope="col">Trạng thái</th>
                                                     <th scope="col" class="text-end">Thao tác</th>
                                                 </tr>
                                             </thead>
@@ -70,6 +71,13 @@
                                                             </td>
                                                             <td><?= $danhMuc->id ?></td>
                                                             <td><?= htmlspecialchars($danhMuc->name) ?></td>
+                                                            <td>
+                                                                <?php if($danhMuc->status == 1): ?>
+                                                                    <span class="badge bg-success">Hiển thị</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge bg-danger">Ẩn</span>
+                                                                <?php endif; ?>
+                                                            </td>
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
@@ -89,6 +97,13 @@
                                                             </td>
                                                             <td><?= $danhMuc->id ?></td>
                                                             <td><?= htmlspecialchars($danhMuc->name) ?></td>
+                                                            <td>
+                                                                <?php if($danhMuc->status == 1): ?>
+                                                                    <span class="badge bg-success">Hiển thị</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge bg-danger">Ẩn</span>
+                                                                <?php endif; ?>
+                                                            </td>
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
@@ -99,7 +114,7 @@
                                                     <?php endwhile; ?>
                                                 <?php else: ?>
                                                     <tr>
-                                                        <td colspan="4" class="text-center">Không có danh mục nào.</td>
+                                                        <td colspan="5" class="text-center">Không có danh mục nào.</td>
                                                     </tr>
                                                 <?php endif; ?>
                                             </tbody>

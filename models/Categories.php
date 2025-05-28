@@ -9,21 +9,26 @@ class Categories extends BaseModel
     {
         return $this->getAll();
     }
+public function getActiveCategories()
+{
+    $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";
+    return $this->loadAllRows();
+}
 
     public function getCategoryById($id)
     {
         return $this->find($id);
     }
 
-    public function addCategory($name, $description = null)
+    public function addCategory($name, $status, $description = null)
     {
-        $data = ['name' => $name, 'description' => $description];
+        $data = ['name' => $name, 'status' => $status ,'description' => $description];
         return $this->insert($data);
     }
 
-    public function updateCategory($id, $name, $description = null)
+    public function updateCategory($id, $name,$status,$description = null)
     {
-        $data = ['name' => $name, 'description' => $description];
+        $data = ['name' => $name,'status'=> $status, 'description' => $description];
         return $this->update($id, $data);
     }
 

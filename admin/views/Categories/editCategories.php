@@ -37,15 +37,37 @@ if (!isset($danhMuc)) {
                                         <?php endif; ?>
                                         <form action="index.php?act=updateCategory&id=<?= $danhMuc->id ?>" method="post">
                                             <input type="hidden" name="id" value="<?= $danhMuc->id ?>">
+
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Tên loại</label>
                                                 <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($danhMuc->name) ?>" required>
                                             </div>
+
+                                            <!-- Thêm input chọn trạng thái
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Trạng thái hiện tại</label>
+                                                <p class="form-control-plaintext ms-2">
+                                                  
+                                                </p> -->
+
+                                            
+                                                <div class="mb-3">
+                                                    <label class="form-label">Trạng thái</label>
+                                                    <select name="status" class="form-select">
+                                                        <option value="1" <?php echo $danhMuc->status == 1 ? 'selected' : '' ?>>Hoạt động</option>
+                                                        <option value="0" <?php echo $danhMuc->status == 0 ? 'selected' : '' ?>>Tạm dừng</option>
+                                                    </select>
+                                                 
+                                                </div>
+
+                                            </div>
+
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary">Cập nhật</button>
                                                 <a href="index.php?act=Categories" class="btn btn-secondary">Quay lại danh sách</a>
                                             </div>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
