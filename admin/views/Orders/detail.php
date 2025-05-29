@@ -69,7 +69,7 @@
                                                 <tr>
                                                     <td><?= $index + 1 ?></td>
                                                     <td><?= htmlspecialchars($item['product_name'] ?? 'Chưa rõ') ?></td>
-                                                    <td><?= number_format($item['price']) ?>₫</td>
+                                                    <td><?= number_format($order['total_amount'], 2, '.', ',') ?>₫</td>
                                                     <td><?= $item['quantity'] ?></td>
                                                     <td><?= number_format($item['price'] * $item['quantity']) ?>₫</td>
                                                 </tr>
