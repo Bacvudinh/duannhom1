@@ -44,6 +44,6 @@ class Order {
     $stmt->execute([$id]);
     $order['details'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return $order; // 🔴 QUAN TRỌNG: bạn đang thiếu dòng này!
+    return $order; 
 }
 }
