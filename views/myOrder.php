@@ -4,8 +4,8 @@
     <h2 class="mb-4">Đơn hàng của bạn</h2>
 
     <?php if (!empty($orders)): ?>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered">
+            <thead class="table-light">
                 <tr>
                     <th>Mã đơn hàng</th>
                     <th>Ngày đặt hàng</th>
@@ -19,10 +19,17 @@
                     <tr>
                         <td>#<?= htmlspecialchars($order->id) ?></td>
                         <td><?= htmlspecialchars($order->created_at) ?></td>
-                        <td><?= number_format($order->total_amount, 2) ?>₫</td>
-                        <td><?= htmlspecialchars($order->status) ?></td>
+                        <td><?= number_format($order->total_amount, 0, '.', ',') ?>₫</td>
+                        <td class="
+                            <?= $order->status == 'pending' ? 'order-status-pending' :
+                                ($order->status == 'preparing' ? 'order-status-preparing' :
+                                ($order->status == 'completed' ? 'order-status-completed' : 'order-status-cancelled')) ?>">
+                            <?= ucfirst($order->status) ?>
+                        </td>
                         <td>
-                            <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                            <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-sm btn-primary">
+                                Xem chi tiết
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
