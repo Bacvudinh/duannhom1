@@ -18,7 +18,7 @@ require_once './controllers/CommentController.php';
 // Require toàn bộ file Models
 require_once './models/User.php';
 require_once './models/Order.php';
-
+require_once './controllers/OrderController.php'; // Thêm dòng này vào
 // Require toàn bộ file Controllers
 require_once './controllers/HomeController.php';
 require_once './controllers/ProductController.php';
@@ -48,6 +48,8 @@ match ($act) {
     'removeFromCart'    => (new CartController())->removeFromCart(),
     'checkout'      => (new CartController())->checkout(),
     'placeOrder'    => (new CartController())->placeOrder(),
+    'myOrders'           => (new OrderController())->myOrders(),
+    'orderDetails'       => (new OrderController())->orderDetails(),
 };
 
 
