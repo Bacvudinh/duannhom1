@@ -81,7 +81,7 @@
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                    <a href="index.php?act=deleteCategory&id=<?= $danhMuc->id ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i> Xóa</a>
+                                                                
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -107,7 +107,7 @@
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                    <a href="index.php?act=deleteCategory&id=<?= $danhMuc->id ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i> Xóa</a>
+                                                                    
                                                                 </div>
                                                             </td>
                                                         </tr>
