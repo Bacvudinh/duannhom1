@@ -130,7 +130,7 @@
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=editProduct&id=<?= htmlspecialchars($product->id) ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                    <a href="index.php?act=deleteProduct&id=<?= htmlspecialchars($product->id) ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i> Xóa</a>
+                                                                 
                                                                 </div>
                                                             </td>
                                                         </tr>

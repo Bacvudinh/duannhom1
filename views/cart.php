@@ -29,10 +29,11 @@
                     <tbody>
                         <?php $total = 0; ?>
                         <?php foreach ($cartItems as $item): ?>
-                            <?php $subtotal = $item->price * $item->quantity; $total += $subtotal; ?>
+                            <?php $subtotal = $item->price * $item->quantity;
+                            $total += $subtotal; ?>
                             <tr>
                                 <td><?= htmlspecialchars($item->name) ?></td>
-                               <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>" alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
+                                <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>" alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
                                 <td>$<?= number_format($item->price, 2) ?></td>
                                 <td><?= $item->quantity ?></td>
                                 <td>$<?= number_format($subtotal, 2) ?></td>

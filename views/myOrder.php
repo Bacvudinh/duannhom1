@@ -10,6 +10,7 @@
                     <th>Mã đơn hàng</th>
                     <th>Ngày đặt hàng</th>
                     <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
                     <th>Chi tiết</th>
                 </tr>
             </thead>
@@ -18,8 +19,8 @@
                     <tr>
                         <td>#<?= htmlspecialchars($order->id) ?></td>
                         <td><?= htmlspecialchars($order->created_at) ?></td>
-                       <td><?= number_format($order->total_amount, 2) ?>₫</td>
-
+                        <td><?= number_format($order->total_amount, 2) ?>₫</td>
+                        <td><?= htmlspecialchars($order->status) ?></td>
                         <td>
                             <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-primary btn-sm">Xem chi tiết</a>
                         </td>
