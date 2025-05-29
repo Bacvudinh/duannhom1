@@ -10,14 +10,20 @@
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                return $user; // Đăng nhập thành công
-            }else{
-                return ['error' => 'Sai email hoặc mật khẩu']; // Sai email hoặc mật khẩu
+            if (!$user) {
+                return ['error' => 'Tài khoản không tồn tại'];
             }
 
-            ; // Sai email hoặc mật khẩu
+            if ($user['status'] == 0) {
+                return ['error' => 'Tài khoản đã bị khóa'];
+            }
+
+            if (!password_verify($password, $user['password'])) {
+                return ['error' => 'Mật khẩu không đúng'];
+            }
+
+            return $user;
+
         }
         public function register($name, $email, $password) {
         // Kiểm tra email đã tồn tại chưa

@@ -8,6 +8,9 @@ require_once '../commons/function.php'; // Hàm hỗ trợ
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/CategoriesController.php';
 require_once 'controllers/ProductController.php'; // DÒNG NÀY ĐÃ ĐƯỢC THÊM VÀO!
+require_once 'controllers/UsersController.php';
+require_once 'controllers/OrdersController.php';
+
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -40,5 +43,11 @@ match ($act) {
     'editUser'              => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->edit($_GET['id']) : (new UsersController())->index(),
     'updateUser'            => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->update($_GET['id']) : (new UsersController())->index(),
     'toggleStatusUser'      => isset($_GET['id']) && ($_GET['id']) ? (new UsersController())->toggleStatus($_GET['id']) : (new UsersController())->index(),
+    'toggleRole'        => isset($_GET['id']) ? (new UsersController())->toggleRole($_GET['id']) : (new UsersController())->index(),
+    'detailUser' => isset($_GET['id']) ? (new UsersController())->detail($_GET['id']) : (new UsersController())->index(),
+    
+    // Orders
+    'Orders'               => (new OrdersController())->index(),
+    'detailOrder'          => isset($_GET['id']) ? (new OrdersController())->detail($_GET['id']) : (new OrdersController())->index(),
     default => throw new Exception("Action '$act' không tìm thấy."),
 };

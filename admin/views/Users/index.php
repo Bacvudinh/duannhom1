@@ -72,29 +72,29 @@
                                         <?php if (!empty($users)): ?>
                                             <?php foreach ($users as $user): ?>
                                                 <tr>
-                                                    <td><?= htmlspecialchars($user['id']) ?></td>
-                                                    <td><?= htmlspecialchars($user['name']) ?></td>
-                                                    <td><?= htmlspecialchars($user['email']) ?></td>
-                                                    <td><?= htmlspecialchars($user['phone']) ?></td>
-                                                    <td><?= htmlspecialchars($user['address']) ?></td>
-                                                    <td><?= htmlspecialchars($user['role']) ?></td>
-                                                    <td class="<?= $user['status'] == 1 ? 'user-status-active' : 'user-status-inactive' ?>">
-                                                        <?= $user['status'] == 1 ? 'Hoạt động' : 'Bị khóa' ?>
+                                                    <td><?= htmlspecialchars($user->id) ?></td>
+                                                    <td><?= htmlspecialchars($user->NAME) ?></td>
+                                                    <td><?= htmlspecialchars($user->email) ?></td>
+                                                    <td><?= htmlspecialchars((string) $user->phone) ?></td>
+                                                    <td><?= htmlspecialchars($user->address) ?></td>
+                                                    <td><?= htmlspecialchars($user->role) ?></td>
+                                                    <td class="<?= $user->status == 1 ? 'user-status-active' : 'user-status-inactive' ?>">
+                                                        <?= $user->status == 1 ? 'Hoạt động' : 'Bị khóa' ?>
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                            <a href="index.php?act=Users&method=edit&id=<?= $user['id'] ?>" class="btn btn-sm btn-warning">
+                                                            <a href="index.php?act=editUser&id=<?= $user->id ?>" class="btn btn-sm btn-warning">
                                                                 <i class="ri-pencil-line"></i> Sửa
                                                             </a>
-                                                            <a href="index.php?act=Users&method=toggleStatus&id=<?= $user['id'] ?>"
-                                                               class="btn btn-sm btn-secondary"
-                                                               onclick="return confirm('Bạn có chắc chắn muốn thay đổi trạng thái người dùng này không?')">
-                                                                <?= $user['status'] == 1 ? 'Khóa' : 'Mở khóa' ?>
-                                                            </a>
-                                                            <a href="index.php?act=Users&method=detail&id=<?= $user['id'] ?>" class="btn btn-sm btn-info">
+                                                            <a href="index.php?act=toggleStatusUser&id=<?= $user->id ?>" 
+                                                                class="btn btn-sm btn-secondary"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn thay đổi trạng thái người dùng này không?')">
+                                                                    <?= $user->status == 1 ? 'Khóa' : 'Mở khóa' ?>
+                                                                </a>
+                                                            <a href="index.php?act=detailUser&id=<?= $user->id ?>" class="btn btn-sm btn-info">
                                                                 <i class="ri-eye-line"></i> Xem
                                                             </a>
-                                                            <a href="index.php?act=Users&method=toggleRole&id=<?= $user['id'] ?>"
+                                                            <a href="index.php?act=toggleRole&id=<?= $user->id ?>"
                                                                 class="btn btn-sm btn-dark"
                                                                 onclick="return confirm('Bạn có chắc chắn muốn đổi vai trò người dùng này không?')">
                                                                 Đổi quyền
