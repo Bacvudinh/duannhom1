@@ -17,4 +17,21 @@ class Order extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$orderId, $productId, $quantity, $price]);
     }
+public function getOrdersByUserId($userId)
+{
+    $sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
+    $this->setQuery($sql);
+    return $this->loadAllRows([$userId]);
+}
+
+public function getOrderDetails($orderId)
+{
+    $sql = "SELECT od.*, p.name AS product_name, p.image 
+            FROM order_details od
+            JOIN products p ON od.product_id = p.id
+            WHERE od.order_id = ?";
+    $this->setQuery($sql);
+    return $this->loadAllRows([$orderId]);
+}
+
 }

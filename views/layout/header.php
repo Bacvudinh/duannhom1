@@ -64,16 +64,19 @@
                         <div class="header-action-item">
                             <a href="index.php?act=cart" class="header-action-toggle">
                                 <i class="sli-basket-loaded">
-                                    <span class="count">02</span>
+                                    <span class="count"></span>
                                 </i>
-                                <span class="amount">$229.00</span>
+                                <span class="amout"></span>
                             </a>
+                         <a class="header-action-toggle" href="index.php?act=myOrders">Đơn hàng của tôi</a>
                         </div>
                         <div class="header-action-item dropdown">
                             <button class="header-action-toggle" type="button" data-bs-toggle="dropdown">
                                 <i class="sli-settings"></i>
                             </button>
+                        
                             <div class="dropdown-menu header-dropdown-menu">
+                                
                                 <h6 class="header-dropdown-menu-title">Account</h6>
                                 <ul>
                                     <?php if (isset($_SESSION['user']) && is_array($_SESSION['user'])): ?>
