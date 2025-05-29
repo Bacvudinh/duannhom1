@@ -18,13 +18,13 @@ class ProductsController
     public function index()
     {
         $keyword = $_GET['keyword'] ?? null;
-        $listProducts = $this->productModel->getProducts($keyword);
+        $listProducts = $this->productModel->getProductsforadmin($keyword);
         require_once "./views/Product/Product.php";
     }
 
     public function add()
     {
-        $listCategories = $this->categoryModel->getAllCategories();
+        $listCategories = $this->categoryModel->getActiveCategories();
         // Khởi tạo $error rỗng để tránh lỗi "Undefined variable" khi load view lần đầu
         $error = [];
         require_once "./views/Product/addProduct.php";
@@ -36,9 +36,12 @@ class ProductsController
             $name = $_POST['name'] ?? '';
             $price = $_POST['price'] ?? 0;
             $categoryId = $_POST['category_id'] ?? 0;
+            $status= $_POST['status']=1 ; // Mặc định là 1 (có thể thêm trường này nếu cần)
+
             $description = $_POST['description'] ?? '';
             $image = null;
-
+            $is_delete=null;
+           
             $error = [];
 
             if (empty($name)) { $error[] = "Vui lòng nhập tên sản phẩm."; }
@@ -61,7 +64,7 @@ class ProductsController
             }
 
             if (empty($error)) {
-                if ($this->productModel->addProduct($name, $price, $categoryId, $description, $image)) {
+                if ($this->productModel->addProduct($name, $price, $categoryId,$status, $description,$image, $is_delete)) {
                     header("Location: index.php?act=Product&success=add");
                     exit();
                 } else {
@@ -83,7 +86,7 @@ class ProductsController
     {
         if (is_numeric($id) && $id > 0) {
             $product = $this->productModel->getProductById($id);
-            $listCategories = $this->categoryModel->getAllCategories();
+            $listCategories = $this->categoryModel->getActiveCategories();
 
             if ($product) {
                 // Đảm bảo biến $error tồn tại khi render view
@@ -109,7 +112,7 @@ class ProductsController
             $categoryId = $_POST['category_id'] ?? 0;
             $description = $_POST['description'] ?? '';
             $currentImage = $_POST['current_image'] ?? null;
-
+            $status = $_POST['status'] ?? 1; // Mặc định là 1 (có thể thêm trường này nếu cần)
             $image = $currentImage; // Mặc định giữ ảnh cũ
             $error = [];
 
@@ -138,7 +141,8 @@ class ProductsController
             }
 
             if (empty($error)) {
-                if ($this->productModel->updateProduct($id, $name, $price, $categoryId, $description, $image)) {
+                if ($this->productModel->updateProduct($id, $name, $price, $categoryId, $status, $description, $image)
+) {
                     header("Location: index.php?act=Product&success=update");
                     exit();
                 } else {

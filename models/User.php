@@ -10,7 +10,6 @@
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
             if (!$user) {
                 return ['error' => 'Tài khoản không tồn tại'];
             }
@@ -24,6 +23,7 @@
             }
 
             return $user;
+
         }
         public function register($name, $email, $password) {
         // Kiểm tra email đã tồn tại chưa

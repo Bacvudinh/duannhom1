@@ -95,6 +95,7 @@
                                                 <?php if (!empty($product->image)): // Kiểm tra !empty($product->image) ?>
                                                     <div class="mb-2">
                                                         <img src="../uploads/product/<?= htmlspecialchars($product->image) ?>" alt="Ảnh hiện tại" style="max-width: 150px; height: auto; border-radius: 4px;">
+
                                                         <small class="d-block text-muted">Ảnh hiện tại</small>
                                                     </div>
                                                 <?php else: ?>
@@ -103,6 +104,12 @@
                                                 <input type="file" class="form-control" id="productImage" name="image" accept="image/*">
                                                 <small class="text-muted">Chọn ảnh mới để thay thế ảnh hiện tại (nếu có).</small>
                                             </div>
+                                            <div class="mb-3">
+                                                <label for="productStatus" class="form-label">Trạng thái</label>
+                                                <select class="form-select" id="productStatus" name="status">
+                                                    <option value="1" <?= (isset($_POST['status']) && $_POST['status'] == 1) || (!isset($_POST['status']) && $product->status == 1) ? 'selected' : '' ?>>Hiển thị</option>
+                                                    <option value="0" <?= (isset($_POST['status']) && $_POST['status'] == 0) || (!isset($_POST['status']) && $product->status == 0) ? 'selected' : '' ?>>Ẩn</option>
+                                                </select>
 
                                             <div class="text-end">
                                                 <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
