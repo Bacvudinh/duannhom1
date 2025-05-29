@@ -38,11 +38,19 @@
                             <ul class="list-unstyled mb-0">
                                 <li><strong>Khách hàng (User ID):</strong> <?= htmlspecialchars($order['user_id']) ?></li>
                                 <li><strong>Tổng tiền:</strong> <?= number_format($order['total_amount']) ?>₫</li>
-                                <li><strong>Trạng thái:</strong>
-                                    <span class="status-label <?= $order['status'] == 'pending' ? 'text-warning' : ($order['status'] == 'completed' ? 'text-success' : 'text-danger') ?>">
-                                        <?= ucfirst($order['status']) ?>
-                                    </span>
-                                </li>
+                                <li>
+                                        <form method="POST" action="index.php?act=updateOrderStatus" class="d-flex align-items-center gap-2">
+                                            <input type="hidden" name="id" value="<?= $order['id'] ?>">
+                                            <strong>Trạng thái:</strong>
+                                            <select name="status" class="form-select form-select-sm w-auto" required>
+                                                <option value="pending" <?= $order['status'] == 'pending' ? 'selected' : '' ?>>Đang chờ xử lý</option>
+                                                <option value="preparing" <?= $order['status'] == 'preparing' ? 'selected' : '' ?>>Đang chuẩn bị</option>
+                                                <option value="completed" <?= $order['status'] == 'completed' ? 'selected' : '' ?>>Đã hoàn thành</option>
+                                                <option value="cancelled" <?= $order['status'] == 'cancelled' ? 'selected' : '' ?>>Đã huỷ</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
+                                        </form>
+                                    </li>
                                 <li><strong>Ngày đặt:</strong> <?= $order['created_at'] ?></li>
                                 <li><strong>Ghi chú:</strong> <?= htmlspecialchars($order['note'] ?? 'Không có') ?></li>
                             </ul>
@@ -84,6 +92,8 @@
                             </div>
                         </div>
                     </div>
+
+                    
 
                 </div>
             </div>

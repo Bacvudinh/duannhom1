@@ -21,5 +21,18 @@ class OrdersController {
     $order_items = $order['details'] ?? [];
 
     require 'views/orders/detail.php';
+    }
+    public function updateStatus() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+
+        $orderModel = new Order();
+        $orderModel->updateStatus($id, $status);
+
+        // Redirect lại trang chi tiết đơn hàng với thông báo
+        header("Location: index.php?act=detailOrder&id=$id&success=update");
+        exit;
+    }
 }
 }

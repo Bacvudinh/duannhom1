@@ -49,5 +49,6 @@ match ($act) {
     // Orders
     'Orders'               => (new OrdersController())->index(),
     'detailOrder'          => isset($_GET['id']) ? (new OrdersController())->detail($_GET['id']) : (new OrdersController())->index(),
+    'updateOrderStatus' => (new OrdersController())->updateStatus(),
     default => throw new Exception("Action '$act' không tìm thấy."),
 };
