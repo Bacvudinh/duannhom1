@@ -1,6 +1,13 @@
 <?php require_once './views/layout/header.php'; ?>
 
 <div class="container section-padding">
+    <?php if (!empty($_SESSION['message'])): ?>
+    <div class="alert alert-success"><?= $_SESSION['message'] ?></div>
+    <?php unset($_SESSION['message']); ?>
+<?php elseif (!empty($_SESSION['error'])): ?>
+    <div class="alert alert-danger"><?= $_SESSION['error'] ?></div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
     <h2 class="mb-4">Đơn hàng của bạn</h2>
 
     <?php if (!empty($orders)): ?>
@@ -21,15 +28,25 @@
                         <td><?= htmlspecialchars($order->created_at) ?></td>
                         <td><?= number_format($order->total_amount, 0, '.', ',') ?>₫</td>
                         <td class="
-                            <?= $order->status == 'pending' ? 'order-status-pending' :
-                                ($order->status == 'preparing' ? 'order-status-preparing' :
-                                ($order->status == 'completed' ? 'order-status-completed' : 'order-status-cancelled')) ?>">
-                            <?= ucfirst($order->status) ?>
-                        </td>
+                                <?= $order->status == 'Chờ xác nhận' ? 'order-status-waiting-confirmation' :
+                                    ($order->status == 'Chờ lấy hàng' ? 'order-status-waiting-pickup' :
+                                    ($order->status == 'Đang giao hàng' ? 'order-status-shipping' :
+                                    ($order->status == 'Đã giao hàng' ? 'order-status-shipped' :
+                                    ($order->status == 'Hoàn thành' ? 'order-status-completed' :
+                                    'order-status-cancelled')))) ?>">
+                                <?= $statuses[$order->status] ?? ucfirst($order->status) ?>
+                            </td>
                         <td>
                             <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-sm btn-primary">
                                 Xem chi tiết
                             </a>
+                            <?php if ($order->status == 'Chờ xác nhận'): ?>
+                                <a href="index.php?act=cancelOrder&order_id=<?= $order->id ?>" 
+                                onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')"
+                                class="btn btn-sm btn-danger mt-1">
+                                    Hủy đơn
+                                </a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

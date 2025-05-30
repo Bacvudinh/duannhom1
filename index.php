@@ -50,6 +50,7 @@ match ($act) {
     'placeOrder'    => (new CartController())->placeOrder(),
     'myOrders'           => (new OrderController())->myOrders(),
     'orderDetails'       => (new OrderController())->orderDetails(),
+    'cancelOrder'        => (new OrderController())->cancelOrder(),
 };
 
 

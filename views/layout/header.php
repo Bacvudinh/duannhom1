@@ -68,7 +68,7 @@
                                 </i>
                                 <span class="amout"></span>
                             </a>
-                            <a class="header-action-toggle" href="index.php?act=myOrders">Đơn hàng của tôi</a>
+                            
                         </div>
                         <div class="header-action-item dropdown">
                             <button class="header-action-toggle" type="button" data-bs-toggle="dropdown">
@@ -78,6 +78,7 @@
                             <div class="dropdown-menu header-dropdown-menu">
 
                                 <h6 class="header-dropdown-menu-title">Account</h6>
+                                     
                                 <ul>
                                     <?php if (isset($_SESSION['user']) && is_array($_SESSION['user'])): ?>
                                         <li>
@@ -86,6 +87,7 @@
                                                 <?= htmlspecialchars($_SESSION['user']['NAME'] ?? 'Khách') ?>
                                             </span>
                                         </li>
+                                        <li><a href="index.php?act=myOrders">Đơn hàng của tôi</a></li>
                                         <li><a href="index.php?act=logout">Đăng xuất</a></li>
                                     <?php else: ?>
                                         <li><a href="index.php?act=loginForm">Đăng nhập</a></li>
