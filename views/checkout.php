@@ -17,11 +17,14 @@
             <form action="index.php?act=placeOrder" method="post">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>Thông tin khách hàng</h4>
-                        <p><strong>Họ tên:</strong> <?= htmlspecialchars($_SESSION['user']['NAME']) ?></p>
-                        <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['user']['email']) ?></p>
-                        <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($_SESSION['user']['address']) ?></p>
-                        <p><strong>SĐT:</strong> <?= htmlspecialchars($_SESSION['user']['phone']) ?></p>
+                       <?php $info = $_SESSION['checkout_info'] ?? []; ?>
+<h4>Thông tin người nhận</h4>
+<p><strong>Họ tên:</strong> <?= htmlspecialchars($info['name'] ?? '') ?></p>
+<p><strong>Email:</strong> <?= htmlspecialchars($info['email'] ?? '') ?></p>
+<p><strong>Địa chỉ:</strong> <?= htmlspecialchars($info['address'] ?? '') ?></p>
+<p><strong>SĐT:</strong> <?= htmlspecialchars($info['phone'] ?? '') ?></p>
+<p><strong>Ghi chú:</strong> <?= htmlspecialchars($info['note'] ?? 'Không có') ?></p>
+
                     </div>
 
                     <div class="col-md-6">
