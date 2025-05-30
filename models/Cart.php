@@ -20,7 +20,8 @@ class Cart extends BaseModel
 
     public function getCartItems($cartId)
     {
-        $sql = "SELECT ci.*, p.name, p.image FROM cart_items ci JOIN products p ON ci.product_id = p.id WHERE ci.cart_id = ?";
+        $sql = "SELECT ci.*, p.name, p.image FROM cart_items ci 
+        JOIN products p ON ci.product_id = p.id WHERE ci.cart_id = ?";
         $this->setQuery($sql);
         return $this->loadAllRows([$cartId]);
     }

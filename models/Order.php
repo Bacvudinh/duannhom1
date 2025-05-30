@@ -20,6 +20,13 @@ class Order extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$orderId, $productId, $quantity, $price]);
     }
+    public function insertOrderAddress($orderId, $name, $email, $phone, $address, $note = '')
+    {
+        $sql = "INSERT INTO order_addresses (order_id, name, email, phone, address, note)
+            VALUES (?, ?, ?, ?, ?, ?)";
+        $this->setQuery($sql);
+        return $this->execute([$orderId, $name, $email, $phone, $address, $note]);
+    }
 
     // Lấy danh sách đơn hàng theo người dùng
     public function getOrdersByUserId($userId)
