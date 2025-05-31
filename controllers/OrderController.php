@@ -60,11 +60,16 @@ class OrderController
         $result = $this->orderModel->cancelOrderIfPending($orderId, $_SESSION['user']['id']);
 
         if ($result) {
+            // Lấy danh sách sản phẩm trong đơn để cộng lại stock
+            $items = $this->orderModel->getOrderDetails($orderId);
+            foreach ($items as $item) {
+                $this->orderModel->increaseProductStock($item->product_id, $item->quantity);
+            }
+
             $_SESSION['message'] = "Đơn hàng #$orderId đã được hủy thành công.";
         } else {
             $_SESSION['error'] = "Không thể hủy đơn hàng #$orderId. Đơn hàng không hợp lệ hoặc đã được xử lý.";
         }
-
         header('Location: index.php?act=myOrders');
         exit;
     }

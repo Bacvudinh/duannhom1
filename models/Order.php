@@ -59,4 +59,23 @@ class Order extends BaseModel
         $stmt = $this->execute([$orderId, $userId]);  // Lấy PDOStatement
         return $stmt->rowCount() > 0;
     }
+    public function decreaseStock($productId, $quantity)
+    {
+        $sql = "UPDATE products SET stock = stock - ? WHERE id = ?";
+        $this->setQuery($sql);
+        return $this->execute([$quantity, $productId]);
+    }
+    // public function getOrderAddress($orderId)
+    // {
+    //     $sql = "SELECT * FROM order_addresses WHERE order_id = ?";
+    //     $this->setQuery($sql);
+    //     return $this->loadRow([$orderId]);
+    // }
+    public function increaseProductStock($productId, $quantity)
+    {
+        $sql = "UPDATE products SET stock = stock + ? WHERE id = ?";
+
+        $this->setQuery($sql);
+        return $this->execute([$quantity, $productId]);
+    }
 }
