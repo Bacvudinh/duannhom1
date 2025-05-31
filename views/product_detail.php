@@ -158,6 +158,13 @@
                           <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-shipping-policy"><i class="sli-plane"></i> Shipping</button>
                           <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-enquiry"><i class="sli-envelope"></i> Ask About This product</button>
                       </div>
+                      <?php if (!empty($_SESSION['add_to_cart_error'])): ?>
+    <div class="alert alert-danger mt-3">
+        <?= $_SESSION['add_to_cart_error'] ?>
+    </div>
+    <?php unset($_SESSION['add_to_cart_error']); ?>
+<?php endif; ?>
+
                       <div class="single-product-actions">
 
                           <div class="single-product-actions-item">

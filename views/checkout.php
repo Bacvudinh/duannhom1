@@ -17,13 +17,13 @@
             <form action="index.php?act=placeOrder" method="post">
                 <div class="row">
                     <div class="col-md-6">
-                       <?php $info = $_SESSION['checkout_info'] ?? []; ?>
-<h4>Thông tin người nhận</h4>
-<p><strong>Họ tên:</strong> <?= htmlspecialchars($info['name'] ?? '') ?></p>
-<p><strong>Email:</strong> <?= htmlspecialchars($info['email'] ?? '') ?></p>
-<p><strong>Địa chỉ:</strong> <?= htmlspecialchars($info['address'] ?? '') ?></p>
-<p><strong>SĐT:</strong> <?= htmlspecialchars($info['phone'] ?? '') ?></p>
-<p><strong>Ghi chú:</strong> <?= htmlspecialchars($info['note'] ?? 'Không có') ?></p>
+                        <?php $info = $_SESSION['checkout_info'] ?? []; ?>
+                        <h4>Thông tin người nhận</h4>
+                        <p><strong>Họ tên:</strong> <?= htmlspecialchars($info['name'] ?? '') ?></p>
+                        <p><strong>Email:</strong> <?= htmlspecialchars($info['email'] ?? '') ?></p>
+                        <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($info['address'] ?? '') ?></p>
+                        <p><strong>SĐT:</strong> <?= htmlspecialchars($info['phone'] ?? '') ?></p>
+                        <p><strong>Ghi chú:</strong> <?= htmlspecialchars($info['note'] ?? 'Không có') ?></p>
 
                     </div>
 
@@ -40,7 +40,8 @@
                             <tbody>
                                 <?php $total = 0; ?>
                                 <?php foreach ($cartItems as $item): ?>
-                                    <?php $subtotal = $item->price * $item->quantity; $total += $subtotal; ?>
+                                    <?php $subtotal = $item->price * $item->quantity;
+                                    $total += $subtotal; ?>
                                     <tr>
                                         <td><?= htmlspecialchars($item->name) ?></td>
                                         <td><?= $item->quantity ?></td>
