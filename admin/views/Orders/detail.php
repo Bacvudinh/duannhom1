@@ -1,12 +1,10 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>Quản lý đơn hàng | NN Shop</title>
+    <title>Chi tiết đơn hàng | NN Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
     <?php require_once "views/layouts/libs_css.php"; ?>
     <style>
         .order-status-pending {
@@ -27,7 +25,6 @@
 </head>
 
 <body>
-
     <div id="layout-wrapper">
         <?php require_once "views/layouts/siderbar.php"; ?>
 
@@ -35,81 +32,89 @@
             <div class="page-content">
                 <div class="container-fluid">
 
+                    <!-- Tiêu đề -->
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Danh sách đơn hàng</h4>
+                                <h4 class="mb-sm-0">Chi tiết đơn hàng #<?= htmlspecialchars($order['id']) ?></h4>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Thông báo -->
+                    <?php if (isset($_GET['error'])): ?>
+                        <div class="alert alert-danger mt-3"><?= htmlspecialchars($_GET['error']) ?></div>
+                    <?php endif; ?>
                     <?php if (isset($_GET['success'])): ?>
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                            <?php
-                            if ($_GET['success'] == 'update') echo "Cập nhật đơn hàng thành công!";
-                            ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                        <div class="alert alert-success mt-3">Cập nhật trạng thái thành công!</div>
                     <?php endif; ?>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card mt-3">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover align-middle table-nowrap mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-center">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="selectAll">
-                                                        </div>
-                                                    </th>
-                                                    <th>ID</th>
-                                                    <th>Khách hàng (User ID)</th>
-                                                    <th>Tổng tiền</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Ngày tạo</th>
-                                                    <th class="text-end">Hành động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (!empty($orders)): ?>
-                                                    <?php foreach ($orders as $order): ?>
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="selected[]" value="<?= $order['id'] ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td><?= htmlspecialchars($order['id']) ?></td>
-                                                            <td><?= htmlspecialchars($order['user_id']) ?></td>
-                                                            <td><?= number_format($order['total_amount'], 2, '.', ',') ?>₫</td>
-                                                            <td class="<?= 
-                                                                $order['status'] == 'pending' ? 'order-status-pending' : 
-                                                                ($order['status'] == 'completed' ? 'order-status-completed' : 'order-status-cancelled') ?>">
-                                                                <?= ucfirst($order['status']) ?>
-                                                            </td>
-                                                            <td><?= $order['created_at'] ?></td>
-                                                            <td class="text-end">
-                                                                <div class="hstack gap-3 flex-wrap justify-content-end">
-                                                                    <a href="index.php?act=detailOrder&id=<?= $order['id'] ?>" class="btn btn-sm btn-info">
-                                                                        <i class="ri-eye-line"></i> Xem
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="7" class="text-center">Không có đơn hàng nào.</td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    <!-- Thông tin đơn hàng -->
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <p><strong>Khách hàng (User ID):</strong> <?= htmlspecialchars($order['user_id']) ?></p>
+                            <p><strong>Trạng thái:</strong> 
+                                <span class="<?php
+                                    echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' :
+                                        ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
+                                ?>">
+                                    <?= htmlspecialchars($order['status']) ?>
+                                </span>
+                            </p>
+                            <p><strong>Ngày đặt hàng:</strong> <?= $order['created_at'] ?></p>
+                            <p><strong>Tổng tiền:</strong> <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</p>
+
+                            <!-- Form cập nhật trạng thái -->
+                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end">
+                                <input type="hidden" name="id" value="<?= $order['id'] ?>">
+                                <div class="col-md-4">
+                                    <label for="status" class="form-label">Cập nhật trạng thái</label>
+                                    <select class="form-select" name="status" id="status" required>
+                                        <option value="Chờ xác nhận" <?= $order['status'] == 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
+                                        <option value="Chờ lấy hàng" <?= $order['status'] == 'Chờ lấy hàng' ? 'selected' : '' ?>>Chờ lấy hàng</option>
+                                        <option value="Đang giao hàng" <?= $order['status'] == 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
+                                        <option value="Đã giao hàng" <?= $order['status'] == 'Đã giao hàng' ? 'selected' : '' ?>>Đã giao hàng</option>
+                                        <option value="Hoàn thành" <?= $order['status'] == 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
+                                        <option value="Đã huỷ" <?= $order['status'] == 'Đã huỷ' ? 'selected' : '' ?>>Đã huỷ</option>
+                                    </select>
                                 </div>
-                            </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Chi tiết sản phẩm -->
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5>Chi tiết sản phẩm trong đơn hàng</h5>
+                            <?php if (!empty($order_items)): ?>
+                                <div class="table-responsive mt-3">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Sản phẩm</th>
+                                                <th>Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Tổng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($order_items as $item): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($item['product_name']) ?></td>
+                                                    <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
+                                                    <td><?= $item['quantity'] ?></td>
+                                                    <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: ?>
+                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -119,16 +124,6 @@
     </div>
 
     <?php require_once "views/layouts/libs_js.php"; ?>
-
-    <script>
-        // Select all checkboxes
-        document.getElementById('selectAll').onclick = function () {
-            const checkboxes = document.querySelectorAll('input[name="selected[]"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-        };
-    </script>
 </body>
 
 </html>
