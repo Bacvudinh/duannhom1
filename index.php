@@ -9,6 +9,8 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 require_once './models/BaseModel.php'; // Model cơ sở
 require_once './models/Categories.php'; // Model danh sách loại
 require_once './models/Products.php'; // Model sản phẩm
+require_once './models/Cart.php'; // Model giỏ hàng
+require_once './models/Comment.php'; // Model bình luận
 
 // Require toàn bộ file Controllers
 require_once './controllers/HomeController.php';
@@ -20,8 +22,14 @@ require_once './models/User.php';
 require_once './models/Order.php';
 require_once './controllers/OrderController.php'; // Thêm dòng này vào
 // Require toàn bộ file Controllers
+require_once './controllers/LoginController.php';
+require_once './controllers/CartController.php';
+require_once './controllers/OrderController.php';
 require_once './controllers/HomeController.php';
 require_once './controllers/ProductController.php';
+require_once './controllers/CommentController.php';
+ // Thêm dòng này vào
+
 // require_once './views/layout/header.php'; // Header
 
 // Route
