@@ -14,10 +14,9 @@
   <!-- Product Details Section Start -->
   <div class="product-details-section section section-padding">
       <div class="container">
-
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
           <!-- Single Product Top Area Start -->
           <div class="row row-cols-md-2 row-cols-1 mb-n6">
-
               <!-- Product Image Start -->
               <div class="col mb-6">
                   <div class="single-product-image">
@@ -28,10 +27,7 @@
                           <div class="single-product-badge-left">
                               <span class="single-product-badge-new">new</span>
                           </div>
-                          <div class="single-product-badge-right">
-                              <span class="single-product-badge-sale">sale</span>
-                              <span class="single-product-badge-sale">-11%</span>
-                          </div>
+
                           <!-- Product Badge End -->
                           <div class="swiper-wrapper">
                               <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
@@ -73,11 +69,18 @@
                           <?php endif; ?>
                       </div>
                       <ul class="single-product-meta">
-                          <li><span class="label">vendor :</span> <span class="value"><?= htmlspecialchars($product->category_name) ?></span></li>
+                          <li><span class="label">Danh mục :</span> <span class="value"><?= htmlspecialchars($product->category_name) ?></span></li>
 
-                          <li><span class="label">Stock :</span> <span class="value"><?= intval($product->stock) ?></span></li>
+                          <li><span class="label">Số lượng :</span> <span class="value"><?= intval($product->stock) ?></span></li>
+                          <?php if ($product->stock > 0): ?>
+    <!-- Hiển thị form thêm vào giỏ -->
+<?php else: ?>
+    <p class="text-danger">Sản phẩm đã hết hàng</p>
+<?php endif; ?>
+
                       </ul>
                       <div class="single-product-text">
+
                           <p><?= htmlspecialchars($product->description) ?></p>
                       </div>
                       <!-- <ul class="single-product-variations">
@@ -96,12 +99,7 @@
                          <li><span class="label">Color :</span>
                              <div class="value">
                                  <div class="single-product-variation-color-wrap">
-                                     <?php foreach ($colors as $color): ?>
-                                         <div class="single-product-variation-color-item">
-                                             <input type="radio" name="color" id="color-<?= $color ?>" <?= ($loop_first = reset($colors)) === $color ? 'checked' : '' ?>>
-                                             <label for="color-<?= $color ?>" style="background-color: <?= htmlspecialchars($color) ?>;"><?= htmlspecialchars($color) ?></label>
-                                         </div>
-                                     <?php endforeach; ?>
+                                  
                                  </div>
                              </div>
                          </li>
@@ -130,33 +128,9 @@
                                   </div>
                               </div>
                           </li>
-                          <li><span class="label">Color :</span>
-                              <div class="value">
-                                  <div class="single-product-variation-color-wrap">
-                                      <div class="single-product-variation-color-item"><input type="radio" name="color" id="color-purple" checked=""><label for="color-purple" style="background-color: purple;">purple</label></div>
-                                      <div class="single-product-variation-color-item"><input type="radio" name="color" id="color-violet"><label for="color-violet" style="background-color: violet;">violet</label></div>
-                                      <div class="single-product-variation-color-item"><input type="radio" name="color" id="color-black"><label for="color-black" style="background-color: black;">black</label></div>
-                                      <div class="single-product-variation-color-item"><input type="radio" name="color" id="color-pink"><label for="color-pink" style="background-color: pink;">pink</label></div>
-                                      <div class="single-product-variation-color-item"><input type="radio" name="color" id="color-orange"><label for="color-orange" style="background-color: orange;">orange</label></div>
-                                  </div>
-                              </div>
-                          </li>
-                          <li><span class="label">Material :</span>
-                              <div class="value">
-                                  <div class="single-product-variation-material-wrap">
-                                      <div class="single-product-variation-material-item"><input type="radio" name="material" id="material-metal" checked=""><label for="material-metal">metal</label></div>
-                                      <div class="single-product-variation-material-item"><input type="radio" name="material" id="material-resin"><label for="material-resin">resin</label></div>
-                                      <div class="single-product-variation-material-item"><input type="radio" name="material" id="material-leather"><label for="material-leather">leather</label></div>
-                                      <div class="single-product-variation-material-item"><input type="radio" name="material" id="material-slag"><label for="material-slag">slag</label></div>
-                                      <div class="single-product-variation-material-item"><input type="radio" name="material" id="material-fiber"><label for="material-fiber">fiber</label></div>
-                                  </div>
-                              </div>
-                          </li>
                       </ul>
                       <div class="single-product-additional-information">
 
-                          <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-shipping-policy"><i class="sli-plane"></i> Shipping</button>
-                          <button class="single-product-info-btn" data-bs-toggle="modal" data-bs-target="product-enquiry"><i class="sli-envelope"></i> Ask About This product</button>
                       </div>
                       <?php if (!empty($_SESSION['add_to_cart_error'])): ?>
                           <div class="alert alert-danger mt-3">
@@ -164,9 +138,36 @@
                           </div>
                           <?php unset($_SESSION['add_to_cart_error']); ?>
                       <?php endif; ?>
+                      <!-- Hiển thị thông báo lỗi nếu có -->
+                      <?php if (!empty($_SESSION['add_to_cart_error'])): ?>
+                          <div class="alert alert-danger mt-3">
+                              <?= $_SESSION['add_to_cart_error'] ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_error']); ?>
+                      <?php endif; ?>
+
+                      <!-- ✅ Hiển thị thông báo thành công nếu thêm vào giỏ hàng -->
+                      <?php if (!empty($_SESSION['add_to_cart_success'])): ?>
+                          <div class="alert alert-success mt-3" id="addToCartSuccess">
+                              <?= $_SESSION['add_to_cart_success'] ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_success']); ?>
+                      <?php endif; ?>
+
+                      <!-- ✅ Script tự động ẩn thông báo sau 3 giây -->
+                      <script>
+                          document.addEventListener("DOMContentLoaded", function() {
+                              const alertBox = document.getElementById("addToCartSuccess");
+                              if (alertBox) {
+                                  setTimeout(() => {
+                                      alertBox.style.opacity = "0";
+                                      setTimeout(() => alertBox.style.display = "none", 300); // ẩn hẳn sau hiệu ứng mờ
+                                  }, 3000);
+                              }
+                          });
+                      </script>
 
                       <div class="single-product-actions">
-
                           <div class="single-product-actions-item">
                               <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3">
                                   <input type="hidden" name="product_id" value="<?= $product->id ?>">
@@ -177,13 +178,19 @@
                                       <i class="sli-bag"></i> Thêm vào giỏ hàng
                                   </button>
                               </form>
-
-
+                              <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                  <i class="fa-regular fa-heart"></i>
+                              </button>
+                              <script>
+                                  function toggleWishlist(btn) {
+                                      const icon = btn.querySelector('i');
+                                      icon.classList.toggle('fa-regular');
+                                      icon.classList.toggle('fa-solid');
+                                  }
+                              </script>
                           </div>
-
                       </div>
-                  </div
-                      </div>
+                  </div>
               </div>
 
               <!-- Product Content End -->
