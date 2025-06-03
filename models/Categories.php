@@ -9,6 +9,10 @@ class Categories extends BaseModel
     {
         return $this->getAll();
     }
+     public function getAllCategoriesClient()
+    {
+        return $this->getAllClient();
+    }
 public function getActiveCategories()
 {
     $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";

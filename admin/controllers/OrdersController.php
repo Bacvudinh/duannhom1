@@ -22,6 +22,8 @@ class OrdersController {
 
     require 'views/orders/detail.php';
     }
+    
+    
     public function updateStatus() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'];
