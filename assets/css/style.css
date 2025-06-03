@@ -2557,11 +2557,7 @@ hr {
   }
 }
 .product-action-btn:hover {
-
-  color: #C7A17A;
-
   color: #ebe3db;
-
 }
 .product-action-btn:hover[data-tooltip-text]::before {
   bottom: 100%;
@@ -2856,13 +2852,8 @@ hr {
   font-size: 18px;
 }
 .product-list .product-content .product-action-btn:hover {
-
-  color: #fff;
-  border-color: #C7A17A;
-
   color: #190202;
   /* border-color: #C7A17A; */
-
   background-color: #C7A17A;
 }
 @media only screen and (max-width: 767px) {

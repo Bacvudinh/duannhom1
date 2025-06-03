@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/plugins/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Simple Line Icons (sli-*) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"><link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet">
+
+    
 </head>
 
 <body>

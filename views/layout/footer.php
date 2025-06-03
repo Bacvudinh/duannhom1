@@ -116,8 +116,12 @@
     <script src="assets/js/plugins/resize-sensor.js"></script>
     <script src="assets/js/plugins/jquery.sticky-sidebar.min.js"></script>
 
+
     <!-- Activation JS -->
     <script src="assets/js/active.js"></script>
+
+
+
 
 </body>
 
