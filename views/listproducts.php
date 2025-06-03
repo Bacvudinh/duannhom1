@@ -76,7 +76,7 @@ require_once './views/layout/header.php'; // Header
                                     <div class="product">
                                         <div class="product-thumb">
                                             <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
-                                                <img src="uploads/product/<?= $product->image ?>" alt="<?= $product->name ?>" width="200">
+                                                <img src="uploads/product/<?= $product->image ?>" alt="<?= $product->name ?>" width="150">
 
                                             </a>
 
@@ -115,7 +115,7 @@ require_once './views/layout/header.php'; // Header
                                                 <?php endif; ?>
                                             </div>
                                             <div class="product-rating">
-                                                <span class="product-rating-bg"><span class="product-rating-active" style="width: 90%;"></span></span>
+                                                <span class="product-rating-bg"><span class="product-rating-active" style="width: 50%;"></span></span>
                                             </div>
                                         </div>
                                     </div>
