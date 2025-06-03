@@ -63,6 +63,9 @@
                                             </th>
                                             <th>ID</th>
                                             <th>Khách hàng (User ID)</th>
+                                            <th>Tên khách hàng </th>
+                                            <th>Địa chỉ giao hàng</th>
+                                            <th>Điện thoại</th>
                                             <th>Tổng tiền</th>
                                             <th>Trạng thái</th>
                                             <th>Ngày tạo</th>
@@ -81,6 +84,9 @@
                                             </td>
                                             <td><?= $order['id'] ?></td>
                                             <td><?= htmlspecialchars($order['user_id']) ?></td>
+                                               <td><?= htmlspecialchars($order['shipping_name']) ?></td>
+                                               <td><?= htmlspecialchars($order['shipping_address']) ?></td>
+                                                 <td><?= htmlspecialchars($order['shipping_phone']) ?></td>
                                             <td><?= number_format($order['total_amount'], 0, '.', ',') ?>₫</td>
                                             <td>
                                                 <span class="<?php

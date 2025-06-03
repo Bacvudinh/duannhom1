@@ -53,11 +53,10 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <p><strong>Khách hàng (User ID):</strong> <?= htmlspecialchars($order['user_id']) ?></p>
-                            <p><strong>Trạng thái:</strong> 
+                            <p><strong>Trạng thái:</strong>
                                 <span class="<?php
-                                    echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' :
-                                        ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
-                                ?>">
+                                                echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' : ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
+                                                ?>">
                                     <?= htmlspecialchars($order['status']) ?>
                                 </span>
                             </p>
@@ -94,6 +93,12 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
+                                                <th>Tên người đặt</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Điện thoại</th>
+                                                <th>Email</th>
+                               
+                                                <th>Trạng thái</th>
                                                 <th>Sản phẩm</th>
                                                 <th>Giá</th>
                                                 <th>Số lượng</th>
@@ -103,6 +108,18 @@
                                         <tbody>
                                             <?php foreach ($order_items as $item): ?>
                                                 <tr>
+                                                     <td><?= htmlspecialchars($item['shipping_name']) ?></td>
+                                                    <td><?= htmlspecialchars($item['shipping_address']) ?></td>
+                                                    <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
+                                                    <td><?= htmlspecialchars($item['shipping_email']) ?></td>
+                                                    <p><strong>Trạng thái:</strong>
+                                                        <span class="<?php
+                                                                        echo $item['status'] === 'Chờ xác nhận' ? 'order-status-pending' : ($item['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
+                                                                        ?>">
+                                                            <?= htmlspecialchars($item['status']) ?>
+                                                        </span>
+                                                  
+                                                    <td><?= htmlspecialchars($item['status']) ?></td>
                                                     <td><?= htmlspecialchars($item['product_name']) ?></td>
                                                     <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
                                                     <td><?= $item['quantity'] ?></td>

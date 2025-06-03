@@ -97,9 +97,16 @@ class BaseModel
     }
 
     // Các hàm CRUD chung (dựa trên thuộc tính $table)
-    public function getAll()
+    public function getAll()// danhf cho bên admin
+
     {
         $this->sql = "SELECT * FROM {$this->table}";
+        return $this->loadAllRows();
+    }
+     public function getAllClient()// danhf cho bên admin
+    
+    {
+        $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";
         return $this->loadAllRows();
     }
 
