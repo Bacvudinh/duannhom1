@@ -10,15 +10,12 @@ class ProductVariant extends BaseModel
         return $this->execute([$product_id, $size_id, $price]);
     }
 
-    public function getVariantsByProductId($product_id)
-    {
-        $sql = "SELECT pv.*, s.name as size_name 
-                FROM $this->table pv
-                JOIN sizes s ON pv.size_id = s.id
-                WHERE pv.product_id = ?";
-        $this->setQuery($sql);
-        return $this->loadAllRows([$product_id]);
-    }
+public function getProductVariants($productId)
+{
+    $sql = "SELECT * FROM product_variants WHERE product_id = ? ORDER BY size";
+    $this->setQuery($sql);
+    return $this->loadAllRows([$productId]);
+}
 
     public function deleteByProductId($product_id)
     {

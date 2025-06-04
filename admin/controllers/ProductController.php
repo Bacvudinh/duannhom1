@@ -24,6 +24,44 @@ class ProductsController
         $listProducts = $this->productModel->getProductsforadmin($keyword);
         require_once "./views/Product/Product.php";
     }
+  public function productVariants()
+{
+    // Kiểm tra đăng nhập và quyền admin
+    
+
+    $productId = $_GET['id'] ?? 0;
+    
+    // Lấy thông tin sản phẩm
+    $product = $this->productModel->getProductById($productId);
+    if (!$product) {
+        header('Location: index.php?act=products');
+        exit;
+    }
+    
+    // Lấy danh sách biến thể
+    $variants = $this->variantModel->getProductVariants($productId);
+    
+    // Hiển thị view
+    require_once 'views/Product/product_variants.php';
+}
+public function deleteVariant()
+{
+    // Kiểm tra đăng nhập và quyền admin
+    // if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
+    //     header('Location: index.php?act=login');
+    //     exit;
+    // }
+
+    $variantId = $_GET['id'] ?? 0;
+    $productId = $_GET['product_id'] ?? 0;
+    
+    if ($variantId > 0) {
+        $this->variantModel->deleteVariant($variantId);
+    }
+    
+    header("Location: index.php?act=productVariants&id=$productId");
+    exit;
+}
 
     public function add()
     {
