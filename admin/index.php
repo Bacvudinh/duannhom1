@@ -59,6 +59,8 @@ match ($act) {
     'addProduct'            => (new ProductsController())->add(),
     'saveProduct'           => (new ProductsController())->save(),
     'editProduct'           => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->edit($_GET['id']) : (new ProductsController())->index(),
+    'productVariants'       => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->productVariants($_GET['id']) : (new ProductsController())->index(),
+    'deleteVariant'          => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->deleteVariant($_GET['id']) : (new ProductsController())->index(),
     'updateProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->update($_GET['id']) : (new ProductsController())->index(),
     'deleteProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->delete($_GET['id']) : (new ProductsController())->index(),
 
