@@ -70,8 +70,13 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=Product">
 
-                        <i class="ri-stack-line"> San pham</i><span data-key="t-advance-ui"></span>
+                        <i class="ri-stack-line"> Sản phẩm</i><span data-key="t-advance-ui"></span>
                     </a>
+                        <li class="nav-item">
+                    <a class="nav-link menu-link" href="index.php?act=admin_sizes">
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-categories">Size </span>
+                    </a>
+                </li>
                     <div class="collapse menu-dropdown" id="sidebarDanhMuc">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
