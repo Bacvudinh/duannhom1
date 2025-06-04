@@ -68,13 +68,12 @@
                                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                                 <div class="col-md-4">
                                     <label for="status" class="form-label">Cập nhật trạng thái</label>
-                                    <select class="form-select" name="status" id="status" required>
-                                        <option value="Chờ xác nhận" <?= $order['status'] == 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
-                                        <option value="Chờ lấy hàng" <?= $order['status'] == 'Chờ lấy hàng' ? 'selected' : '' ?>>Chờ lấy hàng</option>
-                                        <option value="Đang giao hàng" <?= $order['status'] == 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
-                                        <option value="Đã giao hàng" <?= $order['status'] == 'Đã giao hàng' ? 'selected' : '' ?>>Đã giao hàng</option>
-                                        <option value="Hoàn thành" <?= $order['status'] == 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
-                                        <option value="Đã huỷ" <?= $order['status'] == 'Đã huỷ' ? 'selected' : '' ?>>Đã huỷ</option>
+                                    <select class="form-select" name="status" onchange="this.form.submit()">
+                                        <option value="Chờ xác nhận" <?= $order['status'] === 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
+                                        <option value="Đang xử lý" <?= $order['status'] === 'Đang xử lý' ? 'selected' : '' ?>>Đang xử lý</option>
+                                        <option value="Đang giao hàng" <?= $order['status'] === 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
+                                        <option value="Hoàn thành" <?= $order['status'] === 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
+                                        <option value="Đã hủy" <?= $order['status'] === 'Đã hủy' ? 'selected' : '' ?>>Đã hủy</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -97,7 +96,7 @@
                                                 <th>Địa chỉ</th>
                                                 <th>Điện thoại</th>
                                                 <th>Email</th>
-                               
+
                                                 <th>Trạng thái</th>
                                                 <th>Sản phẩm</th>
                                                 <th>Giá</th>
@@ -108,7 +107,7 @@
                                         <tbody>
                                             <?php foreach ($order_items as $item): ?>
                                                 <tr>
-                                                     <td><?= htmlspecialchars($item['shipping_name']) ?></td>
+                                                    <td><?= htmlspecialchars($item['shipping_name']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_address']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_email']) ?></td>
@@ -118,12 +117,12 @@
                                                                         ?>">
                                                             <?= htmlspecialchars($item['status']) ?>
                                                         </span>
-                                                  
-                                                    <td><?= htmlspecialchars($item['status']) ?></td>
-                                                    <td><?= htmlspecialchars($item['product_name']) ?></td>
-                                                    <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
-                                                    <td><?= $item['quantity'] ?></td>
-                                                    <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
+
+                                                        <td><?= htmlspecialchars($item['status']) ?></td>
+                                                        <td><?= htmlspecialchars($item['product_name']) ?></td>
+                                                        <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
+                                                        <td><?= $item['quantity'] ?></td>
+                                                        <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

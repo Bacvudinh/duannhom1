@@ -1,6 +1,5 @@
 <?php
-require_once "../models/Categories.php";
-require_once "../models/Products.php"; // Đảm bảo file Products.php tồn tại
+
 
 class categoriesController
 {

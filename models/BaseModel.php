@@ -116,14 +116,20 @@ class BaseModel
         return $this->loadRow([$id]);
     }
 
-    public function insert($data)
-    {
-        $keys = implode(',', array_keys($data));
-        $values = ':' . implode(', :', array_keys($data));
-        $this->sql = "INSERT INTO {$this->table} ($keys) VALUES ($values)";
-        $this->sta = $this->pdo->prepare($this->sql);
-        return $this->sta->execute($data);
+   public function insert($data)
+{
+    $keys = implode(',', array_keys($data));
+    $values = ':' . implode(', :', array_keys($data));
+    $this->sql = "INSERT INTO {$this->table} ($keys) VALUES ($values)";
+    $this->sta = $this->pdo->prepare($this->sql);
+
+    if ($this->sta->execute($data)) {
+        return $this->pdo->lastInsertId(); // ✅ Trả về ID vừa thêm
     }
+
+    return false; // ❌ Trả về false nếu thêm thất bại
+}
+
 
     public function update($id, $data)
     {
