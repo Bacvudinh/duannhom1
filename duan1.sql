@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 02, 2025 at 04:28 PM
+-- Generation Time: Jun 04, 2025 at 04:53 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.20
 
@@ -76,8 +76,7 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `quantity`, `price`) VA
 (5, 4, 8, 1, NULL),
 (9, 8, 9, 1, NULL),
 (10, 9, 10, 2, NULL),
-(15, 12, 4, 1, '87.38'),
-(39, 11, 4, 2, '87.38');
+(15, 12, 4, 1, '87.38');
 
 -- --------------------------------------------------------
 
@@ -97,9 +96,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `status`) VALUES
-(2, 'Coffee', NULL, 1),
-(4, 'Beans', 'Technology during among Mrs.', 1),
-(5, 'Cups', 'Pattern those window off woman.', 1),
+(2, 'Coffee', NULL, 0),
+(4, 'Beans', NULL, 0),
+(5, 'Cups', NULL, 0),
 (6, 'Milk', 'Shoulder voice huge wear another hard.', 1),
 (7, 'Sugar', 'Character himself send knowledge.', 1),
 (9, 'Mug', 'Plant another figure whole determine order.', 1),
@@ -131,7 +130,8 @@ INSERT INTO `comments` (`id`, `user_id`, `product_id`, `comment`, `created_at`, 
 (19, 13, 8, 'ádfasdfa', '2025-06-02 21:25:53', NULL, 1),
 (20, 13, 8, 'ádfasf', '2025-06-02 21:31:14', NULL, 1),
 (21, 13, 8, 'rfgsdfasdfasdfadsfasd', '2025-06-02 21:31:20', NULL, 0),
-(22, 13, 8, 'bacdz', '2025-06-02 21:32:45', NULL, 0);
+(22, 13, 8, 'bacdz', '2025-06-02 21:32:45', NULL, 0),
+(23, 13, 4, 'qrwaesdtyfhjkn', '2025-06-03 19:55:03', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,8 @@ INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `created_at`, `status`) V
 (28, 13, '87.38', '2025-05-31 13:22:46', 'Chờ xác nhận'),
 (29, 13, '262.14', '2025-05-31 13:34:37', 'Chờ xác nhận'),
 (30, 13, '195.78', '2025-05-31 13:44:25', 'Đã hủy'),
-(31, 13, '87.38', '2025-05-31 14:04:18', 'Đã hủy');
+(31, 13, '87.38', '2025-05-31 14:04:18', 'Đã hủy'),
+(32, 13, '262.14', '2025-06-03 13:57:32', 'Hoàn thành');
 
 -- --------------------------------------------------------
 
@@ -195,7 +196,8 @@ INSERT INTO `order_addresses` (`id`, `order_id`, `name`, `phone`, `email`, `addr
 (11, 28, 'sadf', '123456789', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-05-31 13:22:46', '2025-05-31 13:22:46'),
 (12, 29, 'sadf', '123456788', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-05-31 13:34:37', '2025-05-31 13:34:37'),
 (13, 30, 'sadf', '123456789', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-05-31 13:44:25', '2025-05-31 13:44:25'),
-(14, 31, 'sadf', '1234567677', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-05-31 14:04:18', '2025-05-31 14:04:18');
+(14, 31, 'sadf', '1234567677', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-05-31 14:04:18', '2025-05-31 14:04:18'),
+(15, 32, 'sadf', '123456789', 'vudinhbac123@gmail.com', 'ádfasdfasdfads ', '', '2025-06-03 13:57:32', '2025-06-03 13:57:32');
 
 -- --------------------------------------------------------
 
@@ -234,7 +236,8 @@ INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `price`
 (41, 29, 4, 3, '87.38'),
 (42, 30, 9, 2, '97.89'),
 (43, 30, 9, 2, '97.89'),
-(44, 31, 4, 1, '87.38');
+(44, 31, 4, 1, '87.38'),
+(45, 32, 4, 3, '87.38');
 
 -- --------------------------------------------------------
 
@@ -265,7 +268,30 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `category
 (8, 'Coffee', 'Rest something scientist process reason.', '68.93', '1748422973_IMG_0066.JPG', 5, 0, '2025-04-20 08:24:27', 0, 1),
 (9, 'Macchiato', 'Likely movement goal soon.', '97.89', '1748424182_IMG_1344.PNG', 6, 105, '2025-02-01 02:20:49', 0, 1),
 (10, 'Brew', 'Interesting edge general positive.', '13.47', 'http://placeimg.com/640/480/any', 9, 20, '2025-02-01 00:35:29', 0, 1),
-(11, 'sdf', 'ádf', '2.00', '1748425462_IMG_0066.JPG', 5, 0, '2025-05-28 16:44:22', NULL, 1);
+(23, 'Coffee111', 'qư', '123.00', NULL, 7, 0, '2025-06-04 22:51:14', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_variants`
+--
+
+CREATE TABLE `product_variants` (
+  `id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `size` varchar(10) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `product_variants`
+--
+
+INSERT INTO `product_variants` (`id`, `product_id`, `size`, `price`, `created_at`, `updated_at`) VALUES
+(14, 23, 'M', '12.00', '2025-06-04 15:51:14', '2025-06-04 15:51:14'),
+(15, 23, 'M', '13.00', '2025-06-04 15:51:14', '2025-06-04 15:52:32');
 
 -- --------------------------------------------------------
 
@@ -339,6 +365,30 @@ INSERT INTO `reviews` (`id`, `user_id`, `product_id`, `rating`, `comment`, `crea
 (8, 1, 4, 4, 'Loss threat join.', '2025-05-12 05:35:15'),
 (9, 5, 5, 1, 'Put might imagine especially.', '2025-02-09 20:02:53'),
 (10, 10, 10, 4, 'Message feeling reach.', '2025-04-23 05:44:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sizes`
+--
+
+CREATE TABLE `sizes` (
+  `id` int NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0 :ẩn 1 :hiện',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `sizes`
+--
+
+INSERT INTO `sizes` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'L', 1, '2025-06-04 08:02:56', '2025-06-04 08:03:03'),
+(3, 'S', 1, '2025-06-04 13:50:59', '2025-06-04 13:50:59'),
+(4, 'M', 1, '2025-06-04 13:51:08', '2025-06-04 13:51:08'),
+(5, 'XL', 1, '2025-06-04 13:51:18', '2025-06-04 13:51:18');
 
 -- --------------------------------------------------------
 
@@ -441,6 +491,13 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`);
 
 --
+-- Indexes for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `promotions`
 --
 ALTER TABLE `promotions`
@@ -454,6 +511,13 @@ ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `sizes`
+--
+ALTER TABLE `sizes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `users`
@@ -476,7 +540,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -488,31 +552,37 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `order_addresses`
 --
 ALTER TABLE `order_addresses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `promotions`
@@ -525,6 +595,12 @@ ALTER TABLE `promotions`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `sizes`
+--
+ALTER TABLE `sizes`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -560,6 +636,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_addresses`
   ADD CONSTRAINT `order_addresses_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD CONSTRAINT `product_variants_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
