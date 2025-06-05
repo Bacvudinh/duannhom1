@@ -70,7 +70,7 @@
                                     <label for="status" class="form-label">Cập nhật trạng thái</label>
                                     <select class="form-select" name="status" onchange="this.form.submit()">
                                         <option value="Chờ xác nhận" <?= $order['status'] === 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
-                                        <option value="Đang xử lý" <?= $order['status'] === 'Đang xử lý' ? 'selected' : '' ?>>Đang xử lý</option>
+                                        <option value="Chờ lấy hàng" <?= $order['status'] === 'Chờ lấy hàng' ? 'selected' : '' ?>>Chờ lấy hàng</option>
                                         <option value="Đang giao hàng" <?= $order['status'] === 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
                                         <option value="Hoàn thành" <?= $order['status'] === 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
                                         <option value="Đã hủy" <?= $order['status'] === 'Đã hủy' ? 'selected' : '' ?>>Đã hủy</option>
@@ -111,18 +111,14 @@
                                                     <td><?= htmlspecialchars($item['shipping_address']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_email']) ?></td>
-                                                    <p><strong>Trạng thái:</strong>
-                                                        <span class="<?php
-                                                                        echo $item['status'] === 'Chờ xác nhận' ? 'order-status-pending' : ($item['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
-                                                                        ?>">
-                                                            <?= htmlspecialchars($item['status']) ?>
-                                                        </span>
 
-                                                        <td><?= htmlspecialchars($item['status']) ?></td>
-                                                        <td><?= htmlspecialchars($item['product_name']) ?></td>
-                                                        <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
-                                                        <td><?= $item['quantity'] ?></td>
-                                                        <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
+
+
+                                                    <td><?= htmlspecialchars($item['status']) ?></td>
+                                                    <td><?= htmlspecialchars($item['product_name']) ?></td>
+                                                    <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
+                                                    <td><?= $item['quantity'] ?></td>
+                                                    <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

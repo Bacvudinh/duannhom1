@@ -14,7 +14,6 @@
 
     <div id="layout-wrapper">
         <?php require_once "views/layouts/siderbar.php"; ?>
-
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
