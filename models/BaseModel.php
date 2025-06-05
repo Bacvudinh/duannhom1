@@ -40,6 +40,10 @@ class BaseModel
     {
         try {
             $this->sta = $this->pdo->prepare($this->sql);
+            //  $sql = "SELECT p.*, c.name AS category_name
+            //     FROM `{$this->table}` AS p
+            //     JOIN `categories` AS c ON p.category_id = c.id
+            //     WHERE p.id = ?";
             if ($options) {
                 for ($i = 0; $i < count($options); $i++) {
                     $this->sta->bindValue($i + 1, $options[$i]);

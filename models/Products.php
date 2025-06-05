@@ -14,7 +14,7 @@ class Products extends BaseModel
             FROM `products` AS p 
             JOIN `categories` AS c ON p.category_id = c.id 
             WHERE p.status = 1 ";
-              
+
         $params = [];
 
         if ($keyword) {
@@ -52,13 +52,13 @@ class Products extends BaseModel
         return $this->loadAllRows($params);
     }
     // Hàm này dùng để lấy tất cả sản phẩm cho trang quản trị ( tách riêng để lấy cho admin )
-     public function getProductsforadmin($keyword = null)
+    public function getProductsforadmin($keyword = null)
     {
         $sql = "SELECT p.*, c.name AS category_name 
             FROM `products` AS p 
             JOIN `categories` AS c ON p.category_id = c.id 
             WHERE 1 ";
-              
+
         $params = [];
 
         if ($keyword) {
@@ -86,7 +86,7 @@ class Products extends BaseModel
         }
 
         // Phân trang
-     
+
         $this->setQuery($sql);
         return $this->loadAllRows($params);
     }
@@ -141,7 +141,7 @@ class Products extends BaseModel
         return $result;
     }
 
-    public function addProduct($name, $price, $categoryId,$status, $description = null, $image = null,$is_delete=null)
+    public function addProduct($name, $price, $categoryId, $status, $description = null, $image = null, $is_delete = null)
     {
         $data = [
             'name' => $name,
@@ -154,7 +154,7 @@ class Products extends BaseModel
         ];
         return $this->insert($data);
     }
-public function updateProduct($id, $name, $price, $categoryId,$status,$description = null,$image = null)
+    public function updateProduct($id, $name, $price, $categoryId, $status, $description = null, $image = null)
 
     {
         $data = [
@@ -164,7 +164,7 @@ public function updateProduct($id, $name, $price, $categoryId,$status,$descripti
             'status' => $status,
             'description' => $description,
             'image' => $image,
-           
+
         ];
         $where = ['id' => $id];
         return $this->update($id, $data);
@@ -175,4 +175,11 @@ public function updateProduct($id, $name, $price, $categoryId,$status,$descripti
         $where = ['id' => $id];
         return $this->deleteRow($where);
     }
+   public function updateProductStock($productId, $newStock)
+{
+    $sql = "UPDATE products SET stock = ? WHERE id = ?";
+    $this->setQuery($sql);
+    return $this->execute([$newStock, $productId]);
+}
+
 }
