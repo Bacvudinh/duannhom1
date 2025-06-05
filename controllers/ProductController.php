@@ -40,6 +40,7 @@ class ProductController
     $id = $_GET['id'] ?? 0;
 
     $product = $this->product->getProductById($id);
+    $productVariants = $this->product->getVariantsByProductId($product->id);
     if (!$product) {
         header('Location: index.php?act=listproducts');
         exit;

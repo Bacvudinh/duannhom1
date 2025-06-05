@@ -92,7 +92,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Tên người đặt</th>
+                                            
                                                 <th>Địa chỉ</th>
                                                 <th>Điện thoại</th>
                                                 <th>Email</th>
