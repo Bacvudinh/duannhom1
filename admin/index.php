@@ -4,12 +4,22 @@
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
-// Require toàn bộ file Models
-require_once '../models/BaseModel.php'; // Model cơ sở
-require_once '../models/Categories.php'; // Model danh sách loại
+// Require toàn bộ file Models của client để dùng vì tuấn anh làm nhầm model bên client 
+require_once '../models/BaseModel.php'; // Model cơ sởz
+
+require_once '../models/Categories.php'; // Model danh sách loại    
 require_once '../models/Products.php'; // Model sản phẩm
 require_once '../models/Cart.php'; // Model giỏ hàng
 require_once '../models/Comment.php'; // Model bình luận
+// kết thúc
+
+require_once 'models/ProductVariant.php'; // không cần ../ vì đã nằm trong admin/
+
+require_once "models/CommentModel.php"; // đường dẫn đến model CommentModel
+
+
+require_once 'models/Size.php';
+
 
 
 
@@ -20,6 +30,10 @@ require_once 'controllers/ProductController.php';
 require_once 'controllers/UsersController.php';
 require_once 'controllers/OrdersController.php';
 require_once 'controllers/CommentController.php'; 
+    require_once 'controllers/SizeController.php'; // Model size
+
+
+
 
 
 // Route
@@ -45,6 +59,8 @@ match ($act) {
     'addProduct'            => (new ProductsController())->add(),
     'saveProduct'           => (new ProductsController())->save(),
     'editProduct'           => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->edit($_GET['id']) : (new ProductsController())->index(),
+    'productVariants'       => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->productVariants($_GET['id']) : (new ProductsController())->index(),
+    'deleteVariant'          => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->deleteVariant($_GET['id']) : (new ProductsController())->index(),
     'updateProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->update($_GET['id']) : (new ProductsController())->index(),
     'deleteProduct'         => isset($_GET['id']) && ($_GET['id']) ? (new ProductsController())->delete($_GET['id']) : (new ProductsController())->index(),
 
@@ -67,4 +83,12 @@ match ($act) {
     'admin_comment_update'   => (new CommentController())->update(),
     'admin_comment_delete'   => (new CommentController())->delete(),
     'admin_comment_toggle'   => (new CommentController())->toggle(),
+        // sizesize admin
+    'admin_sizes'         => (new SizeController())->index(),
+    'admin_size_add'        => (new SizeController())->add(),
+    'admin_size_save'       => (new SizeController())->save(),
+    'admin_size_edit'     => (new SizeController())->edit(),
+    'admin_size_update'   => (new SizeController())->update(),
+    'admin_size_delete'   => (new SizeController())->delete(),
+    'admin_size_toggle'   => (new SizeController())->toggle(),
 };

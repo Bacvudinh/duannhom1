@@ -97,9 +97,16 @@ class BaseModel
     }
 
     // Các hàm CRUD chung (dựa trên thuộc tính $table)
-    public function getAll()
+    public function getAll()// danhf cho bên admin
+
     {
         $this->sql = "SELECT * FROM {$this->table}";
+        return $this->loadAllRows();
+    }
+     public function getAllClient()// danhf cho bên admin
+    
+    {
+        $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";
         return $this->loadAllRows();
     }
 
@@ -109,14 +116,20 @@ class BaseModel
         return $this->loadRow([$id]);
     }
 
-    public function insert($data)
-    {
-        $keys = implode(',', array_keys($data));
-        $values = ':' . implode(', :', array_keys($data));
-        $this->sql = "INSERT INTO {$this->table} ($keys) VALUES ($values)";
-        $this->sta = $this->pdo->prepare($this->sql);
-        return $this->sta->execute($data);
+   public function insert($data)
+{
+    $keys = implode(',', array_keys($data));
+    $values = ':' . implode(', :', array_keys($data));
+    $this->sql = "INSERT INTO {$this->table} ($keys) VALUES ($values)";
+    $this->sta = $this->pdo->prepare($this->sql);
+
+    if ($this->sta->execute($data)) {
+        return $this->pdo->lastInsertId(); // ✅ Trả về ID vừa thêm
     }
+
+    return false; // ❌ Trả về false nếu thêm thất bại
+}
+
 
     public function update($id, $data)
     {

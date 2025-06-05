@@ -46,7 +46,7 @@ class CartController
     }
 
     $productId = $_POST['product_id'] ?? 0;
-    $quantity = max(1, (int)($_POST['quantity'] ?? 1)); // Đảm bảo dương
+    $quantity = max(1, (int)($_POST['quantity'] ?? 1));
 
     $product = $this->productModel->getProductById($productId);
     if (!$product) {
@@ -55,6 +55,7 @@ class CartController
         exit;
     }
 
+    // ✅ Kiểm tra tồn kho nhưng KHÔNG trừ số lượng
     if ($product->stock < $quantity) {
         $_SESSION['add_to_cart_error'] = "Sản phẩm '{$product->name}' chỉ còn {$product->stock} cái.";
         header("Location: index.php?act=product_detail&id=$productId");
@@ -65,17 +66,14 @@ class CartController
     $cart = $this->cartModel->getCartByUserId($userId);
     $cartId = $cart ? $cart->id : $this->cartModel->createCart($userId);
 
-    // ✅ Thêm vào giỏ trước
+    // ✅ Thêm vào giỏ mà KHÔNG giảm tồn kho
     $this->cartModel->addItemToCart($cartId, $productId, $quantity, $product->price);
-
-    // ✅ Chỉ trừ tồn kho sau khi kiểm tra OK
-    $newStock = $product->stock - $quantity;
-    $this->productModel->updateProductStock($productId, $newStock);
 
     $_SESSION['add_to_cart_success'] = "Đã thêm '{$product->name}' vào giỏ hàng.";
     header("Location: index.php?act=product_detail&id=$productId");
     exit;
 }
+
 
 
     // Xóa sản phẩm khỏi giỏ hàng
@@ -137,104 +135,59 @@ class CartController
 
 
     // Đặt hàng (tạo đơn hàng + chi tiết)
-    public function placeOrder()
+   public function placeOrder()
+{
+    if (!isset($_SESSION['user']) || !isset($_SESSION['checkout_info'])) {
+        header('Location: index.php?act=loginForm');
+        exit;
+    }
+
+    $userId = $_SESSION['user']['id'];
+    $cart = $this->cartModel->getCartByUserId($userId);
+    $cartItems = $this->cartModel->getCartItems($cart->id);
+
+    if (empty($cartItems)) {
+        header('Location: index.php?act=cart');
+        exit;
+    }
+
+    $total = 0;
+    foreach ($cartItems as $item) {
+        $total += $item->price * $item->quantity;
+    }
+
+    // Tạo đơn hàng với trạng thái thanh toán là "Chưa thanh toán"
+    $orderId = $this->orderModel->createOrder($userId, $total, 'Chưa thanh toán');
+
+    foreach ($cartItems as $item) {
+        $this->orderModel->insertOrderDetail($orderId, $item->product_id, $item->quantity, $item->price);
+    }
+
+    $info = $_SESSION['checkout_info'];
+    $this->orderModel->insertOrderAddress($orderId, $info['name'], $info['email'], $info['phone'], $info['address'], $info['note']);
+
+    // ❌ Không cập nhật thanh toán ở đây nữa
+    // ✅ Chỉ cập nhật khi chuyển trạng thái đơn hàng sang 'Hoàn thành'
+
+    $this->cartModel->clearCart($cart->id);
+    unset($_SESSION['checkout_info']);
+
+    echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
+}
+
+    public function updateCart()
     {
-        if (!isset($_SESSION['user']) || !isset($_SESSION['checkout_info'])) {
+        if (!isset($_SESSION['user'])) {
             header('Location: index.php?act=loginForm');
             exit;
         }
 
-        $userId = $_SESSION['user']['id'];
-        $cart = $this->cartModel->getCartByUserId($userId);
-        $cartItems = $this->cartModel->getCartItems($cart->id);
-
-        if (empty($cartItems)) {
-            header('Location: index.php?act=cart');
-            exit;
+        // Lấy danh sách số lượng từ POST
+        foreach ($_POST['quantities'] as $itemId => $quantity) {
+            $this->cartModel->updateItemQuantity($itemId, $quantity);
         }
 
-        $total = 0;
-        foreach ($cartItems as $item) {
-            $total += $item->price * $item->quantity;
-        }
-
-        // Tạo đơn hàng
-        $orderId = $this->orderModel->createOrder($userId, $total);
-
-        // Thêm chi tiết đơn hàng
-        foreach ($cartItems as $item) {
-            $this->orderModel->insertOrderDetail($orderId, $item->product_id, $item->quantity, $item->price);
-        }
-
-        // Thêm thông tin địa chỉ người nhận vào bảng order_addresses
-        $info = $_SESSION['checkout_info'];
-        $this->orderModel->insertOrderAddress($orderId, $info['name'], $info['email'], $info['phone'], $info['address'], $info['note']);
-
-        // Xóa giỏ hàng
-        $this->cartModel->clearCart($cart->id);
-
-        // Xóa session info checkout
-        unset($_SESSION['checkout_info']);
-
-        echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
-    }
-    public function updateCart()
-    {
-        if (!isset($_SESSION['user'])) {
-            echo json_encode(['success' => false, 'message' => 'Chưa đăng nhập']);
-            return;
-        }
-
-        $itemId = $_POST['item_id'] ?? null;
-        $newQuantity = $_POST['quantity'] ?? null;
-
-        if (!$itemId || !$newQuantity || $newQuantity <= 0) {
-            echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ']);
-            return;
-        }
-
-        // 1. Lấy thông tin item hiện tại
-        $sql = "SELECT * FROM cart_items WHERE id = ?";
-        $this->cartModel->setQuery($sql);
-        $item = $this->cartModel->loadRow([$itemId]);
-
-        if (!$item) {
-            echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm']);
-            return;
-        }
-
-        $oldQuantity = $item->quantity;
-        $productId = $item->product_id;
-
-        // 2. Lấy thông tin sản phẩm để cập nhật tồn kho
-        $product = $this->productModel->getProductById($productId);
-        if (!$product) {
-            echo json_encode(['success' => false, 'message' => 'Sản phẩm không tồn tại']);
-            return;
-        }
-
-        $stock = $product->stock;
-        $difference = $newQuantity - $oldQuantity;
-        // Nếu tăng số lượng -> cần trừ tồn kho
-        if ($difference > 0) {
-            if ($stock < $difference) {
-                echo json_encode(['success' => false, 'message' => "Chỉ còn lại {$stock} sản phẩm trong kho."]);
-                return;
-            }
-            $newStock = $stock - $difference;
-        } else {
-            // Nếu giảm số lượng -> cộng lại tồn kho
-            $newStock = $stock + abs($difference);
-        }
-
-        // 3. Cập nhật tồn kho
-        $this->productModel->updateProductStock($productId, $newStock);
-
-        // 4. Cập nhật lại giỏ hàng
-        $sql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
-        $this->cartModel->setQuery($sql);
-        $this->cartModel->execute([(int)$newQuantity, (int)$itemId]);
-
-        echo json_encode(['success' => true]);
+        // Chuyển hướng về giỏ hàng
+        header('Location: index.php?act=cart');
     }
 }

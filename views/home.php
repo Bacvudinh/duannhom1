@@ -192,6 +192,19 @@
 
 <!-- Coffee Menu Section with Image -->
 
+
+
+<!-- <div class="h1-coffee-menu-section section section-padding">
+    <div class="container text-center">
+        <div class="section-title section-title-center mb-5">
+            <p class="title">Simple Menu</p>
+            <h2 class="sub-title">OUR POPULAR MENU</h2>
+        </div>
+
+        <img src="assets/images/banner/image.png" alt="BEE Coffee & Tea Menu" class="img-fluid rounded shadow" loading="lazy">
+    </div>
+</div> -->
+
 <!-- Coffee Menu Section End -->
 
 <!-- Product Section Start -->

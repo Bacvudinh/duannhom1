@@ -1,18 +1,21 @@
 <?php
-// admin/controllers/ProductsController.php
 
-require_once "../models/Products.php";
-require_once "../models/Categories.php";
+
+require_once __DIR__ . '/../models/ProductVariant.php';
 
 class ProductsController
 {
     private $productModel;
     private $categoryModel;
+    private $sizeModel;
+    private $variantModel;
 
     public function __construct()
     {
         $this->productModel = new Products();
         $this->categoryModel = new Categories();
+        $this->sizeModel = new Size();
+        $this->variantModel = new ProductVariant();
     }
 
     public function index()
@@ -21,11 +24,49 @@ class ProductsController
         $listProducts = $this->productModel->getProductsforadmin($keyword);
         require_once "./views/Product/Product.php";
     }
+  public function productVariants()
+{
+    // Kiểm tra đăng nhập và quyền admin
+    
+
+    $productId = $_GET['id'] ?? 0;
+    
+    // Lấy thông tin sản phẩm
+    $product = $this->productModel->getProductById($productId);
+    if (!$product) {
+        header('Location: index.php?act=products');
+        exit;
+    }
+    
+    // Lấy danh sách biến thể
+    $variants = $this->variantModel->getProductVariants($productId);
+    
+    // Hiển thị view
+    require_once 'views/Product/product_variants.php';
+}
+public function deleteVariant()
+{
+    // Kiểm tra đăng nhập và quyền admin
+    // if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
+    //     header('Location: index.php?act=login');
+    //     exit;
+    // }
+
+    $variantId = $_GET['id'] ?? 0;
+    $productId = $_GET['product_id'] ?? 0;
+    
+    if ($variantId > 0) {
+        $this->variantModel->deleteVariant($variantId);
+    }
+    
+    header("Location: index.php?act=productVariants&id=$productId");
+    exit;
+}
 
     public function add()
     {
         $listCategories = $this->categoryModel->getActiveCategories();
-        // Khởi tạo $error rỗng để tránh lỗi "Undefined variable" khi load view lần đầu
+        $sizes = $this->sizeModel->getAllSize();
         $error = [];
         require_once "./views/Product/addProduct.php";
     }
@@ -34,20 +75,33 @@ class ProductsController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
-            $price = $_POST['price'] ?? 0;
+            $price = $_POST['price'] ?? 0; // Giá mặc định
             $categoryId = $_POST['category_id'] ?? 0;
-            $status= $_POST['status']=1 ; // Mặc định là 1 (có thể thêm trường này nếu cần)
-
+            $status = 1;
             $description = $_POST['description'] ?? '';
             $image = null;
-            $is_delete=null;
-           
+            $is_delete = null;
             $error = [];
 
-            if (empty($name)) { $error[] = "Vui lòng nhập tên sản phẩm."; }
-            if (empty($price) || !is_numeric($price) || $price <= 0) { $error[] = "Giá sản phẩm không hợp lệ."; }
-            if (empty($categoryId)) { $error[] = "Vui lòng chọn danh mục."; }
+            // Xử lý biến thể
+            $variants = [];
+            if (isset($_POST['size_id']) && is_array($_POST['size_id'])) {
+                foreach ($_POST['size_id'] as $index => $size_id) {
+                    if (!empty($size_id) && isset($_POST['variant_price'][$index])) {
+                        $variants[] = [
+                            'size_id' => $size_id,
+                            'price' => $_POST['variant_price'][$index]
+                        ];
+                    }
+                }
+            }
 
+            // Validate dữ liệu
+            if (empty($name)) { $error[] = "Vui lòng nhập tên sản phẩm."; }
+            if (empty($categoryId)) { $error[] = "Vui lòng chọn danh mục."; }
+            if (empty($variants)) { $error[] = "Vui lòng thêm ít nhất một biến thể size."; }
+
+            // Xử lý upload ảnh
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = '../uploads/product/';
                 if (!is_dir($uploadDir)) { mkdir($uploadDir, 0777, true); }
@@ -64,23 +118,35 @@ class ProductsController
             }
 
             if (empty($error)) {
-                if ($this->productModel->addProduct($name, $price, $categoryId,$status, $description,$image, $is_delete)) {
-                    header("Location: index.php?act=Product&success=add");
+                // Thêm sản phẩm chính
+                $productId = $this->productModel->addProduct($name, $price, $categoryId, $status, $description, $image, $is_delete);
+          
+                if ($productId) {
+                    // Thêm các biến thể
+                    foreach ($variants as $variant) {
+                        $this->variantModel->addVariant($productId, $variant['size_id'], $variant['price']);
+                    }
+                    
+                    $_SESSION['success'] = "Thêm sản phẩm thành công";
+                    header("Location: index.php?act=Product");
                     exit();
                 } else {
                     $error[] = "Thêm sản phẩm thất bại vào cơ sở dữ liệu.";
                 }
             }
 
-            // Nếu có lỗi, vẫn cần load danh mục và hiển thị lại form với lỗi
-            $listCategories = $this->categoryModel->getAllCategories();
+            // Nếu có lỗi, hiển thị lại form với dữ liệu đã nhập
+            $listCategories = $this->categoryModel->getActiveCategories();
+            $sizes = $this->sizeModel->getAllSize();
             require_once "./views/Product/addProduct.php";
-
         } else {
             header("Location: index.php?act=addProduct");
             exit();
         }
     }
+
+    // ... (giữ nguyên các phương thức khác)
+
 
     public function edit($id)
     {

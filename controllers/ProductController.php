@@ -30,7 +30,7 @@ class ProductController
         // Lấy danh sách sản phẩm theo trang
         $products = $this->product->getProducts($keyword, $limit, $offset);
         // Lấy danh sách sản phẩm theo loại 
-        $categories  = $this->category->getAllCategories();
+        $categories  = $this->category->getAllCategoriesClient();
         // Gọi view và truyền biến
         require_once './views/listproducts.php';
     }

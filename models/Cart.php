@@ -57,5 +57,11 @@ class Cart extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$cartId]);
     }
+    public function updateItemQuantity($itemId, $quantity)
+{
+    $sql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+    $this->setQuery($sql);
+    return $this->execute([(int)$quantity, (int)$itemId]);
+}
     
 }
