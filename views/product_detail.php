@@ -70,14 +70,6 @@
                       </div>
                       <ul class="single-product-meta">
                           <li><span class="label">Danh mục :</span> <span class="value"><?= htmlspecialchars($product->category_name) ?></span></li>
-
-                          <li><span class="label">Số lượng :</span> <span class="value"><?= intval($product->stock) ?></span></li>
-                          <?php if ($product->stock > 0): ?>
-    <!-- Hiển thị form thêm vào giỏ -->
-<?php else: ?>
-    <p class="text-danger">Sản phẩm đã hết hàng</p>
-<?php endif; ?>
-
                       </ul>
                       <div class="single-product-text">
 
