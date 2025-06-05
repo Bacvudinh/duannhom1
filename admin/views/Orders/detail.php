@@ -52,7 +52,7 @@
                     <!-- Thông tin đơn hàng -->
                     <div class="card mt-3">
                         <div class="card-body">
-                            <p><strong>Khách hàng (User ID):</strong> <?= htmlspecialchars($order['user_id']) ?></p>
+                            <p><strong>Khách hàng :</strong> <?= htmlspecialchars($order['user_name']) ?></p>
                             <p><strong>Trạng thái:</strong>
                                 <span class="<?php
                                                 echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' : ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
@@ -107,7 +107,7 @@
                                         <tbody>
                                             <?php foreach ($order_items as $item): ?>
                                                 <tr>
-                                                    <td><?= htmlspecialchars($item['shipping_name']) ?></td>
+                                                
                                                     <td><?= htmlspecialchars($item['shipping_address']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_email']) ?></td>

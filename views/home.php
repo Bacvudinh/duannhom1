@@ -204,7 +204,7 @@
 <!-- Coffee Menu Section End -->
 
 <!-- Product Section Start -->
-<div class="h1-product-section section section-padding pt-0">
+<div class="h1-product-section section section-padding pt-6">
     <div class="container">
         <div class="section-title section-title-center">
             <p class="title">What Happens Here</p>
@@ -290,7 +290,7 @@
 <!-- Product Section End -->
 
 <!-- Testimonial Section Start -->
-<div class="h1-testimonial-section section section-padding bg-light">
+<!-- <div class="h1-testimonial-section section section-padding bg-light">
     <div class="container">
         <div class="section-title section-title-center">
             <p class="title">What Client Says</p>
@@ -331,7 +331,7 @@
         </div>
 
     </div>
-</div>
+</div> -->
 <!-- Testimonial Section End -->
 
 <!-- Gallery Section Start -->

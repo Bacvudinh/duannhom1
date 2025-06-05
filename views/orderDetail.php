@@ -1,5 +1,4 @@
 <?php require_once './views/layout/header.php'; ?>
-
 <div class="container section-padding">
     <h2 class="mb-4">Chi tiết đơn hàng #<?= htmlspecialchars($_GET['order_id'] ?? '') ?></h2>
 
@@ -59,5 +58,4 @@
 
     <a href="index.php?act=myOrders" class="btn btn-secondary mt-3">Quay lại danh sách đơn hàng</a>
 </div>
-
 <?php require_once './views/layout/footer.php'; ?>
