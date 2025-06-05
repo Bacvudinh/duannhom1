@@ -37,7 +37,16 @@ class Order extends BaseModel
     public function find($id)
     {
         // Lấy thông tin đơn hàng
-        $stmt = $this->conn->prepare("SELECT * FROM orders WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT 
+    orders.*,
+    users.name AS user_name,
+    users.email AS user_email
+FROM 
+    orders
+INNER JOIN 
+    users ON orders.user_id = users.id
+WHERE 
+    orders.id = ?");
         $stmt->execute([$id]);
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
