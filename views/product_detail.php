@@ -31,9 +31,9 @@
                           <!-- Product Badge End -->
                           <div class="swiper-wrapper">
                               <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-2.png" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-3.png" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide image-zoom"><img src="assets/images/products/single/single-product-4.png" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
                           </div>
                           <div class="swiper-pagination d-none"></div>
                           <div class="swiper-button-prev d-none"></div>
@@ -45,9 +45,9 @@
                       <div class="product-thumb-carousel swiper">
                           <div class="swiper-wrapper">
                               <div class="swiper-slide"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-2.jpg" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-3.jpg" alt="Signature Blend Roast Coffee"></div>
-                              <div class="swiper-slide"><img src="assets/images/products/single/single-product-thumb-4.jpg" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
+                              <div class="swiper-slide image-zoom"><img src="uploads/product/<?= $product->image ?>" alt="Signature Blend Roast Coffee"></div>
                           </div>
                           <div class="swiper-pagination d-none"></div>
                           <div class="swiper-button-prev"></div>
@@ -63,7 +63,7 @@
               <div class="col mb-6">
                   <div class="single-product-content">
                       <h1 class="single-product-title"><?= htmlspecialchars($product->name) ?></h1>
-                      <div class="single-product-price">$<?= number_format($product->price, 2) ?>
+                      <div class="single-product-price">$<?= number_format($product->price) ?>
                           <?php if (!empty($product->old_price)): ?>
                               <del>$<?= number_format($product->old_price, 2) ?></del>
                           <?php endif; ?>
@@ -505,7 +505,7 @@
 
 
 
-                                          $<?= number_format($item->price, 2) ?>
+                                          <?= number_format($item->price) ?>
 
                                       </div>
                                       <div class="product-rating">

@@ -106,10 +106,11 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=Orders">
                         <i class="ri-shopping-cart-line"></i> <span data-key="t-orders">Quản lý đơn hàng</span>
-                    </a>
+                    </a>    
                 </li>
-
-                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Bán hàng</span></li>
+                <a href="index.php?act=/"><span data-key="t-pages">Quay lại trang chủ</span></a>
+              
+                
 
             </ul>
         </div>
