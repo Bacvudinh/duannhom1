@@ -72,7 +72,8 @@
                   <div class="single-product-content">
                       <h1 class="single-product-title"><?= htmlspecialchars($product->name) ?></h1>
                       <div class="single-product-price">
-                       <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> VND</span>
+                      <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> đ</span>
+
                       </div>
                       <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -82,7 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
     sizeRadios.forEach(radio => {
         radio.addEventListener('change', function () {
             const newPrice = this.getAttribute('data-price');
-            priceDisplay.textContent = `$${parseFloat(newPrice).toFixed(2)}`;
+            priceDisplay.textContent = `${parseFloat(newPrice).toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })}`;
         });
     });
 });
@@ -90,14 +94,14 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const   Radios = document.querySelectorAll('input[name="size"]');
+    const sizeRadios = document.querySelectorAll('input[name="size"]');
     const priceDisplay = document.getElementById('dynamic-price');
 
     sizeRadios.forEach(radio => {
         radio.addEventListener('change', function () {
             const newPrice = this.getAttribute('data-price');
             const formatted = new Intl.NumberFormat('vi-VN').format(newPrice);
-            priceDisplay.textContent = `${formatted} VND`;
+            priceDisplay.textContent = `${formatted} đ`;
         });
     });
 });
@@ -208,12 +212,23 @@ document.addEventListener("DOMContentLoaded", function () {
           <!-- Single Product Bottom (Description) Area Start -->
           <div class="single-product-description-area">
               <div class="nav single-product-description-area-nav">
-                  <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
-                  <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
-                  <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
-                  <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
-                  <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
-              </div>
+    <button class="active" data-bs-toggle="tab" data-bs-target="#product-description" style="color: black;">
+        Description
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-comments" style="color: black;">
+        Comments
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-reviews" style="color: black;">
+        Reviews
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-size-chart" style="color: black;">
+        Size Chart
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy" style="color: black;">
+        Shipping Policy
+    </button>
+</div>
+
               <div class="tab-content">
                   <!-- Description Start -->
                   <div class="tab-pane fade show active" id="product-description">
