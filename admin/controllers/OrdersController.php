@@ -8,7 +8,7 @@ class OrdersController {
         require 'views/orders/index.php';
     }
 
-    public function detail($id) {
+    public function     detail($id) {
         $orderModel = new Order();
         $order = $orderModel->find($id);
 
