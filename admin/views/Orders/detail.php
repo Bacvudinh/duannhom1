@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require_once "views/layouts/libs_css.php"; ?>
     <style>
-        .order-status-pending {
-            color: orange;
-            font-weight: 600;
-        }
+    .order-status-pending {
+        color: orange;
+        font-weight: 600;
+    }
 
-        .order-status-completed {
-            color: green;
-            font-weight: 600;
-        }
+    .order-status-completed {
+        color: green;
+        font-weight: 600;
+    }
 
-        .order-status-cancelled {
-            color: red;
-            font-weight: 600;
-        }
+    .order-status-cancelled {
+        color: red;
+        font-weight: 600;
+    }
     </style>
 </head>
 
@@ -43,10 +43,10 @@
 
                     <!-- Thông báo -->
                     <?php if (isset($_GET['error'])): ?>
-                        <div class="alert alert-danger mt-3"><?= htmlspecialchars($_GET['error']) ?></div>
+                    <div class="alert alert-danger mt-3"><?= htmlspecialchars($_GET['error']) ?></div>
                     <?php endif; ?>
                     <?php if (isset($_GET['success'])): ?>
-                        <div class="alert alert-success mt-3">Cập nhật trạng thái thành công!</div>
+                    <div class="alert alert-success mt-3">Cập nhật trạng thái thành công!</div>
                     <?php endif; ?>
 
                     <!-- Thông tin đơn hàng -->
@@ -63,32 +63,50 @@
                             </p>
                             <p><strong>Ngày đặt hàng:</strong> <?= $order['created_at'] ?></p>
 
-                            <p><strong>Trạng thái thanh toán:</strong> 
-                                <span class="<?= $order['payment_status'] === 'Đã thanh toán' ? 'order-status-completed' : 'order-status-pending' ?>">
+                            <p><strong>Trạng thái thanh toán:</strong>
+                                <span
+                                    class="<?= $order['payment_status'] === 'Đã thanh toán' ? 'order-status-completed' : 'order-status-pending' ?>">
                                     <?= htmlspecialchars($order['payment_status'] ?? 'Chưa thanh toán') ?>
                                 </span>
                             </p>
 
                             <?php if (($order['payment_status'] ?? '') === 'Chưa thanh toán' && $_SESSION['user']['id'] == $order['user_id']): ?>
-                                
+
                             <?php endif; ?>
 
                             <!-- Form cập nhật trạng thái -->
-                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end mt-3">
+                            <form method="POST" action="index.php?act=updateOrderStatus"
+                                class="row g-3 align-items-end mt-3">
                                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                                 <div class="col-md-4">
                                     <label for="status" class="form-label">Cập nhật trạng thái</label>
                                     <select class="form-select" name="status" onchange="this.form.submit()">
-                                        <option value="Chờ xác nhận" <?= $order['status'] === 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
-                                        <option value="Xác nhận" <?= $order['status'] === 'Xác nhận' ? 'selected' : '' ?>>Xác nhận</option>
-                                        <option value="Đang giao hàng" <?= $order['status'] === 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
-                                        <option value="Đã giao hàng" <?= $order['status'] === 'Đã giao hàng' ? 'selected' : '' ?>>Đã giao hàng</option>
-                                        <option value="Hoàn thành" <?= $order['status'] === 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
-                                        <option value="Đã hủy" <?= $order['status'] === 'Đã hủy' ? 'selected' : '' ?>>Đã hủy</option>
+                                        <option value="Chờ xác nhận"
+                                            <?= $order['status'] === 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận
+                                        </option>
+                                        <option value="Xác nhận"
+                                            <?= $order['status'] === 'Xác nhận' ? 'selected' : '' ?>>Xác nhận</option>
+                                        <option value="Đang giao hàng"
+                                            <?= $order['status'] === 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao
+                                                hàng</option>
+                                        <option value="Đã giao hàng"
+                                            <?= $order['status'] === 'Đã giao hàng' ? 'selected' : '' ?>>Đã giao hàng
+                                        </option>
+
+
+                                        <?php if ($order['payment_status'] === 'Đã thanh toán'): ?>
+                                        <option value="Hoàn thành"
+                                            <?= $order['status'] === 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành
+                                        </option>
+                                        <?php endif; ?>
+
+
+                                        <option value="Đã hủy" <?= $order['status'] === 'Đã hủy' ? 'selected' : '' ?>>Đã
+                                            hủy</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                    <button onclick="return confirm('Bạn muốn cập nhập đơn hàng nây ?')" type="submit" class="btn btn-primary">Cập nhật</button>
                                 </div>
                             </form>
                         </div>
@@ -99,38 +117,49 @@
                         <div class="card-body">
                             <h5>Chi tiết sản phẩm trong đơn hàng</h5>
                             <?php if (!empty($order_items)): ?>
-                                <div class="table-responsive mt-3">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Địa chỉ</th>
-                                                <th>Điện thoại</th>
-                                                <th>Email</th>
-                                                <th>Trạng thái</th>
-                                                <th>Sản phẩm</th>
-                                                <th>Giá</th>
-                                                <th>Số lượng</th>
-                                                <th>Tổng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($order_items as $item): ?>
-                                                <tr>
-                                                    <td><?= htmlspecialchars($item['shipping_address']) ?></td>
-                                                    <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
-                                                    <td><?= htmlspecialchars($item['shipping_email']) ?></td>
-                                                    <td><?= htmlspecialchars($item['status']) ?></td>
-                                                    <td><?= htmlspecialchars($item['product_name']) ?></td>
-                                                    <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
-                                                    <td><?= $item['quantity'] ?></td>
-                                                    <td><?= number_format($item['price'] * $item['quantity'], 0, '.', ',') ?>₫</td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Địa chỉ</th>
+                                            <th>Điện thoại</th>
+                                            <th>Email</th>
+                                            <th>Trạng thái</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                        $grand_total = 0; // Khởi tạo biến tổng
+                        foreach ($order_items as $item): 
+                            $item_total = $item['price'] * $item['quantity'];
+                            $grand_total += $item_total;
+                        ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($item['shipping_address']) ?></td>
+                                            <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
+                                            <td><?= htmlspecialchars($item['shipping_email']) ?></td>
+                                            <td><?= htmlspecialchars($item['status']) ?></td>
+                                            <td><?= htmlspecialchars($item['product_name']) ?></td>
+                                            <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
+                                            <td><?= $item['quantity'] ?></td>
+                                            <td><?= number_format($item_total, 0, '.', ',') ?>₫</td>
+                                        </tr>
+                                        <?php endforeach; ?>
+
+                                        <!-- Dòng tổng cộng -->
+                                        <tr>
+                                            <td colspan="7" class="text-end fw-bold">Tổng cộng:</td>
+                                            <td class="fw-bold"><?= number_format($grand_total, 0, '.', ',') ?>₫</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <?php else: ?>
-                                <p>Không có sản phẩm nào trong đơn hàng này.</p>
+                            <p>Không có sản phẩm nào trong đơn hàng này.</p>
                             <?php endif; ?>
                         </div>
                     </div>

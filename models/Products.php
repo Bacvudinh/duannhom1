@@ -51,6 +51,39 @@ class Products extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows($params);
     }
+public function TopProducts($limit = 10)
+{
+    $sql = "SELECT 
+    p.id,
+    p.name,
+    p.price,
+    p.image,
+    c.name AS category_name,
+    SUM(od.quantity) AS total_sold
+FROM 
+    products p
+JOIN 
+    order_details od ON p.id = od.product_id
+JOIN 
+    orders o ON od.order_id = o.id
+LEFT JOIN
+    categories c ON p.category_id = c.id
+WHERE 
+    o.status NOT IN ('Chờ xác nhận', 'Đã hủy')
+    AND p.status = 1  -- Chỉ lấy sản phẩm đang active
+    AND p.is_delete IS NULL  -- Chỉ lấy sản phẩm chưa bị xóa
+GROUP BY 
+    p.id, p.name, p.price, p.image, c.name
+ORDER BY 
+    total_sold DESC
+LIMIT $limit"; // Truyền trực tiếp số nguyên
+
+    $this->setQuery($sql);
+    return $this->loadAllRows(); // Không cần truyền mảng
+}
+
+
+
     // Hàm này dùng để lấy tất cả sản phẩm cho trang quản trị ( tách riêng để lấy cho admin )
 public function getProductsforadmin($keyword = null)
 {

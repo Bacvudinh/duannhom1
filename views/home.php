@@ -206,6 +206,84 @@
 <!-- Product Section Start -->
 <div class="h1-product-section section section-padding pt-6">
     <div class="container">
+          <div class="section-title section-title-center">
+            <p class="title"> Products </p>
+            <h2 class="sub-title">Top Selling</h2>
+
+        </div>
+
+        <div class="product-carousel swiper">
+
+            <div class="swiper-wrapper">
+
+                <?php foreach ($topproducts as $product): ?>
+                    <div class="swiper-slide">
+                        <div class="product">
+                            <div class="product-thumb">
+                                <a href="index.php?act=product_detail&id=<?= $product->id ?>" class="product-image">
+                                    <img loading="lazy"  src="uploads/product/<?= $product->image ?>" alt="<?= htmlspecialchars($product->name) ?>" width="268" height="306">
+                                                           
+
+                                <?php if (!empty($product->is_new)): ?>
+                                    <div class="product-badge-left">
+                                        <span class="product-badge-new">new</span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($product->discount_percent)): ?>
+                                    <div class="product-badge-right">
+                                        <span class="product-badge-sale">sale</span>
+                                        <span class="product-badge-sale">-<?= $product->discount_percent ?>%</span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="product-action">
+                                    <button class="product-action-btn" data-tooltip-text="Quick View" data-bs-toggle="modal" data-bs-target="#exampleProductModal"><i class="sli-magnifier"></i></button>
+                                    <button class="product-action-btn" data-tooltip-text="Add to wishlist"><i class="sli-heart"></i></button>
+                                    <button class="product-action-btn" data-tooltip-text="Compare"><i class="sli-refresh"></i></button>
+                                    <button class="product-action-btn" data-tooltip-text="Add to cart"><i class="sli-bag"></i></button>
+                                </div>
+
+                                <div class="product-variation">
+                                    <div class="product-variation-type">
+                                        <button class="product-variation-type-btn" data-tooltip-text="White"><img loading="lazy" src="assets/images/products/variation/type/type-1.jpg" alt="white" width="23" height="23"></button>
+                                        <button class="product-variation-type-btn" data-tooltip-text="Gold"><img loading="lazy" src="assets/images/products/variation/type/type-2.jpg" alt="gold" width="23" height="23"></button>
+                                        <button class="product-variation-type-btn" data-tooltip-text="Black"><img loading="lazy" src="assets/images/products/variation/type/type-3.jpg" alt="black" width="23" height="23"></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product-content">
+                                <h5 class="product-title"><a href="#"><?= htmlspecialchars($product->name) ?></a></h5>
+
+                                <div class="product-price">
+                                    <?php if (!empty($product->discount_price)): ?>
+                                        <del><?= number_format($product->price, 0, ',', '.') ?>đ</del>
+                                        <?= number_format($product->discount_price, 0, ',', '.') ?>đ
+                                    <?php else: ?>
+                                        <?= number_format($product->price, 0, ',', '.') ?>đ
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- <div class="product-rating">
+                    <span class="product-rating-bg">
+                        <span class="product-rating-active" style="width: <?= $product->rating * 20 ?>%;"></span>
+                    </span>
+                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+
+
+
+            </div>
+
+            <div class="swiper-pagination d-md-none"></div>
+            <div class="swiper-button-prev d-none d-md-flex"></div>
+            <div class="swiper-button-next d-none d-md-flex"></div>
+        </div>
         <div class="section-title section-title-center">
             <p class="title">What Happens Here</p>
             <h2 class="sub-title">FEATURED COLLECTION</h2>

@@ -12,6 +12,7 @@ class HomeController
     {
         // Lấy danh sách sản phẩm
         $products = $this->product->getProducts();
+        $topproducts= $this->product->TopProducts(10);
 
         // Gọi view
 
