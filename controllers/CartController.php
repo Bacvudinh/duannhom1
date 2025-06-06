@@ -38,7 +38,7 @@ class CartController
     }
 
     // Thêm sản phẩm vào giỏ hàng
-   public function addToCart()
+public function addToCart()
 {
     if (!isset($_SESSION['user'])) {
         header('Location: index.php?act=loginForm');
@@ -47,27 +47,52 @@ class CartController
 
     $productId = $_POST['product_id'] ?? 0;
     $quantity = max(1, (int)($_POST['quantity'] ?? 1));
+    $variantSize = $_POST['size'] ?? '';
+
+    // Lấy danh sách biến thể theo sản phẩm
+    $variants = $this->productModel->getVariantsByProductId($productId);
+
+    $foundVariant = null;
+    foreach ($variants as $variant) {
+        if ($variant->size === $variantSize) {
+            $foundVariant = $variant;
+            break;
+        }
+    }
+
+    if (!$foundVariant) {
+        $_SESSION['add_to_cart_error'] = "Không tìm thấy biến thể sản phẩm.";
+        header("Location: index.php?act=product_detail&id=$productId");
+        exit;
+    }
 
     $product = $this->productModel->getProductById($productId);
     if (!$product) {
         $_SESSION['add_to_cart_error'] = "Sản phẩm không tồn tại.";
-        header('Location: index.php');
+        header("Location: index.php");
         exit;
     }
 
-    // ✅ Kiểm tra tồn kho nhưng KHÔNG trừ số lượng
   
+
     $userId = $_SESSION['user']['id'];
     $cart = $this->cartModel->getCartByUserId($userId);
     $cartId = $cart ? $cart->id : $this->cartModel->createCart($userId);
 
-    // ✅ Thêm vào giỏ mà KHÔNG giảm tồn kho
-    $this->cartModel->addItemToCart($cartId, $productId, $quantity, $product->price);
+    $this->cartModel->addItemToCart(
+        $cartId,
+        $productId,
+        $foundVariant->id,        // variant_id
+        $foundVariant->size,      // variant_size
+        $foundVariant->price,
+        $quantity
+    );
 
-    $_SESSION['add_to_cart_success'] = "Đã thêm '{$product->name}' vào giỏ hàng.";
+    $_SESSION['add_to_cart_success'] = "Đã thêm '{$product->name}' (Size: {$foundVariant->size}) vào giỏ hàng.";
     header("Location: index.php?act=product_detail&id=$productId");
     exit;
 }
+
 
 
 

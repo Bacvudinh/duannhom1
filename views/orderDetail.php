@@ -9,8 +9,10 @@
             <p><strong>Email:</strong> <?= htmlspecialchars($orderAddress->email) ?></p>
             <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($orderAddress->phone) ?></p>
             <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($orderAddress->address) ?></p>
-            <p><strong>Phương thức giao hàng:</strong> <?= htmlspecialchars($orderAddress->shipping_method ?? 'COD') ?></p> 
+            <p><strong>Phương thức giao hàng:</strong> <?= htmlspecialchars($orderAddress->shipping_method ?? 'COD') ?></p>
+            <p><strong>Trạng thái thanh toán:</strong> <?= htmlspecialchars($order->payment_status ?? 'Chưa thanh toán') ?></p>
             <p><strong>Ghi chú:</strong> <?= htmlspecialchars($orderAddress->note ?: 'Không có') ?></p>
+
         </div>
     <?php endif; ?>
 
@@ -20,17 +22,19 @@
                 <tr>
                     <th>Sản phẩm</th>
                     <th>Hình ảnh</th>
+                    <th>Size</th> <!-- ✅ Thêm dòng này -->
                     <th>Đơn giá</th>
                     <th>Số lượng</th>
                     <th>Thành tiền</th>
                 </tr>
             </thead>
+
             <tbody>
                 <?php $total = 0; ?>
                 <?php foreach ($orderItems as $item): ?>
                     <?php
-                        $subtotal = $item->price * $item->quantity;
-                        $total += $subtotal;
+                    $subtotal = $item->price * $item->quantity;
+                    $total += $subtotal;
                     ?>
                     <tr>
                         <td><?= htmlspecialchars($item->product_name) ?></td>
@@ -41,6 +45,7 @@
                                 <span>Không có ảnh</span>
                             <?php endif; ?>
                         </td>
+                        <td><?= htmlspecialchars($item->variant_size ?? '') ?></td> <!-- ✅ HIỂN THỊ SIZE -->
                         <td><?= number_format($item->price, 0, ',', '.') ?>₫</td>
                         <td><?= htmlspecialchars($item->quantity) ?></td>
                         <td><?= number_format($subtotal, 0, ',', '.') ?>₫</td>

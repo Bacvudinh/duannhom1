@@ -18,6 +18,7 @@
                     <th>Ngày đặt hàng</th>
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
+                    <th>Thanh toán</th>
                     <th>Chi tiết</th>
                 </tr>
             </thead>
@@ -37,16 +38,28 @@
                                 <?= $statuses[$order->status] ?? ucfirst($order->status) ?>
                             </td>
                         <td>
+                            <?= $order->payment_status ?? 'Chưa thanh toán' ?>
+                        </td>
+                        <td>
                             <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-sm btn-primary">
                                 Xem chi tiết
                             </a>
-                            <?php if ($order->status == 'Chờ xác nhận'): ?>
+                            <?php if (in_array($order->status, ['Chờ xác nhận', 'Xác nhận'])): ?>
                                 <a href="index.php?act=cancelOrder&order_id=<?= $order->id ?>" 
                                 onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')"
                                 class="btn btn-sm btn-danger mt-1">
                                     Hủy đơn
                                 </a>
+                                
                             <?php endif; ?>
+                       <?php if ($order->status === 'Đã giao hàng' && ($order->payment_status ?? 'Chưa thanh toán') === 'Chưa thanh toán'): ?>
+    <form method="post" action="index.php?act=updatePaymentStatus">
+        <input type="hidden" name="order_id" value="<?= $order->id ?>">
+        <input type="hidden" name="new_status" value="Đã thanh toán">
+        <button type="submit" class="btn btn-sm btn-success mt-1">Đã thanh toán</button>
+    </form>
+<?php endif; ?>
+</form>
                         </td>
                     </tr>
                 <?php endforeach; ?>

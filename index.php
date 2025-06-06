@@ -60,6 +60,8 @@ match ($act) {
     'orderDetails'       => (new OrderController())->orderDetails(),
     'cancelOrder'        => (new OrderController())->cancelOrder(),
     'updateCart'         =>(new CartController())->updateCart(),
+   'updatePaymentStatus' => (new OrderController())->updatePaymentStatus(),
+
 };
 
 
