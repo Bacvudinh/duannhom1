@@ -28,6 +28,7 @@
                 <th>Hình ảnh</th>
                 <th>Đơn giá</th>
                 <th>Số lượng</th>
+                <th>Size</th> 
                 <th>Thành tiền</th>
                 <th>Xóa</th>
               </tr>
@@ -42,13 +43,9 @@
                   <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>" alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
                   <td><?= number_format($item->price, 2) ?> VNĐ</td>
                   <td>
-                    <input type="number"
-                      class="form-control form-control-sm quantity-input"
-                      name="quantities[<?= $item->id ?>]"
-                      style="width: 80px;"
-                      min="1"
-                      value="<?= $item->quantity ?>">
+                    <input type="number" class="form-control form-control-sm quantity-input" name="quantities[<?= $item->id ?>]" style="width: 80px;" min="1" value="<?= $item->quantity ?>">
                   </td>
+                  <td><?= htmlspecialchars($item->variant_size) ?></td> <!-- Hiển thị biến thể -->
                   <td><?= number_format($subtotal, 2) ?> VNĐ</td>
                   <td>
                     <a href="index.php?act=removeFromCart&item_id=<?= $item->id ?>" class="btn btn-danger btn-sm">X</a>
@@ -62,7 +59,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="d-flex justify-content-between mt-4">
           <div>
             <a href="index.php" class="btn btn-secondary">Tiếp tục mua sắm</a>

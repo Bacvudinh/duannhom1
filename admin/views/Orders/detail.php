@@ -55,23 +55,34 @@
                             <p><strong>Khách hàng :</strong> <?= htmlspecialchars($order['user_name']) ?></p>
                             <p><strong>Trạng thái:</strong>
                                 <span class="<?php
-                                                echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' : ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
-                                                ?>">
+                                    echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' : (
+                                        $order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled'
+                                    ); ?>">
                                     <?= htmlspecialchars($order['status']) ?>
                                 </span>
                             </p>
                             <p><strong>Ngày đặt hàng:</strong> <?= $order['created_at'] ?></p>
-                            <p><strong>Tổng tiền:</strong> <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</p>
+
+                            <p><strong>Trạng thái thanh toán:</strong> 
+                                <span class="<?= $order['payment_status'] === 'Đã thanh toán' ? 'order-status-completed' : 'order-status-pending' ?>">
+                                    <?= htmlspecialchars($order['payment_status'] ?? 'Chưa thanh toán') ?>
+                                </span>
+                            </p>
+
+                            <?php if (($order['payment_status'] ?? '') === 'Chưa thanh toán' && $_SESSION['user']['id'] == $order['user_id']): ?>
+                                
+                            <?php endif; ?>
 
                             <!-- Form cập nhật trạng thái -->
-                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end">
+                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end mt-3">
                                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                                 <div class="col-md-4">
                                     <label for="status" class="form-label">Cập nhật trạng thái</label>
                                     <select class="form-select" name="status" onchange="this.form.submit()">
                                         <option value="Chờ xác nhận" <?= $order['status'] === 'Chờ xác nhận' ? 'selected' : '' ?>>Chờ xác nhận</option>
-                                        <option value="Chờ lấy hàng" <?= $order['status'] === 'Chờ lấy hàng' ? 'selected' : '' ?>>Chờ lấy hàng</option>
+                                        <option value="Xác nhận" <?= $order['status'] === 'Xác nhận' ? 'selected' : '' ?>>Xác nhận</option>
                                         <option value="Đang giao hàng" <?= $order['status'] === 'Đang giao hàng' ? 'selected' : '' ?>>Đang giao hàng</option>
+                                        <option value="Đã giao hàng" <?= $order['status'] === 'Đã giao hàng' ? 'selected' : '' ?>>Đã giao hàng</option>
                                         <option value="Hoàn thành" <?= $order['status'] === 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
                                         <option value="Đã hủy" <?= $order['status'] === 'Đã hủy' ? 'selected' : '' ?>>Đã hủy</option>
                                     </select>
@@ -92,11 +103,9 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                            
                                                 <th>Địa chỉ</th>
                                                 <th>Điện thoại</th>
                                                 <th>Email</th>
-
                                                 <th>Trạng thái</th>
                                                 <th>Sản phẩm</th>
                                                 <th>Giá</th>
@@ -107,13 +116,9 @@
                                         <tbody>
                                             <?php foreach ($order_items as $item): ?>
                                                 <tr>
-                                                
                                                     <td><?= htmlspecialchars($item['shipping_address']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_phone']) ?></td>
                                                     <td><?= htmlspecialchars($item['shipping_email']) ?></td>
-
-
-
                                                     <td><?= htmlspecialchars($item['status']) ?></td>
                                                     <td><?= htmlspecialchars($item['product_name']) ?></td>
                                                     <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>

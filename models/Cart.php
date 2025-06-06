@@ -21,26 +21,26 @@ class Cart extends BaseModel
     public function getCartItems($cartId)
     {
         $sql = "SELECT ci.*, p.name, p.image FROM cart_items ci 
-        JOIN products p ON ci.product_id = p.id WHERE ci.cart_id = ?";
+                JOIN products p ON ci.product_id = p.id WHERE ci.cart_id = ?";
         $this->setQuery($sql);
         return $this->loadAllRows([$cartId]);
     }
 
-    public function addItemToCart($cartId, $productId, $quantity, $price)
+    public function addItemToCart($cartId, $productId, $variantId, $variantSize, $price, $quantity)
     {
-        // Kiểm tra xem sản phẩm có tồn tại trong giỏ chưa
-        $sql = "SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        $sql = "SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ? AND variant_id = ?";
         $this->setQuery($sql);
-        $item = $this->loadRow([$cartId, $productId]);
+        $item = $this->loadRow([$cartId, $productId, $variantId]);
 
         if ($item) {
             $sql = "UPDATE cart_items SET quantity = quantity + ? WHERE id = ?";
             $this->setQuery($sql);
             return $this->execute([$quantity, $item->id]);
         } else {
-            $sql = "INSERT INTO cart_items(cart_id, product_id, quantity, price) VALUES(?,?,?,?)";
+            $sql = "INSERT INTO cart_items(cart_id, product_id, variant_id, variant_size, price, quantity)
+                    VALUES(?,?,?,?,?,?)";
             $this->setQuery($sql);
-            return $this->execute([$cartId, $productId, $quantity, $price]);
+            return $this->execute([$cartId, $productId, $variantId, $variantSize, $price, $quantity]);
         }
     }
 
@@ -57,11 +57,11 @@ class Cart extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$cartId]);
     }
+
     public function updateItemQuantity($itemId, $quantity)
-{
-    $sql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
-    $this->setQuery($sql);
-    return $this->execute([(int)$quantity, (int)$itemId]);
-}
-    
+    {
+        $sql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+        $this->setQuery($sql);
+        return $this->execute([(int)$quantity, (int)$itemId]);
+    }
 }

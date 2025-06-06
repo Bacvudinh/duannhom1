@@ -24,24 +24,27 @@ class OrderController
     }
 
     // Sửa hàm hiển thị chi tiết đơn hàng
-    public function orderDetails()
-    {
-        if (!isset($_SESSION['user'])) {
-            header('Location: index.php?act=loginForm');
-            exit;
-        }
-
-        $orderId = $_GET['order_id'] ?? null;
-        if (!$orderId) {
-            header('Location: index.php?act=myOrders');
-            exit;
-        }
-
-        $orderItems = $this->orderModel->getOrderDetails($orderId);
-        $orderAddress = $this->orderModel->getOrderAddress($orderId); // Lấy thêm thông tin người nhận
-
-        require_once './views/orderDetail.php';
+  public function orderDetails()
+{
+    if (!isset($_SESSION['user'])) {
+        header('Location: index.php?act=loginForm');
+        exit;
     }
+
+    $orderId = $_GET['order_id'] ?? null;
+    if (!$orderId) {
+        header('Location: index.php?act=myOrders');
+        exit;
+    }
+
+    // ✅ Lấy thông tin đơn hàng (chứa payment_status, note...)
+    $order = $this->orderModel->getOrderById($orderId);
+
+    $orderItems = $this->orderModel->getOrderDetails($orderId);
+    $orderAddress = $this->orderModel->getOrderAddress($orderId);
+
+    require_once './views/orderDetail.php';
+}
 
     public function cancelOrder()
     {
@@ -68,6 +71,25 @@ class OrderController
         } else {
             $_SESSION['error'] = "Không thể hủy đơn hàng #$orderId. Đơn hàng không hợp lệ hoặc đã được xử lý.";
         }
+        header('Location: index.php?act=myOrders');
+        exit;
+    }
+    public function updatePaymentStatus()
+    {
+        $orderId = $_POST['order_id'] ?? null;
+        $newPaymentStatus = $_POST['new_status'] ?? null;
+
+        if ($orderId && $newPaymentStatus) {
+            // Cập nhật trạng thái thanh toán
+            $this->orderModel->updatePaymentStatus($orderId, $newPaymentStatus);
+            // Đồng thời cập nhật trạng thái đơn hàng sang "Hoàn thành"
+            $this->orderModel->updateOrderStatus($orderId, 'Hoàn thành');
+
+            $_SESSION['message'] = 'Xác nhận thanh toán thành công. Đơn hàng đã hoàn thành.';
+        } else {
+            $_SESSION['error'] = 'Thiếu thông tin để cập nhật.';
+        }
+
         header('Location: index.php?act=myOrders');
         exit;
     }
