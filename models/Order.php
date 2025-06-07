@@ -13,12 +13,12 @@ class Order extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
-    public function insertOrderDetail($orderId, $productId, $quantity, $price)
+    public function insertOrderDetail($orderId, $productId, $quantity, $price,$variant_id)
     {
         $sql = "INSERT INTO order_details (order_id, product_id, price, quantity, variant_id)
 VALUES (?, ?, ?, ?, ?)";
         $this->setQuery($sql);
-        return $this->execute([$orderId, $productId, $quantity, $price]);
+        return $this->execute([$orderId, $productId, $quantity, $price,$variant_id]);
     }
 
     public function insertOrderAddress($orderId, $name, $email, $phone, $address, $note = '')
