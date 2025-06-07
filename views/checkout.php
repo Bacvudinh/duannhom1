@@ -45,12 +45,12 @@
                                     <tr>
                                         <td><?= htmlspecialchars($item->name) ?></td>
                                         <td><?= $item->quantity ?></td>
-                                        <td>$<?= number_format($subtotal, 2) ?></td>
+                                        <td><?= number_format($subtotal, 2) ?>VNĐ</td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <tr>
                                     <td colspan="2"><strong>Tổng cộng:</strong></td>
-                                    <td><strong>$<?= number_format($total, 2) ?></strong></td>
+                                    <td><strong><?= number_format($total, 2) ?>VNĐ</strong></td>
                                 </tr>
                             </tbody>
                         </table>

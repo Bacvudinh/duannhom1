@@ -56,12 +56,7 @@ class CartController
     }
 
     // ✅ Kiểm tra tồn kho nhưng KHÔNG trừ số lượng
-    if ($product->stock < $quantity) {
-        $_SESSION['add_to_cart_error'] = "Sản phẩm '{$product->name}' chỉ còn {$product->stock} cái.";
-        header("Location: index.php?act=product_detail&id=$productId");
-        exit;
-    }
-
+  
     $userId = $_SESSION['user']['id'];
     $cart = $this->cartModel->getCartByUserId($userId);
     $cartId = $cart ? $cart->id : $this->cartModel->createCart($userId);
