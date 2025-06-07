@@ -180,9 +180,8 @@ public function addToCart()
     $orderId = $this->orderModel->createOrder($userId, $total, 'Chưa thanh toán');
 
     foreach ($cartItems as $item) {
-        $this->orderModel->insertOrderDetail($orderId, $item->product_id, $item->quantity, $item->price);
+        $this->orderModel->insertOrderDetail($orderId, $item->product_id, $item->quantity, $item->price,$item->variant_id);
     }
-
     $info = $_SESSION['checkout_info'];
     $this->orderModel->insertOrderAddress($orderId, $info['name'], $info['email'], $info['phone'], $info['address'], $info['note']);
 

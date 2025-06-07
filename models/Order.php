@@ -13,11 +13,12 @@ class Order extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
-    public function insertOrderDetail($orderId, $productId, $quantity, $price)
+    public function insertOrderDetail($orderId, $productId, $quantity, $price,$variant_id)
     {
-        $sql = "INSERT INTO order_details (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO order_details (order_id, product_id, price, quantity, variant_id)
+VALUES (?, ?, ?, ?, ?)";
         $this->setQuery($sql);
-        return $this->execute([$orderId, $productId, $quantity, $price]);
+        return $this->execute([$orderId, $productId, $quantity, $price,$variant_id]);
     }
 
     public function insertOrderAddress($orderId, $name, $email, $phone, $address, $note = '')
@@ -36,14 +37,20 @@ class Order extends BaseModel
     }
 
     public function getOrderDetails($orderId)
-    {
-        $sql = "SELECT od.*, p.name AS product_name, p.image
-                FROM order_details od
-                JOIN products p ON od.product_id = p.id
-                WHERE od.order_id = ?";
-        $this->setQuery($sql);
-        return $this->loadAllRows([$orderId]);
-    }
+{
+    $sql = "SELECT 
+                od.*, 
+                p.name AS product_name, 
+                p.image, 
+                pv.size AS variant_size
+            FROM order_details od
+            JOIN products p ON od.product_id = p.id
+            LEFT JOIN product_variants pv ON od.variant_id = pv.id
+            WHERE od.order_id = ?";
+    $this->setQuery($sql);
+    return $this->loadAllRows([$orderId]);
+}
+
 
     // --- Thêm hàm lấy thông tin người nhận ---
     public function getOrderAddress($orderId)
