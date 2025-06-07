@@ -3465,14 +3465,14 @@ only screen and (max-width: 767px) {
 
 .product-image-slider {
   width: 100%;
-  max-width: 400px;
+  max-width: 900px;
   border: 1px solid #f2f2f2;
   margin: 0 auto;
 }
 
 .product-image-slider .swiper-slide img {
   width: 100%;
-  max-width: 250px;
+  max-width: 500px;
   max-height: 200px;
   object-fit: contain;
   display: block;
@@ -3530,15 +3530,15 @@ only screen and (max-width: 767px) {
 /* Slider ảnh lớn */
 .product-image-slider {
   width: 100%;
-  max-width: 500px; /* Giới hạn chiều ngang slider */
+  max-width: 700px; /* Giới hạn chiều ngang slider */
   margin: 0 auto;
   border: 1px solid #f2f2f2;
 }
 
 /* Ảnh lớn trong slider */
 .product-image-slider .swiper-slide img {
-  width: 40%;              /* Thu nhỏ chiều ngang ảnh */
-  max-height: 220px;       /* Chiều cao tối đa */
+  width: 60%;              /* Thu nhỏ chiều ngang ảnh */
+  max-height: 400px;       /* Chiều cao tối đa */
   object-fit: contain;     /* Giữ tỉ lệ không bị méo */
   display: block;
   margin: 0 auto;
@@ -4141,7 +4141,7 @@ only screen and (max-width: 575px) {
 
 .single-product-description-area-nav button {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   padding: 0 5px 10px 5px;
   border: none;
   background-color: transparent;
@@ -4229,6 +4229,16 @@ textarea {
 textarea:focus {
   border-color: #C7A17A;
   outline: none;
+}
+.tab-content {
+    max-height: 300px;       /* Giới hạn chiều cao tối đa */
+    overflow-y: auto;        /* Hiện thanh cuộn khi nội dung vượt quá */
+    padding: 10px;
+    background-color: #fff;  /* Nền trắng (có thể thay đổi) */
+    border: 1px solid #ddd;  /* Viền nhẹ */
+    border-radius: 8px;      /* Bo góc nhẹ */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* Bóng nhẹ */
+    scroll-behavior: smooth; /* Cuộn mượt */
 }
 
 /* Description */

@@ -17,7 +17,11 @@ class DashboardController
         // Lấy range thời gian cho sản phẩm bán chạy (today, yesterday, last7days, ...)
         $range = $_GET['range'] ?? 'yesterday';
 
-        $data = $this->dashboardModel->index($filter,$range);
+        // Lấy dữ liệu từ model
+        $data = $this->dashboardModel->index($filter, $range);
+
+        // Truyền dữ liệu ra view
         require_once 'views/dashboard.php';
     }
 }
+?>

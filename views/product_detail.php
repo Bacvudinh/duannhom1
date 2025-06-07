@@ -220,14 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
           <!-- Single Product Bottom (Description) Area Start -->
           <div class="single-product-description-area">
               <div class="nav single-product-description-area-nav">
-<<<<<<< HEAD
-                <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
-                <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
-                <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
-                <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
-                <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
-                </div>
-=======
     <button class="active" data-bs-toggle="tab" data-bs-target="#product-description" style="color: black;">
         Description
     </button>
@@ -244,202 +236,103 @@ document.addEventListener("DOMContentLoaded", function () {
         Shipping Policy
     </button>
 </div>
+             <div class="tab-content">
+    <!-- Mô tả sản phẩm -->
+    <div class="tab-pane fade show active" id="product-description">
+        <div class="p-4 bg-white rounded shadow">
+            <p class="text-gray-700 leading-relaxed"><?= htmlspecialchars($product->description) ?></p>
+        </div>
+    </div>
 
->>>>>>> 938c442f77a99666faa9e690b175fe704b61b140
-              <div class="tab-content">
-                  <!-- Description Start -->
-                  <div class="tab-pane fade show active" id="product-description">
-                      <div class="single-product-description">
-                          <p><?= htmlspecialchars($product->description) ?></p>
-                      </div>
-                  </div>
-                  <!-- Description End -->
+    <!-- Bình luận -->
+    <div class="tab-pane fade" id="product-comments">
+    <div class="mt-6">
+        <h4 class="text-2xl font-semibold mb-6 text-gray-800">
+            Bình luận (<?= count($comments) ?>)
+        </h4>
 
-                  <!-- Comments Start -->
-                  <div class="tab-pane fade" id="product-comments">
+        <!-- Form bình luận mới -->
+        <?php if (isset($_SESSION['user'])): ?>
+        <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post" class="mb-8">
+            <textarea name="comment" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring" placeholder="Viết bình luận..." required></textarea>
+            <button type="submit" class="mt-3 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">Gửi bình luận</button>
+        </form>
+        <?php else: ?>
+        <p class="mb-6 text-gray-600">
+            Vui lòng <a href="index.php?act=loginForm" class="text-blue-600 hover:underline">đăng nhập</a> để bình luận.
+        </p>
+        <?php endif; ?>
 
-                      <div class="block-title-2">
-                          <h4 class="title">Comments (2)</h4>
-                      </div>
+        <!-- Danh sách bình luận -->
+        <ul class="space-y-6">
+            <?php foreach ($comments as $comment): ?>
+                <?php if (!$comment['parent_id']): ?>
+                <li class="bg-white p-4 rounded-lg shadow border">
+                    <!-- Header -->
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold text-gray-800"><?= htmlspecialchars($comment['user_name']) ?></span>
+                        <span class="text-sm text-gray-500"><?= $comment['created_at'] ?></span>
+                    </div>
 
-                      <!-- Comment List Start -->
+                    <!-- Nội dung -->
+                    <p class="text-gray-700"><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
 
-                      <li>
-                          <h3>Bình luận</h3>
+                    <!-- Nút thao tác -->
+                    <div class="mt-3 flex space-x-4 text-sm">
+                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
+                        <form action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                            <button type="submit" class="text-red-600 hover:underline">Xóa</button>
+                        </form>
+                        <?php endif; ?>
 
+                        <?php if (isset($_SESSION['user'])): ?>
+                        <button type="button" onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').classList.toggle('hidden')" class="text-blue-600 hover:underline">Trả lời</button>
+                        <?php endif; ?>
+                    </div>
 
-                          <!-- Form thêm bình luận mới -->
-                          <?php if (isset($_SESSION['user'])): ?>
-                          <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
-                              <textarea name="comment" required></textarea>
-                              <button type="submit">Gửi bình luận</button>
-                          </form>
-                          <?php else: ?>
-                          <p>Vui lòng <a href="index.php?act=loginForm">đăng nhập</a> để bình luận.</p>
-                          <?php endif; ?>
+                    <!-- Form trả lời -->
+                    <form id="reply-form-<?= $comment['id'] ?>" action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post" class="mt-3 hidden space-y-2">
+                        <textarea name="comment" rows="2" class="w-full p-2 border rounded-lg focus:outline-none focus:ring" placeholder="Viết trả lời..." required></textarea>
+                        <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 text-sm">Gửi trả lời</button>
+                    </form>
 
-                          <!-- Danh sách bình luận -->
-                          <ul>
-                              <?php foreach ($comments as $comment): ?>
-                              <?php if (!$comment['parent_id']): // chỉ hiển thị comment cha 
-                                    ?>
-                              <li>
-                                  <strong><?= htmlspecialchars($comment['user_name']) ?></strong>:
-                                  <?= htmlspecialchars($comment['comment']) ?>
-                                  <br>
-                                  <small><?= $comment['created_at'] ?></small>
+                    <!-- Trả lời -->
+                    <ul class="mt-4 pl-4 border-l border-gray-300 space-y-4">
+                        <?php foreach ($comments as $reply): ?>
+                            <?php if ($reply['parent_id'] == $comment['id']): ?>
+                            <li>
+                                <div class="flex justify-between text-sm">
+                                    <span class="font-medium text-gray-800"><?= htmlspecialchars($reply['user_name']) ?></span>
+                                    <span class="text-xs text-gray-500"><?= $reply['created_at'] ?></span>
+                                </div>
+                                <p class="text-gray-700 mt-1"><?= nl2br(htmlspecialchars($reply['comment'])) ?></p>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
+                                <form action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa trả lời này không?')">
+                                    <button type="submit" class="text-red-600 text-xs hover:underline mt-1">Xóa</button>
+                                </form>
+                                <?php endif; ?>
+                            </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
 
-                                  <!-- Nếu là người gửi thì có quyền xóa -->
-                                  <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
-                                  <form
-                                      action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
-                                      method="post" style="display:inline;">
-                                      <button type="submit"
-                                          onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
-                                  </form>
-                                  <?php endif; ?>
+</div>
 
-                                  <!-- Nút trả lời -->
-                                  <?php if (isset($_SESSION['user'])): ?>
-                                  <a href="#"
-                                      onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block'; return false;">REPLY</a>
-                                  <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 5px;"
-                                      action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
-                                      <textarea name="comment" required></textarea>
-                                      <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
-                                      <button type="submit">Gửi trả lời</button>
-                                  </form>
-                                  <?php endif; ?>
-
-                                  <!-- Danh sách trả lời -->
-                                  <ul style="margin-left: 20px;">
-                                      <?php foreach ($comments as $reply): ?>
-                                      <?php if ($reply['parent_id'] == $comment['id']): ?>
-                                      <li>
-                                          <strong><?= htmlspecialchars($reply['user_name']) ?></strong>:
-                                          <?= htmlspecialchars($reply['comment']) ?>
-                                          <br>
-                                          <small><?= $reply['created_at'] ?></small>
-
-                                          <!-- Nếu là người gửi thì có quyền xóa -->
-                                          <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
-                                          <form
-                                              action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>"
-                                              method="post" style="display:inline;">
-                                              <button type="submit"
-                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
-                                          </form>
-                                          <?php endif; ?>
-                                      </li>
-                                      <?php endif; ?>
-                                      <?php endforeach; ?>
-                                  </ul>
-                              </li>
-                              <?php endif; ?>
-                              <?php endforeach; ?>
-                          </ul>
-
-
-
-                          <ul class="comment-list">
-                      </li>
-                      </ul>
-                      <!-- Comment List End -->
 
 
                       <!-- Reviews Start -->
-                      <div class="tab-pane fade" id="product-reviews">
-
-                          <div class="block-title-2">
-                              <h4 class="title">Customer Reviews</h4>
-
-                          </div>
-
-                          <!-- Review List Start -->
-                          <div class="review-list">
-                              <div class="review-item">
-                                  <div class="review-thumb"><img src="assets/images/testimonial/testimonial-1.png"
-                                          alt="Edna Watson"></div>
-                                  <div class="review-content">
-                                      <div class="review-rating">
-                                          <span class="review-rating-bg"><span class="review-rating-active"
-                                                  style="width: 90%"></span></span>
-                                      </div>
-                                      <div class="review-meta">
-                                          <h5 class="review-name">Edna Watson</h5>
-                                          <span class="review-date">November 27, 2023</span>
-                                      </div>
-                                      <p>Thanks for always keeping your WordPress themes up to date. Your level of
-                                          support and dedication is second to none.</p>
-                                  </div>
-                              </div>
-                              <div class="review-item">
-                                  <div class="review-thumb"><img src="assets/images/testimonial/testimonial-2.png"
-                                          alt="Hester Perkins"></div>
-                                  <div class="review-content">
-                                      <div class="review-rating">
-                                          <span class="review-rating-bg"><span class="review-rating-active"
-                                                  style="width: 100%"></span></span>
-                                      </div>
-                                      <div class="review-meta">
-                                          <h5 class="review-name">Hester Perkins</h5>
-                                          <span class="review-date">November 27, 2023</span>
-                                      </div>
-                                      <p>Thanks for always keeping your WordPress themes up to date. Your level of
-                                          support and dedication is second to none.</p>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- Review List End -->
-
-                          <div class="block-title-2">
-                              <h4 class="title">Write a review</h4>
-
-                          </div>
-
-                          <!-- Review Form Start -->
-                          <div class="review-form">
-                              <form action="#">
-                                  <div class="row g-4">
-                                      <div class="col-12">
-                                          <label for="review-rating">Rating</label>
-                                          <select class="form-field" name="rating" id="review-rating">
-                                              <option value="1">One</option>
-                                              <option value="2">Two</option>
-                                              <option value="3">Three</option>
-                                              <option value="4">Four</option>
-                                              <option value="5">Five</option>
-                                          </select>
-                                      </div>
-                                      <div class="col-sm-6">
-                                          <label for="review-name">Name</label>
-                                          <input class="form-field" id="review-name" name="name" type="text"
-                                              placeholder="Enter your name">
-                                      </div>
-                                      <div class="col-sm-6">
-                                          <label for="review-email">Email</label>
-                                          <input class="form-field" id="review-email" name="email" type="email"
-                                              placeholder="john.smith@example.com">
-                                      </div>
-                                      <div class="col-12">
-                                          <label for="review-comment">Body of Review (1500)</label>
-                                          <textarea class="form-field" id="review-comment" name="comment"
-                                              placeholder="Write your comments here"></textarea>
-                                      </div>
-                                      <div class="col-12">
-                                          <input type="submit" class="btn btn-dark btn-primary-hover rounded-0"
-                                              value="Submit Review">
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                          <!-- Review Form End -->
-
-                      </div>
+                      
                       <!-- Reviews End -->
 
                       <!-- Size Chart Start -->
-                      <div class="tab-pane fade" id="product-size-chart">
+                      <!-- <div class="tab-pane fade" id="product-size-chart">
                           <table class="table table-bordered">
                               <tbody>
                                   <tr>
@@ -484,11 +377,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                   </tr>
                               </tbody>
                           </table>
-                      </div>
+                      </div> -->
                       <!-- Size Chart End -->
 
                       <!-- Shipping Policy Start -->
-                      <div class="tab-pane fade" id="product-shipping-policy">
+                      <!-- <div class="tab-pane fade" id="product-shipping-policy">
                           <div class="block-title-2">
                               <h4 class="title">Shipping policy of our store</h4>
 
@@ -514,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
                               litterarum formas humanitatis per</p>
                           <p>seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum
                               clari, fiant sollemnes in futurum.</p>
-                      </div>
+                      </div> -->
                       <!-- Shipping Policy End -->
 
                   </div>

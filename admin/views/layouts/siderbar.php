@@ -110,7 +110,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="../index.php?act=/">
-                        <i class="ri-shopping-cart-line"></i> <span data-key="t-orders">Quay lại trang chủ </span>
+                         <span data-key="t-orders">Quay lại trang chủ </span>
                     </a>
                 </li>
 
