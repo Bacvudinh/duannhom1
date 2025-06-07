@@ -51,9 +51,7 @@
                         <div class="col-12">
                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                                 <h4 class="mb-0">Danh sách đơn hàng</h4>
-                                <a href="index.php?act=createOrder" class="btn btn-soft-success">
-                                    <i class="ri-add-circle-line me-1"></i> Thêm đơn hàng
-                                </a>
+                               
                             </div>
                         </div>
                     </div>

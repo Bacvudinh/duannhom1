@@ -63,7 +63,8 @@ class Order extends BaseModel
             odr.address AS shipping_address,
             odr.phone AS shipping_phone,
             odr.name AS shipping_name,
-            odr.email AS shipping_email
+            odr.email AS shipping_email,
+            p.image AS product_img
         FROM order_details od 
         JOIN products p ON od.product_id = p.id 
         LEFT JOIN product_variants pv ON od.variant_id = pv.id
