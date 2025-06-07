@@ -128,9 +128,10 @@
                                             ?>
                                                 <tr>
                                                     <td><?= htmlspecialchars($item['product_name']) ?></td>
-                                                    <td><img src="uploads/product/<?= htmlspecialchars($item['product_img']) ?>" alt="<?= htmlspecialchars($item['product_img']) ?>" style="width:200px;height:200px;"></td>
+                                                    <td><img src="../uploads/product/<?= htmlspecialchars($item['product_img']) ?>" alt="<?= htmlspecialchars($item['product_img']) ?>" style="width:100px;height:100px;"></td>
                                                     <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
                                                     <td><?= $item['quantity'] ?></td>
+                                                    <td><?= htmlspecialchars($item['variant_size']) ?></td>
                                                     <td><?= number_format($item_total, 0, '.', ',') ?>₫</td>
                                                 </tr>
                                             <?php endforeach; ?>

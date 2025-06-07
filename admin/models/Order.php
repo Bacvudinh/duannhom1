@@ -34,42 +34,39 @@ class Order extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function find($id)
+   public function find($id)
 {
     // Lấy thông tin đơn hàng
-    $stmt = $this->conn->prepare("SELECT 
-        orders.*,
-        users.name AS user_name,
-        users.email AS user_email
-    FROM 
-        orders
-    INNER JOIN 
-        users ON orders.user_id = users.id
-    WHERE 
-        orders.id = ?");
+    $stmt = $this->conn->prepare("
+        SELECT 
+            orders.*,
+            users.name AS user_name,
+            users.email AS user_email
+        FROM orders
+        INNER JOIN users ON orders.user_id = users.id
+        WHERE orders.id = ?
+    ");
     $stmt->execute([$id]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$order) return null;
 
-    // Lấy chi tiết sản phẩm trong đơn hàng (gồm biến thể nếu có)
+    // Lấy chi tiết sản phẩm trong đơn hàng (gồm size từ biến thể)
     $stmt = $this->conn->prepare("
         SELECT 
             od.*,
             p.name AS product_name,
-            pv.size AS variant_size,
-            pv.price AS variant_price,
-            o.status,
+            COALESCE(pv.size, 'Mặc định') AS variant_size,
+            COALESCE(pv.price, od.price) AS price,
+            p.image AS product_img,
             odr.address AS shipping_address,
             odr.phone AS shipping_phone,
             odr.name AS shipping_name,
-            odr.email AS shipping_email,
-            p.image AS product_img
-        FROM order_details od 
-        JOIN products p ON od.product_id = p.id 
+            odr.email AS shipping_email
+        FROM order_details od
+        JOIN products p ON od.product_id = p.id
         LEFT JOIN product_variants pv ON od.variant_id = pv.id
-        JOIN orders o ON od.order_id = o.id
-        JOIN order_addresses odr ON odr.order_id = o.id
+        LEFT JOIN order_addresses odr ON odr.order_id = od.order_id
         WHERE od.order_id = ?
     ");
     $stmt->execute([$id]);
