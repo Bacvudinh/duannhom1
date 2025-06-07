@@ -72,7 +72,10 @@
                   <div class="single-product-content">
                       <h1 class="single-product-title"><?= htmlspecialchars($product->name) ?></h1>
                       <div class="single-product-price">
-                       <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> VND</span>
+
+                      <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> đ</span>
+
+
                       </div>
                       <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -82,22 +85,28 @@ document.addEventListener("DOMContentLoaded", function () {
     sizeRadios.forEach(radio => {
         radio.addEventListener('change', function () {
             const newPrice = this.getAttribute('data-price');
-            priceDisplay.textContent = `$${parseFloat(newPrice).toFixed(2)}`;
+
+            priceDisplay.textContent = `${parseFloat(newPrice).toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })}`;
+
         });
     });
 });
 
+
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const   Radios = document.querySelectorAll('input[name="size"]');
+    const sizeRadios = document.querySelectorAll('input[name="size"]');
     const priceDisplay = document.getElementById('dynamic-price');
 
     sizeRadios.forEach(radio => {
         radio.addEventListener('change', function () {
             const newPrice = this.getAttribute('data-price');
             const formatted = new Intl.NumberFormat('vi-VN').format(newPrice);
-            priceDisplay.textContent = `${formatted} VND`;
+            priceDisplay.textContent = `${formatted} đ`;
         });
     });
 });
@@ -173,18 +182,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                       <div class="single-product-actions">
                           <div class="single-product-actions-item">
-                              <form action="index.php?act=addToCart" method="post"
-                                  class="d-flex align-items-center  gap-3 mt-3">
-                                  <input type="hidden" name="product_id" value="<?= $product->id ?>">
-                                  <div class="quantity-wrapper">
-                                      <input type="number" name="quantity" value="1" min="1"
-                                          class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
-                                  </div>
-                                  <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
-                                      style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
-                                      <i class="sli-bag"></i> Thêm vào giỏ hàng
-                                  </button>
-                              </form>
+                            <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3">
+    <input type="hidden" name="product_id" value="<?= $product->id ?>">
+    
+    <!-- ✅ THÊM hidden field để lưu giá trị size được chọn -->
+    <input type="hidden" name="size" id="selected-size" value="<?= $productVariants[0]->size ?>">
+
+    <div class="quantity-wrapper">
+        <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
+    </div>
+
+    <button type="submit" class="btn btn-primary d-flex align-items-center gap-2" style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
+        <i class="sli-bag"></i> Thêm vào giỏ hàng
+    </button>
+</form>
+
                               <button class="wishlist-btn" onclick="toggleWishlist(this)">
                                   <i class="fa-regular fa-heart"></i>
                               </button>
@@ -208,12 +220,32 @@ document.addEventListener("DOMContentLoaded", function () {
           <!-- Single Product Bottom (Description) Area Start -->
           <div class="single-product-description-area">
               <div class="nav single-product-description-area-nav">
+<<<<<<< HEAD
                 <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
                 <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
                 <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
                 <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
                 <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
                 </div>
+=======
+    <button class="active" data-bs-toggle="tab" data-bs-target="#product-description" style="color: black;">
+        Description
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-comments" style="color: black;">
+        Comments
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-reviews" style="color: black;">
+        Reviews
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-size-chart" style="color: black;">
+        Size Chart
+    </button>
+    <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy" style="color: black;">
+        Shipping Policy
+    </button>
+</div>
+
+>>>>>>> 938c442f77a99666faa9e690b175fe704b61b140
               <div class="tab-content">
                   <!-- Description Start -->
                   <div class="tab-pane fade show active" id="product-description">
@@ -592,3 +624,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <!-- Product Section End -->
   </div>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const radios = document.querySelectorAll('input[name="size"]');
+    const hiddenSize = document.getElementById('selected-size');
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            hiddenSize.value = this.value;
+        });
+    });
+});
+</script>

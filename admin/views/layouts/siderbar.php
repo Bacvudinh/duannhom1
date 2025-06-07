@@ -72,27 +72,27 @@
 
                         <i class="ri-stack-line"> Sản phẩm</i><span data-key="t-advance-ui"></span>
                     </a>
-                        <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=admin_sizes">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-categories">Size </span>
                     </a>
                 </li>
-                    <div class="collapse menu-dropdown" id="sidebarDanhMuc">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="" class="nav-link" data-key="t-sweet-alerts">
-                                    Danh sách
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link" data-key="t-nestable-list">
-                                    Thêm mới
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="collapse menu-dropdown" id="sidebarDanhMuc">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="" class="nav-link" data-key="t-sweet-alerts">
+                                Danh sách
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link" data-key="t-nestable-list">
+                                Thêm mới
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=admin_comments">
                         <i class="ri-shopping-cart-line"></i> <span data-key="t-orders">Quản lý bình luận</span>
                     </a>
@@ -106,11 +106,13 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=Orders">
                         <i class="ri-shopping-cart-line"></i> <span data-key="t-orders">Quản lý đơn hàng</span>
-                    </a>    
+                    </a>
                 </li>
-                <a href="index.php?act=/"><span data-key="t-pages">Quay lại trang chủ</span></a>
-              
-                
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="../index.php?act=/">
+                        <i class="ri-shopping-cart-line"></i> <span data-key="t-orders">Quay lại trang chủ </span>
+                    </a>
+                </li>
 
             </ul>
         </div>

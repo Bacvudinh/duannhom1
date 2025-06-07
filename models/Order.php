@@ -54,14 +54,15 @@ class Order extends BaseModel
     }
 
     public function cancelOrderIfPending($orderId, $userId)
-    {
-        $sql = "UPDATE {$this->table}
-                SET status = 'Đã huỷ'
-                WHERE id = ? AND user_id = ? AND status = 'Chờ xác nhận'";
-        $this->setQuery($sql);
-        $stmt = $this->execute([$orderId, $userId]);
-        return $stmt->rowCount() > 0;
-    }
+{
+    $sql = "UPDATE {$this->table}
+            SET status = 'Đã huỷ'
+            WHERE id = ? AND user_id = ? AND status IN ('Chờ xác nhận', 'Xác nhận')";
+    $this->setQuery($sql);
+    $stmt = $this->execute([$orderId, $userId]);
+    return $stmt->rowCount() > 0;
+}
+
 
     public function decreaseStock($productId, $quantity)
     {
@@ -77,21 +78,27 @@ class Order extends BaseModel
         return $this->execute([$quantity, $productId]);
     }
 
-    public function updatePaymentStatus($orderId, $paymentStatus)
+    public function updatePaymentStatus($orderId, $status)
     {
-        $sql = "UPDATE {$this->table} SET payment_status = ? WHERE id = ?";
+        $sql = "UPDATE orders SET payment_status = ? WHERE id = ?";
         $this->setQuery($sql);
-        return $this->execute([$paymentStatus, $orderId]);
+        return $this->execute([$status, $orderId]);
     }
 
     public function updateOrderStatus($orderId, $status)
     {
-        $sql = "UPDATE {$this->table} SET status = ? WHERE id = ?";
+        $sql = "UPDATE orders SET status = ? WHERE id = ?";
         $this->setQuery($sql);
-        $this->execute([$status, $orderId]);
-
-        if ($status === 'Hoàn thành') {
-            $this->updatePaymentStatus($orderId, 'Đã thanh toán');
-        }
+        return $this->execute([$status, $orderId]);
     }
+   public function getOrderById($orderId)
+{
+    $sql = "SELECT o.*, oa.note, oa.name, oa.phone, oa.address, oa.email
+            FROM orders o
+            LEFT JOIN order_addresses oa ON oa.order_id = o.id
+            WHERE o.id = ?";
+    $this->setQuery($sql);
+    return $this->loadRow([$orderId]);
+}
+
 }
