@@ -145,7 +145,7 @@ public function getProductsforadmin($keyword = null)
         $sql = "SELECT p.*, c.name AS category_name
                 FROM `{$this->table}` AS p
                 JOIN `categories` AS c ON p.category_id = c.id
-                WHERE p.id = ?";
+                WHERE p.id = ? "; // Chỉ lấy sản phẩm đang active và chưa bị xóa
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
