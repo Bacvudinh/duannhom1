@@ -79,6 +79,7 @@ public function addToCart()
     $cart = $this->cartModel->getCartByUserId($userId);
     $cartId = $cart ? $cart->id : $this->cartModel->createCart($userId);
 
+    
     $this->cartModel->addItemToCart(
         $cartId,
         $productId,
@@ -149,6 +150,13 @@ public function addToCart()
         $userId = $_SESSION['user']['id'];
         $cart = $this->cartModel->getCartByUserId($userId);
         $cartItems = $this->cartModel->getCartItems($cart->id);
+        foreach ($cartItems as $item) {
+    if ($item->status == 0) {
+        $_SESSION['checkout_error'] = "Giỏ hàng của bạn có sản phẩm đã bị ẩn. Vui lòng xoá sản phẩm đó để tiếp tục.";
+        header("Location: index.php?act=cart");
+        exit;
+    }
+}
 
         require_once './views/checkout.php';
     }
@@ -165,6 +173,14 @@ public function addToCart()
     $userId = $_SESSION['user']['id'];
     $cart = $this->cartModel->getCartByUserId($userId);
     $cartItems = $this->cartModel->getCartItems($cart->id);
+    foreach ($cartItems as $item) {
+    if ($item->status == 0) {
+        $_SESSION['checkout_error'] = "Có sản phẩm đã bị ẩn trong giỏ hàng. Vui lòng xoá sản phẩm đó.";
+        header("Location: index.php?act=cart");
+        exit;
+    }
+}
+
 
     if (empty($cartItems)) {
         header('Location: index.php?act=cart');
