@@ -78,10 +78,12 @@
                                                     <td><?= htmlspecialchars($user->NAME) ?></td>
                                                     <td><?= htmlspecialchars($user->email) ?></td>
                                                     <td><?= htmlspecialchars((string) $user->phone) ?></td>
+
                                                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                         title="<?= htmlspecialchars($user->address) ?>">
                                                         <?= htmlspecialchars($user->address) ?>
                                                     </td>
+
                                                     <td><?= htmlspecialchars($user->role) ?></td>
                                                     <td class="<?= $user->status == 1 ? 'user-status-active' : 'user-status-inactive' ?>">
                                                         <?= $user->status == 1 ? 'Hoạt động' : 'Bị khóa' ?>

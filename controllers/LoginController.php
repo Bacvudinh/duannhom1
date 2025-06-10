@@ -59,6 +59,9 @@ class LoginController {
             $email = trim($_POST['email']);
             $password = $_POST['password'];
             $confirmPassword = $_POST['confirm_password'];
+            $phone = trim($_POST['phone']);
+            $address = trim($_POST['address']);
+
 
             if ($password !== $confirmPassword) {
                 $error = "Mật khẩu không khớp.";
@@ -67,7 +70,7 @@ class LoginController {
             }
 
             $userModel = new UserModel();
-            $result = $userModel->register($name, $email, $password);
+            $result = $userModel->register($name, $email, $password, $phone, $address);
 
             if ($result) {
                 header('Location: index.php?act=loginForm');
