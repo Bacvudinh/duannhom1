@@ -11,10 +11,12 @@
             color: green;
             font-weight: 600;
         }
+
         .user-status-inactive {
             color: red;
             font-weight: 600;
         }
+
         .table-nowrap td {
             white-space: normal;
         }
@@ -76,7 +78,10 @@
                                                     <td><?= htmlspecialchars($user->NAME) ?></td>
                                                     <td><?= htmlspecialchars($user->email) ?></td>
                                                     <td><?= htmlspecialchars((string) $user->phone) ?></td>
-                                                    <td><?= htmlspecialchars($user->address) ?></td>
+                                                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                        title="<?= htmlspecialchars($user->address) ?>">
+                                                        <?= htmlspecialchars($user->address) ?>
+                                                    </td>
                                                     <td><?= htmlspecialchars($user->role) ?></td>
                                                     <td class="<?= $user->status == 1 ? 'user-status-active' : 'user-status-inactive' ?>">
                                                         <?= $user->status == 1 ? 'Hoạt động' : 'Bị khóa' ?>
@@ -86,11 +91,11 @@
                                                             <a href="index.php?act=editUser&id=<?= $user->id ?>" class="btn btn-sm btn-warning">
                                                                 <i class="ri-pencil-line"></i> Sửa
                                                             </a>
-                                                            <a href="index.php?act=toggleStatusUser&id=<?= $user->id ?>" 
+                                                            <a href="index.php?act=toggleStatusUser&id=<?= $user->id ?>"
                                                                 class="btn btn-sm btn-secondary"
                                                                 onclick="return confirm('Bạn có chắc chắn muốn thay đổi trạng thái người dùng này không?')">
-                                                                    <?= $user->status == 1 ? 'Khóa' : 'Mở khóa' ?>
-                                                                </a>
+                                                                <?= $user->status == 1 ? 'Khóa' : 'Mở khóa' ?>
+                                                            </a>
                                                             <a href="index.php?act=detailUser&id=<?= $user->id ?>" class="btn btn-sm btn-info">
                                                                 <i class="ri-eye-line"></i> Xem
                                                             </a>
@@ -121,4 +126,5 @@
 
     <?php require_once "views/layouts/libs_js.php"; ?>
 </body>
+
 </html>

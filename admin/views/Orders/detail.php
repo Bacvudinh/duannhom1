@@ -94,9 +94,7 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <button onclick="return confirm('Bạn muốn cập nhật đơn hàng này?')" type="submit" class="btn btn-primary">Cập nhật</button>
-                                </div>
+                                
                             </form>
                         </div>
                     </div>

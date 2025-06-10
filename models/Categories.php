@@ -9,15 +9,15 @@ class Categories extends BaseModel
     {
         return $this->getAll();
     }
-     public function getAllCategoriesClient()
+    public function getAllCategoriesClient()
     {
         return $this->getAllClient();
     }
-public function getActiveCategories()
-{
-    $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";
-    return $this->loadAllRows();
-}
+    public function getActiveCategories()
+    {
+        $this->sql = "SELECT * FROM {$this->table} WHERE status = 1";
+        return $this->loadAllRows();
+    }
 
     public function getCategoryById($id)
     {
@@ -26,13 +26,13 @@ public function getActiveCategories()
 
     public function addCategory($name, $status, $description = null)
     {
-        $data = ['name' => $name, 'status' => $status ,'description' => $description];
+        $data = ['name' => $name, 'status' => $status, 'description' => $description];
         return $this->insert($data);
     }
 
-    public function updateCategory($id, $name,$status,$description = null)
+    public function updateCategory($id, $name, $status, $description = null)
     {
-        $data = ['name' => $name,'status'=> $status, 'description' => $description];
+        $data = ['name' => $name, 'status' => $status, 'description' => $description];
         return $this->update($id, $data);
     }
 

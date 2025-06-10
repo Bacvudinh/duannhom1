@@ -73,7 +73,7 @@
                       <h1 class="single-product-title"><?= htmlspecialchars($product->name) ?></h1>
                       <div class="single-product-price">
 
-                          <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?>  VNĐ</span>
+                          <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> VNĐ</span>
 
 
                       </div>
@@ -104,7 +104,7 @@
                                   radio.addEventListener('change', function() {
                                       const newPrice = this.getAttribute('data-price');
                                       const formatted = new Intl.NumberFormat('vi-VN').format(newPrice);
-                                      priceDisplay.textContent = `${formatted} đ`;
+                                      priceDisplay.textContent = `${formatted} VNĐ`;
                                   });
                               });
                           });
@@ -322,14 +322,16 @@
 
                                                       <!-- Nếu là người gửi thì có quyền xóa -->
                                                       <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
-                                                         <form action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
-                                              method="post" style="display: inline;">
-                                              <button type="submit" class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
-                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
-                                                  <i class="fas fa-trash-alt"></i> Xóa
-                                              </button>
-                                          </form>
+                                                          <form action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>"
+                                                              method="post" style="display: inline;">
+                                                              <button type="submit" class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
+                                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                                                                  <i class="fas fa-trash-alt"></i> Xóa
+                                                              </button>
+                                                          </form>
                                                       <?php endif; ?>
+
+
                                                   </li>
                                               <?php endif; ?>
                                           <?php endforeach; ?>
@@ -578,7 +580,7 @@
                                                   width="23" height="23"></button>
                                           <button class="product-variation-type-btn"><img loading="lazy"
                                                   src="assets/images/products/variation/type/type-3.jpg" alt="black"
-                                                  width="23" height="23"></button> 
+                                                  width="23" height="23"></button>
                                       </div>
                                   </div>
                               </div>

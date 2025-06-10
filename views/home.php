@@ -288,12 +288,13 @@
             <div class="swiper-button-prev d-none d-md-flex"></div>
             <div class="swiper-button-next d-none d-md-flex"></div>
         </div>
+        <div class="h1-gallery-section section section-padding">
         <div class="section-title section-title-center">
             <p class="title">What Happens Here</p>
             <h2 class="sub-title">FEATURED COLLECTION</h2>
 
         </div>
-
+                        </div>
         <div class="product-carousel swiper">
 
             <div class="swiper-wrapper">
