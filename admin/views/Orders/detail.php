@@ -129,15 +129,15 @@
                                                 <tr>
                                                     <td><?= htmlspecialchars($item['product_name']) ?></td>
                                                     <td><img src="../uploads/product/<?= htmlspecialchars($item['product_img']) ?>" alt="<?= htmlspecialchars($item['product_img']) ?>" style="width:100px;height:100px;"></td>
-                                                    <td><?= number_format($item['price'], 0, '.', ',') ?>₫</td>
+                                                    <td><?= number_format($item['price'], 0, '.', ',') ?> VNĐ</td>
                                                     <td><?= $item['quantity'] ?></td>
                                                     <td><?= htmlspecialchars($item['variant_size']) ?></td>
-                                                    <td><?= number_format($item_total, 0, '.', ',') ?>₫</td>
+                                                    <td><?= number_format($item_total, 0, '.', ',') ?> VNĐ</td>
                                                 </tr>
                                             <?php endforeach; ?>
                                             <tr>
                                                 <td colspan="3" class="text-end fw-bold">Tổng cộng:</td>
-                                                <td class="fw-bold"><?= number_format($grand_total, 0, '.', ',') ?>₫</td>
+                                                <td class="fw-bold"><?= number_format($grand_total, 0, '.', ',') ?> VNĐ</td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -73,7 +73,7 @@
                       <h1 class="single-product-title"><?= htmlspecialchars($product->name) ?></h1>
                       <div class="single-product-price">
 
-                          <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?> đ</span>
+                          <span id="dynamic-price"><?= number_format($productVariants[0]->price, 0, ',', '.') ?>  VNĐ</span>
 
 
                       </div>
@@ -218,17 +218,17 @@
           <!-- Single Product Bottom (Description) Area Start -->
           <div class="single-product-description-area">
               <div class="nav single-product-description-area-nav">
-              
-                      <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
-                      <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
-                      <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
-                      <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
-                      <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
+
+                  <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
               </div>
-          
+
           </div>
 
-    
+
           <div class="tab-content">
               <!-- Description Start -->
               <div class="tab-pane fade show active" id="product-description">
@@ -253,10 +253,15 @@
 
                       <!-- Form thêm bình luận mới -->
                       <?php if (isset($_SESSION['user'])): ?>
-                          <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
-                              <textarea name="comment" required></textarea>
-                              <button type="submit">Gửi bình luận</button>
+                          <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post" class="mb-4">
+                              <div class="mb-3">
+                                  <textarea name="comment" rows="4" class="form-control" placeholder="Nhập bình luận của bạn..." required></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                                  <i class="fas fa-paper-plane"></i> Gửi bình luận
+                              </button>
                           </form>
+
                       <?php else: ?>
                           <p>Vui lòng <a href="index.php?act=loginForm">đăng nhập</a> để bình luận.</p>
                       <?php endif; ?>
@@ -274,24 +279,35 @@
 
                                       <!-- Nếu là người gửi thì có quyền xóa -->
                                       <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
-                                          <form
-                                              action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
-                                              method="post" style="display:inline;">
-                                              <button type="submit"
-                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
+                                          <form action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
+                                              method="post" style="display: inline;">
+                                              <button type="submit" class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
+                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                                                  <i class="fas fa-trash-alt"></i> Xóa
+                                              </button>
                                           </form>
+
                                       <?php endif; ?>
 
                                       <!-- Nút trả lời -->
                                       <?php if (isset($_SESSION['user'])): ?>
-                                          <a href="#"
-                                              onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block'; return false;">REPLY</a>
-                                          <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 5px;"
-                                              action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post">
-                                              <textarea name="comment" required></textarea>
+                                          <button type="button"
+                                              class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1 mt-2"
+                                              onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block';">
+                                              <i class="fas fa-reply"></i> Trả lời
+                                          </button>
+
+                                          <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 10px;" method="post"
+                                              action="index.php?act=addComment&product_id=<?= $product->id ?>">
+                                              <div class="mb-2">
+                                                  <textarea name="comment" rows="3" class="form-control" placeholder="Nhập phản hồi..." required></textarea>
+                                              </div>
                                               <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
-                                              <button type="submit">Gửi trả lời</button>
+                                              <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+                                                  <i class="fas fa-paper-plane"></i> Gửi trả lời
+                                              </button>
                                           </form>
+
                                       <?php endif; ?>
 
                                       <!-- Danh sách trả lời -->
@@ -306,12 +322,13 @@
 
                                                       <!-- Nếu là người gửi thì có quyền xóa -->
                                                       <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
-                                                          <form
-                                                              action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>"
-                                                              method="post" style="display:inline;">
-                                                              <button type="submit"
-                                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">Xóa</button>
-                                                          </form>
+                                                         <form action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
+                                              method="post" style="display: inline;">
+                                              <button type="submit" class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
+                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                                                  <i class="fas fa-trash-alt"></i> Xóa
+                                              </button>
+                                          </form>
                                                       <?php endif; ?>
                                                   </li>
                                               <?php endif; ?>
@@ -561,7 +578,7 @@
                                                   width="23" height="23"></button>
                                           <button class="product-variation-type-btn"><img loading="lazy"
                                                   src="assets/images/products/variation/type/type-3.jpg" alt="black"
-                                                  width="23" height="23"></button>
+                                                  width="23" height="23"></button> 
                                       </div>
                                   </div>
                               </div>
@@ -575,9 +592,7 @@
 
 
 
-
-
-                                      <?= number_format($item->price) ?>
+                                      <?= number_format($item->price, 0, ',', '.') ?> VNĐ
 
                                   </div>
                                   <div class="product-rating">

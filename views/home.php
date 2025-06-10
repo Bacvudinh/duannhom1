@@ -262,10 +262,10 @@
 
                                 <div class="product-price">
                                     <?php if (!empty($product->discount_price)): ?>
-                                        <del><?= number_format($product->price, 0, ',', '.') ?>đ</del>
-                                        <?= number_format($product->discount_price, 0, ',', '.') ?>đ
+                                        <del><?= number_format($product->price, 0, ',', '.') ?> VNĐ</del>
+                                        <?= number_format($product->discount_price, 0, ',', '.') ?> VNĐ
                                     <?php else: ?>
-                                        <?= number_format($product->price, 0, ',', '.') ?>đ
+                                        <?= number_format($product->price, 0, ',', '.') ?> VNĐ
                                     <?php endif; ?>
                                 </div>
 
@@ -340,10 +340,10 @@
 
                                 <div class="product-price">
                                     <?php if (!empty($product->discount_price)): ?>
-                                        <del><?= number_format($product->price, 0, ',', '.') ?>đ</del>
-                                        <?= number_format($product->discount_price, 0, ',', '.') ?>đ
+                                        <del><?= number_format($product->price, 0, ',', '.') ?> VNĐ</del>
+                                        <?= number_format($product->discount_price, 0, ',', '.') ?> VNĐ
                                     <?php else: ?>
-                                        <?= number_format($product->price, 0, ',', '.') ?>đ
+                                        <?= number_format($product->price, 0, ',', '.') ?> VNĐ
                                     <?php endif; ?>
                                 </div>
 
