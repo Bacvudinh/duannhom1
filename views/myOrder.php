@@ -27,7 +27,7 @@
                     <tr>
                         <td>#<?= htmlspecialchars($order->id) ?></td>
                         <td><?= htmlspecialchars($order->created_at) ?></td>
-                        <td><?= number_format($order->total_amount, 0, '.', ',') ?>₫</td>
+                        <td><?= number_format($order->total_amount, 0, '.', ',') ?> VNĐ</td>
                         <td class="
                                 <?= $order->status == 'Chờ xác nhận' ? 'order-status-waiting-confirmation' :
                                     ($order->status == 'Chờ lấy hàng' ? 'order-status-waiting-pickup' :

@@ -1,13 +1,5 @@
 <!doctype html>
-<html lang="en"
-    data-layout="vertical"
-    data-topbar="light"
-    data-sidebar="dark"
-    data-sidebar-size="lg"
-    data-sidebar-image="none"
-    data-preloader="disable"
-    data-theme="default"
-    data-theme-colors="default">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -29,6 +21,16 @@
             color: red;
             font-weight: 600;
         }
+
+        .payment-status-paid {
+            color: green;
+            font-weight: 600;
+        }
+
+        .payment-status-unpaid {
+            color: orange;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -40,27 +42,21 @@
         require_once "views/layouts/siderbar.php";
         ?>
 
-        <div class="vertical-overlay"></div>
-
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <!-- Tiêu đề trang -->
                     <div class="row mb-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                <h4 class="mb-0">Danh sách đơn hàng</h4>
-                               
-                            </div>
+                        <div class="col-12 d-flex justify-content-between">
+                            <h4>Danh sách đơn hàng</h4>
                         </div>
                     </div>
 
-                    <!-- Thông báo thành công -->
+                    <!-- Thông báo -->
                     <?php if (isset($_GET['success']) && $_GET['success'] === 'update'): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             Cập nhật đơn hàng thành công!
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
 
@@ -69,15 +65,15 @@
                         <input type="hidden" name="act" value="Orders">
                         <div class="col-md-4">
                             <input type="text" name="keyword" class="form-control"
-                                   placeholder="Tìm theo tên, địa chỉ, ID đơn..."
-                                   value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+                                placeholder="Tìm theo tên, địa chỉ, ID đơn..."
+                                value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
 
-                    <!-- Danh sách đơn hàng -->
+                    <!-- Bảng đơn hàng -->
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -85,15 +81,15 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="selectAll">
-                                                </div>
+                                                <input class="form-check-input" type="checkbox" id="selectAll">
                                             </th>
                                             <th>ID</th>
-                                            <th>Tên khách hàng</th>
+                                            <th>Tên KH</th>
                                             <th>Điện thoại</th>
                                             <th>Tổng tiền</th>
-                                            <th>Trạng thái</th>
+                                            <th>Trạng thái đơn</th>
+                                            <th>Thanh toán</th>
+                                            <th>Phương thức</th>
                                             <th>Ngày tạo</th>
                                             <th class="text-end">Hành động</th>
                                         </tr>
@@ -103,14 +99,12 @@
                                             <?php foreach ($orders as $order): ?>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="selected[]" value="<?= $order['id'] ?>">
-                                                        </div>
+                                                        <input class="form-check-input" type="checkbox" name="selected[]" value="<?= $order['id'] ?>">
                                                     </td>
                                                     <td><?= $order['id'] ?></td>
                                                     <td><?= htmlspecialchars($order['shipping_name']) ?></td>
                                                     <td><?= htmlspecialchars($order['shipping_phone']) ?></td>
-                                                    <td><?= number_format($order['total_amount'], 0, '.', ',') ?>₫</td>
+                                                    <td><?= number_format($order['total_amount'], 0, '.', ',') ?> VNĐ</td>
                                                     <td>
                                                         <span class="<?php
                                                             echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' :
@@ -119,6 +113,12 @@
                                                             <?= htmlspecialchars($order['status']) ?>
                                                         </span>
                                                     </td>
+                                                    <td>
+                                                        <span class="<?= $order['payment_status'] === 'Đã thanh toán' ? 'payment-status-paid' : 'payment-status-unpaid' ?>">
+                                                            <?= htmlspecialchars($order['payment_status']) ?>
+                                                        </span>
+                                                    </td>
+                                                    <td><?= htmlspecialchars($order['payment_method'] ?? 'COD') ?></td>
                                                     <td><?= $order['created_at'] ?></td>
                                                     <td class="text-end">
                                                         <a href="index.php?act=detailOrder&id=<?= $order['id'] ?>" class="btn btn-sm btn-primary">
@@ -129,7 +129,7 @@
                                             <?php endforeach; ?>
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="8" class="text-center text-muted">Không có đơn hàng nào.</td>
+                                                <td colspan="10" class="text-center text-muted">Không có đơn hàng nào.</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
@@ -157,7 +157,7 @@
         </div>
     </div>
 
-    <!-- Nút back-to-top -->
+    <!-- Nút back to top -->
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
@@ -171,21 +171,10 @@
         </div>
     </div>
 
-    <!-- Customizer -->
-    <div class="customizer-setting d-none d-md-block">
-        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2"
-             data-bs-toggle="offcanvas"
-             data-bs-target="#theme-settings-offcanvas"
-             aria-controls="theme-settings-offcanvas">
-            <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
     <?php require_once "views/layouts/libs_js.php"; ?>
 
-    <!-- Chọn tất cả checkbox -->
     <script>
+        // Chọn tất cả checkbox
         document.getElementById('selectAll').onclick = function () {
             const checkboxes = document.querySelectorAll('input[name="selected[]"]');
             checkboxes.forEach(cb => cb.checked = this.checked);

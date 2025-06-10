@@ -8,31 +8,33 @@ class Order extends BaseModel
         $this->conn = connectDB(); // Kết nối PDO
     }
 
-    public function all()
-    {
-        $sql = "
-            SELECT 
-                o.id,
-                o.user_id,
-                o.status,
-                o.created_at,
-                odr.address AS shipping_address,
-                odr.phone AS shipping_phone,
-                odr.name AS shipping_name,
-                odr.email AS shipping_email,
-                IFNULL(SUM(od.price * od.quantity), 0) AS total_amount
-            FROM orders o
-            LEFT JOIN order_details od ON o.id = od.order_id
-            LEFT JOIN order_addresses odr ON odr.order_id = o.id
-            GROUP BY o.id, o.user_id, o.status, o.created_at, 
-                     odr.address, odr.phone, odr.name, odr.email
-            ORDER BY o.created_at DESC
-        ";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
+   public function all()
+{
+    $sql = "
+        SELECT 
+            o.id,
+            o.user_id,
+            o.status,
+            o.created_at,
+            o.payment_status,
+            odr.address AS shipping_address,
+            odr.phone AS shipping_phone,
+            odr.name AS shipping_name,
+            odr.email AS shipping_email,
+            IFNULL(SUM(od.price * od.quantity), 0) AS total_amount
+        FROM orders o
+        LEFT JOIN order_details od ON o.id = od.order_id
+        LEFT JOIN order_addresses odr ON odr.order_id = o.id
+        GROUP BY o.id, o.user_id, o.status, o.created_at, 
+                 odr.address, odr.phone, odr.name, odr.email,
+                 o.payment_status
+        ORDER BY o.created_at DESC
+    ";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
    public function find($id)
 {
@@ -114,5 +116,9 @@ class Order extends BaseModel
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function updatePaymentMethod($orderId, $paymentMethod) {
+    $stmt = $this->conn->prepare("UPDATE orders SET payment_method = ? WHERE id = ?");
+    return $stmt->execute([$paymentMethod, $orderId]);
+}
 
 }
