@@ -22,8 +22,8 @@
                     <th>Sản phẩm</th>
                     <th>Hình ảnh</th>
                     <th>Size</th>
-                    <th>Số lượng</th>
                     <th>Đơn giá</th>
+                    <th>Số lượng</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                 <?php endforeach; ?>
                 <tr>
                     <td colspan="5" class="text-end"><strong>Tổng tiền:</strong></td>
-                    <td><strong><?= number_format($total, 0, ',', '.') ?>₫</strong></td>
+                    <td><strong><?= number_format($total, 0, ',', '.') ?> VNĐ</strong></td>
                 </tr>
             </tbody>
         </table>
