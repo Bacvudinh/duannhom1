@@ -51,9 +51,9 @@ class Products extends BaseModel
         $this->setQuery($sql);
         return $this->loadAllRows($params);
     }
-public function TopProducts($limit = 10)
-{
-    $sql = "SELECT 
+    public function TopProducts($limit = 10)
+    {
+        $sql = "SELECT 
     p.id,
     p.name,
     p.price,
@@ -78,54 +78,54 @@ ORDER BY
     total_sold DESC
 LIMIT $limit"; // Truyền trực tiếp số nguyên
 
-    $this->setQuery($sql);
-    return $this->loadAllRows(); // Không cần truyền mảng
-}
+        $this->setQuery($sql);
+        return $this->loadAllRows(); // Không cần truyền mảng
+    }
 
 
 
     // Hàm này dùng để lấy tất cả sản phẩm cho trang quản trị ( tách riêng để lấy cho admin )
-public function getProductsforadmin($keyword = null)
-{
-    $sql = "SELECT p.*, c.name AS category_name, 
+    public function getProductsforadmin($keyword = null)
+    {
+        $sql = "SELECT p.*, c.name AS category_name, 
             COUNT(v.id) AS variant_count
             FROM `products` AS p 
             JOIN `categories` AS c ON p.category_id = c.id 
             LEFT JOIN `product_variants` AS v ON p.id = v.product_id
             WHERE 1 ";
 
-    $params = [];
+        $params = [];
 
-    if ($keyword) {
-        $sql .= " AND (p.name LIKE ? OR p.description LIKE ?)";
-        $params[] = "%$keyword%";
-        $params[] = "%$keyword%";
+        if ($keyword) {
+            $sql .= " AND (p.name LIKE ? OR p.description LIKE ?)";
+            $params[] = "%$keyword%";
+            $params[] = "%$keyword%";
+        }
+
+        // Lọc theo danh mục
+        if (!empty($_GET['category'])) {
+            $placeholders = implode(',', array_fill(0, count($_GET['category']), '?'));
+            $sql .= " AND p.category_id IN ($placeholders)";
+            $params = array_merge($params, $_GET['category']);
+        }
+
+        // Lọc theo giá
+        if (!empty($_GET['min_price'])) {
+            $sql .= " AND p.price >= ?";
+            $params[] = $_GET['min_price'];
+        }
+
+        if (!empty($_GET['max_price'])) {
+            $sql .= " AND p.price <= ?";
+            $params[] = $_GET['max_price'];
+        }
+
+        // Nhóm theo ID sản phẩm để đếm biến thể
+        $sql .= " GROUP BY p.id";
+
+        $this->setQuery($sql);
+        return $this->loadAllRows($params);
     }
-
-    // Lọc theo danh mục
-    if (!empty($_GET['category'])) {
-        $placeholders = implode(',', array_fill(0, count($_GET['category']), '?'));
-        $sql .= " AND p.category_id IN ($placeholders)";
-        $params = array_merge($params, $_GET['category']);
-    }
-
-    // Lọc theo giá
-    if (!empty($_GET['min_price'])) {
-        $sql .= " AND p.price >= ?";
-        $params[] = $_GET['min_price'];
-    }
-
-    if (!empty($_GET['max_price'])) {
-        $sql .= " AND p.price <= ?";
-        $params[] = $_GET['max_price'];
-    }
-
-    // Nhóm theo ID sản phẩm để đếm biến thể
-    $sql .= " GROUP BY p.id";
-
-    $this->setQuery($sql);
-    return $this->loadAllRows($params);
-}
     public function countProducts($keyword = null)
     {
         $sql = "SELECT COUNT(*) FROM `{$this->table}` AS p ";
@@ -149,21 +149,21 @@ public function getProductsforadmin($keyword = null)
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
-// Lấy biến thể theo product_id
-public function getVariantsByProductId($productId)
-{
-    $sql = "SELECT * FROM product_variants WHERE product_id = ?";
-    $this->setQuery($sql);
-    return $this->loadAllRows([$productId]);
-}
+    // Lấy biến thể theo product_id
+    public function getVariantsByProductId($productId)
+    {
+        $sql = "SELECT * FROM product_variants WHERE product_id = ?";
+        $this->setQuery($sql);
+        return $this->loadAllRows([$productId]);
+    }
 
-// Xóa biến thể
-public function deleteVariant($variant_id)
-{
-    $sql = "DELETE FROM product_variants WHERE id = ?";
-    $this->setQuery($sql);
-    return $this->execute([$variant_id]);
-}
+    // Xóa biến thể
+    public function deleteVariant($variant_id)
+    {
+        $sql = "DELETE FROM product_variants WHERE id = ?";
+        $this->setQuery($sql);
+        return $this->execute([$variant_id]);
+    }
     public function getProductByName($name)
     {
         $sql = "SELECT * FROM `{$this->table}` WHERE name LIKE ?";
@@ -225,12 +225,16 @@ public function deleteVariant($variant_id)
         $where = ['id' => $id];
         return $this->deleteRow($where);
     }
-   public function updateProductStock($productId, $newStock)
-{
-    $sql = "UPDATE products SET stock = ? WHERE id = ?";
-    $this->setQuery($sql);
-    return $this->execute([$newStock, $productId]);
-}
-
-
+    public function updateProductStock($productId, $newStock)
+    {
+        $sql = "UPDATE products SET stock = ? WHERE id = ?";
+        $this->setQuery($sql);
+        return $this->execute([$newStock, $productId]);
+    }
+    public function getVariantById($variantId)
+    {
+        $sql = "SELECT * FROM product_variants WHERE id = ?";
+        $this->setQuery($sql);
+        return $this->loadRow([$variantId]);
+    }
 }
