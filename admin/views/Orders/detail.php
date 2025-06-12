@@ -6,16 +6,32 @@
     <title>Chi tiết đơn hàng | NN Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require_once "views/layouts/libs_css.php"; ?>
-    <style>
-        .order-status-pending { color: orange; font-weight: 600; }
-        .order-status-completed { color: green; font-weight: 600; }
-        .order-status-cancelled { color: red; font-weight: 600; }
-        .payment-paid { color: green; font-weight: 600; }
-        .payment-unpaid { color: red; font-weight: 600; }
+    <!-- CSS thêm vào (đặt trong <style> hoặc file riêng) -->
+ <style>
+        .order-status-waiting-confirmation { color:#ffb300; font-weight:600; } /* Chờ xác nhận */
+        .order-status-waiting-pickup      { color:#9c27b0; font-weight:600; } /* Chờ lấy hàng  */
+        .order-status-shipping            { color:#2196f3; font-weight:600; } /* Đang giao     */
+        .order-status-shipped             { color:#00bcd4; font-weight:600; } /* Đã giao       */
+        .order-status-completed           { color:#4caf50; font-weight:600; } /* Hoàn thành    */
+        .order-status-cancelled           { color:#f44336; font-weight:600; } /* Đã hủy        */
+
+        .payment-status-paid { color: green; font-weight: 600; }
+        .payment-status-unpaid { color: red; font-weight: 600; }
     </style>
 </head>
 
 <body>
+    <?php
+                                                /* Map trạng thái → lớp màu */
+                                                $statusClasses = [
+                                                    'Chờ xác nhận'  => 'order-status-waiting-confirmation',
+                                                    'Chờ lấy hàng'  => 'order-status-waiting-pickup',
+                                                    'Đang giao hàng'=> 'order-status-shipping',
+                                                    'Đã giao hàng'  => 'order-status-shipped',
+                                                    'Hoàn thành'    => 'order-status-completed',
+                                                    'Đã hủy'        => 'order-status-cancelled'
+                                                ];
+                                                ?>
     <div id="layout-wrapper">
         <?php
         require_once "views/layouts/header.php";
@@ -49,34 +65,50 @@
                     <?php endif; ?>
 
                     <!-- Thông tin đơn hàng -->
-                    <div class="card card-animate mb-4">
+                  <div class="card card-animate mb-4">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">Thông tin đơn hàng</h5>
-                            <ul class="list-unstyled mb-4">
-                                <li><strong>Khách hàng:</strong> <?= htmlspecialchars($order['user_name'] ?? 'Chưa có') ?></li>
-                                <li><strong>Trạng thái đơn hàng:</strong>
-                                    <span class="<?php
-                                        echo $order['status'] === 'Chờ xác nhận' ? 'order-status-pending' :
-                                            ($order['status'] === 'Hoàn thành' ? 'order-status-completed' : 'order-status-cancelled');
-                                    ?>">
-                                        <?= htmlspecialchars($order['status']) ?>
-                                    </span>
-                                </li>
-                                <li><strong>Trạng thái thanh toán:</strong>
-                                    <span class="<?= $order['payment_status'] === 'Đã thanh toán' ? 'payment-paid' : 'payment-unpaid' ?>">
-                                        <?= htmlspecialchars($order['payment_status']) ?>
-                                    </span>
-                                    <li><strong>Phương thức đặt hàng: COD</strong></li>
-                                </li>
-                                <li><strong>Ngày đặt hàng:</strong> <?= htmlspecialchars($order['created_at']) ?></li>
-                                <li><strong>Tổng tiền:</strong> <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</li>
-                                <li><strong>Địa chỉ:</strong> <?= htmlspecialchars($order_items[0]['shipping_address'] ?? 'Không có') ?></li>
-                                <li><strong>Điện thoại:</strong> <?= htmlspecialchars($order_items[0]['shipping_phone'] ?? 'Không có') ?></li>
-                                <li><strong>Email:</strong> <?= htmlspecialchars($order_items[0]['shipping_email'] ?? 'Không có') ?></li>
-                            </ul>
+                            <!-- Tiêu đề chính nổi bật hơn -->
+                            <h4 class="card-title mb-4 fw-bold text-primary">Thông tin đơn hàng</h4>
+
+                            <div class="row">
+                                <!-- Cột thông tin chung -->
+                                <div class="col-md-6 border-end-md pe-md-4 mb-3 mb-md-0">
+                                    <h6 class="fw-semibold mb-3">Thông tin chung</h6>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Khách hàng:</strong> <?= htmlspecialchars($order['user_name'] ?? 'Chưa có') ?></li>
+
+                                        <li><strong>Trạng thái đơn hàng:</strong>
+                                            <span class="<?= $statusClasses[$order['status']] ?? 'order-status-cancelled' ?>">
+                                                <?= htmlspecialchars($order['status']) ?>
+                                            </span>
+                                        </li>
+
+                                        <li><strong>Trạng thái thanh toán:</strong>
+                                            <span class="<?= $order['payment_status'] === 'Đã thanh toán'
+                                                ? 'payment-status-paid'
+                                                : 'payment-status-unpaid' ?>">
+                                                <?= htmlspecialchars($order['payment_status']) ?>
+                                            </span>
+                                        </li>
+                                        <li><strong>Phương thức đặt hàng:</strong> COD</li>
+                                        <li><strong>Ngày đặt hàng:</strong> <?= htmlspecialchars($order['created_at']) ?></li>
+                                        <li><strong>Tổng tiền:</strong> <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Cột thông tin khách hàng -->
+                                <div class="col-md-6 ps-md-4">
+                                    <h6 class="fw-semibold mb-3">Thông tin khách hàng</h6>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Địa chỉ:</strong> <?= htmlspecialchars($order_items[0]['shipping_address'] ?? 'Không có') ?></li>
+                                        <li><strong>Điện thoại:</strong> <?= htmlspecialchars($order_items[0]['shipping_phone'] ?? 'Không có') ?></li>
+                                        <li><strong>Email:</strong> <?= htmlspecialchars($order_items[0]['shipping_email'] ?? 'Không có') ?></li>
+                                    </ul>
+                                </div>
+                            </div>
 
                             <!-- Cập nhật trạng thái -->
-                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end">
+                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end mt-3">
                                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                                 <div class="col-md-4">
                                     <select class="form-select" name="status" onchange="this.form.submit()">
@@ -94,10 +126,11 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                
                             </form>
                         </div>
                     </div>
+
+
 
                     <!-- Chi tiết sản phẩm -->
                     <div class="card">

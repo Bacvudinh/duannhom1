@@ -16,6 +16,7 @@
                 <tr>
                     <th>Mã đơn hàng</th>
                     <th>Ngày đặt hàng</th>
+                    <th>Phương Thức TT</th>
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>Thanh toán</th>
@@ -27,6 +28,7 @@
                     <tr>
                         <td>#<?= htmlspecialchars($order->id) ?></td>
                         <td><?= htmlspecialchars($order->created_at) ?></td>
+                        <td>COD</td>
                         <td><?= number_format($order->total_amount, 0, '.', ',') ?> VNĐ</td>
                         <td class="
                                 <?= $order->status == 'Chờ xác nhận' ? 'order-status-waiting-confirmation' :
@@ -38,7 +40,11 @@
                                 <?= $statuses[$order->status] ?? ucfirst($order->status) ?>
                             </td>
                         <td>
-                            <?= $order->payment_status ?? 'Chưa thanh toán' ?>
+                            <span class="<?= ($order->payment_status ?? 'Chưa thanh toán') === 'Đã thanh toán'
+                                ? 'payment-status-paid'
+                                : 'payment-status-unpaid'; ?>">
+                                <?= $order->payment_status ?? 'Chưa thanh toán' ?>
+                            </span>
                         </td>
                         <td>
                             <a href="index.php?act=orderDetails&order_id=<?= $order->id ?>" class="btn btn-sm btn-primary">

@@ -36,30 +36,30 @@ class Order extends BaseModel
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-   public function find($id)
+  public function find($id)
 {
     // Lấy thông tin đơn hàng
     $stmt = $this->conn->prepare("
         SELECT 
-            orders.*,
-            users.name AS user_name,
-            users.email AS user_email
-        FROM orders
-        INNER JOIN users ON orders.user_id = users.id
-        WHERE orders.id = ?
+            o.*,
+            u.name AS user_name,
+            u.email AS user_email
+        FROM orders o
+        INNER JOIN users u ON o.user_id = u.id
+        WHERE o.id = ?
     ");
     $stmt->execute([$id]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$order) return null;
 
-    // Lấy chi tiết sản phẩm trong đơn hàng (gồm size từ biến thể)
+    // Lấy chi tiết sản phẩm trong đơn hàng (không dùng variant)
     $stmt = $this->conn->prepare("
         SELECT 
             od.*,
             p.name AS product_name,
-            COALESCE(pv.size, 'Mặc định') AS variant_size,
-            COALESCE(pv.price, od.price) AS price,
+            'Mặc định' AS variant_size, -- Do không có biến thể
+            od.price AS price,
             p.image AS product_img,
             odr.address AS shipping_address,
             odr.phone AS shipping_phone,
@@ -67,7 +67,6 @@ class Order extends BaseModel
             odr.email AS shipping_email
         FROM order_details od
         JOIN products p ON od.product_id = p.id
-        LEFT JOIN product_variants pv ON od.variant_id = pv.id
         LEFT JOIN order_addresses odr ON odr.order_id = od.order_id
         WHERE od.order_id = ?
     ");

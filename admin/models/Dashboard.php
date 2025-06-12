@@ -130,6 +130,7 @@ private function getRevenueStatistics($interval = '1Y')
 {
     $sql = "
         SELECT 
+            o.id,
             o.id AS order_id,
             u.NAME AS customer_name,
             o.created_at AS order_date,

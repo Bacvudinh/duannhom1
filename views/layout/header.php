@@ -27,6 +27,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"><link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet">
 
+  <style>
+        .order-status-waiting-confirmation { color:#ffb300; font-weight:600; } /* Chờ xác nhận */
+        .order-status-waiting-pickup      { color:#9c27b0; font-weight:600; } /* Chờ lấy hàng  */
+        .order-status-shipping            { color:#2196f3; font-weight:600; } /* Đang giao     */
+        .order-status-shipped             { color:#00bcd4; font-weight:600; } /* Đã giao       */
+        .order-status-completed           { color:#4caf50; font-weight:600; } /* Hoàn thành    */
+        .order-status-cancelled           { color:#f44336; font-weight:600; } /* Đã hủy        */
+
+        .payment-status-paid { color: green; font-weight: 600; }
+        .payment-status-unpaid { color: red; font-weight: 600; }
+    </style>
     
 </head>
 
