@@ -17,18 +17,17 @@ class Cart extends BaseModel
         $this->execute([$userId]);
         return $this->pdo->lastInsertId();
     }
-
     public function getCartItems($cartId)
     {
-        $sql = "SELECT ci.*, p.name, p.image, p.price, p.status, pv.size AS variant_size
-FROM cart_items ci
-JOIN products p ON ci.product_id = p.id
-JOIN product_variants pv ON ci.variant_id = pv.id
-WHERE ci.cart_id = ?
-";
+        $sql = "SELECT ci.*, p.name, p.image, p.status, pv.size AS variant_size
+            FROM cart_items ci
+            JOIN products p ON ci.product_id = p.id
+            JOIN product_variants pv ON ci.variant_id = pv.id
+            WHERE ci.cart_id = ?";
         $this->setQuery($sql);
         return $this->loadAllRows([$cartId]);
     }
+
 
     public function addItemToCart($cartId, $productId, $variantId, $variantSize, $price, $quantity)
     {
