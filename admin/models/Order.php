@@ -8,9 +8,9 @@ class Order extends BaseModel
         $this->conn = connectDB(); // Kết nối PDO
     }
 
-   public function all()
-{
-    $sql = "
+    public function all()
+    {
+        $sql = "
         SELECT 
             o.id,
             o.user_id,
@@ -30,16 +30,16 @@ class Order extends BaseModel
                  o.payment_status
         ORDER BY o.created_at DESC
     ";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-  public function find($id)
-{
-    // Lấy thông tin đơn hàng
-    $stmt = $this->conn->prepare("
+    public function find($id)
+    {
+        // Lấy thông tin đơn hàng
+        $stmt = $this->conn->prepare("
         SELECT 
             o.*,
             u.name AS user_name,
@@ -48,33 +48,35 @@ class Order extends BaseModel
         INNER JOIN users u ON o.user_id = u.id
         WHERE o.id = ?
     ");
-    $stmt->execute([$id]);
-    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute([$id]);
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$order) return null;
+        if (!$order) return null;
 
-    // Lấy chi tiết sản phẩm trong đơn hàng (không dùng variant)
-    $stmt = $this->conn->prepare("
+        // Lấy chi tiết sản phẩm trong đơn hàng (không dùng variant)
+        $stmt = $this->conn->prepare("
         SELECT 
-            od.*,
-            p.name AS product_name,
-            'Mặc định' AS variant_size, -- Do không có biến thể
-            od.price AS price,
-            p.image AS product_img,
-            odr.address AS shipping_address,
-            odr.phone AS shipping_phone,
-            odr.name AS shipping_name,
-            odr.email AS shipping_email
-        FROM order_details od
-        JOIN products p ON od.product_id = p.id
-        LEFT JOIN order_addresses odr ON odr.order_id = od.order_id
-        WHERE od.order_id = ?
-    ");
-    $stmt->execute([$id]);
-    $order['details'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    od.*,
+    p.name AS product_name,
+    pv.size AS variant_size, -- ✅ Lấy size thật
+    od.price AS price,
+    p.image AS product_img,
+    odr.address AS shipping_address,
+    odr.phone AS shipping_phone,
+    odr.name AS shipping_name,
+    odr.email AS shipping_email
+FROM order_details od
+JOIN products p ON od.product_id = p.id
+LEFT JOIN product_variants pv ON od.variant_id = pv.id -- ✅ Thêm dòng này
+LEFT JOIN order_addresses odr ON odr.order_id = od.order_id
+WHERE od.order_id = ?
 
-    return $order;
-}
+    ");
+        $stmt->execute([$id]);
+        $order['details'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $order;
+    }
 
 
     public function updateStatus($id, $status)
@@ -89,9 +91,9 @@ class Order extends BaseModel
         $stmt = $this->conn->prepare("UPDATE orders SET payment_status = ? WHERE id = ?");
         return $stmt->execute([$paymentStatus, $orderId]);
     }
-  public function searchByCustomerName($keyword)
-{
-    $sql = "
+    public function searchByCustomerName($keyword)
+    {
+        $sql = "
         SELECT 
             o.id,
             o.user_id,
@@ -110,14 +112,14 @@ class Order extends BaseModel
                  odr.address, odr.phone, odr.name, odr.email
         ORDER BY o.created_at DESC
     ";
-    $stmt = $this->conn->prepare($sql); // ✅ Sử dụng đúng biến kết nối
-    $stmt->execute(['keyword' => '%' . $keyword . '%']);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->conn->prepare($sql); // ✅ Sử dụng đúng biến kết nối
+        $stmt->execute(['keyword' => '%' . $keyword . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-public function updatePaymentMethod($orderId, $paymentMethod) {
-    $stmt = $this->conn->prepare("UPDATE orders SET payment_method = ? WHERE id = ?");
-    return $stmt->execute([$paymentMethod, $orderId]);
-}
-
+    public function updatePaymentMethod($orderId, $paymentMethod)
+    {
+        $stmt = $this->conn->prepare("UPDATE orders SET payment_method = ? WHERE id = ?");
+        return $stmt->execute([$paymentMethod, $orderId]);
+    }
 }
