@@ -262,10 +262,10 @@
 
                                 <div class="product-price">
                                     <?php if (!empty($product->discount_price)): ?>
-                                        <del><?= number_format($product->price, 0, ',', '.') ?>đ</del>
-                                        <?= number_format($product->discount_price, 0, ',', '.') ?>đ
+                                        <del><?= number_format($product->price, 0, ',', '.') ?> VNĐ</del>
+                                        <?= number_format($product->discount_price, 0, ',', '.') ?> VNĐ
                                     <?php else: ?>
-                                        <?= number_format($product->price, 0, ',', '.') ?>đ
+                                        <?= number_format($product->price, 0, ',', '.') ?> VNĐ
                                     <?php endif; ?>
                                 </div>
 
@@ -288,12 +288,13 @@
             <div class="swiper-button-prev d-none d-md-flex"></div>
             <div class="swiper-button-next d-none d-md-flex"></div>
         </div>
+        <div class="h1-gallery-section section section-padding">
         <div class="section-title section-title-center">
             <p class="title">What Happens Here</p>
             <h2 class="sub-title">FEATURED COLLECTION</h2>
 
         </div>
-
+                        </div>
         <div class="product-carousel swiper">
 
             <div class="swiper-wrapper">
@@ -340,10 +341,10 @@
 
                                 <div class="product-price">
                                     <?php if (!empty($product->discount_price)): ?>
-                                        <del><?= number_format($product->price, 0, ',', '.') ?>đ</del>
-                                        <?= number_format($product->discount_price, 0, ',', '.') ?>đ
+                                        <del><?= number_format($product->price, 0, ',', '.') ?> VNĐ</del>
+                                        <?= number_format($product->discount_price, 0, ',', '.') ?> VNĐ
                                     <?php else: ?>
-                                        <?= number_format($product->price, 0, ',', '.') ?>đ
+                                        <?= number_format($product->price, 0, ',', '.') ?> VNĐ
                                     <?php endif; ?>
                                 </div>
 

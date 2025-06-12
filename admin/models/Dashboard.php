@@ -16,7 +16,8 @@ class Dashboard extends BaseModel
             'totalCustomers' => $this->getTotalCustomers(),
             'myBalance' => $this->getMyBalance(),
             'revenueChart' => $this->getRevenueStatistics($filter),
-            'bestSellingProducts' => $this->getBestSellingProducts($range)
+            'bestSellingProducts' => $this->getBestSellingProducts($range),
+            'latestOrders' => $this->getLatestOrders()
         ];
     }
 
@@ -125,5 +126,27 @@ private function getRevenueStatistics($interval = '1Y')
 
         return $products;
     }
+   private function getLatestOrders($limit = 5)
+{
+    $sql = "
+        SELECT 
+            o.id AS order_id,
+            u.NAME AS customer_name,
+            o.created_at AS order_date,
+            o.status,
+            o.total_amount
+        FROM orders o
+        JOIN users u ON u.id = o.user_id
+        ORDER BY o.created_at DESC
+        LIMIT :limit
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

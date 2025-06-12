@@ -40,6 +40,18 @@ class ProductController
     $id = $_GET['id'] ?? 0;
 
     $product = $this->product->getProductById($id);
+    if (!$product) {
+    $_SESSION['add_to_cart_error'] = "Sản phẩm không tồn tại hoặc đã bị xóa.";
+    header("Location: index.php");
+    exit;
+}
+
+// ✅ Kiểm tra nếu sản phẩm đã ngừng kinh doanh (status = 0)
+if ($product->status == 0) {
+    $_SESSION['add_to_cart_error'] = "Sản phẩm '{$product->name}' hiện đã ngừng kinh doanh.";
+    header("Location: index.php?act=product_detail&id=$id");
+    exit;
+}
     $productVariants = $this->product->getVariantsByProductId($product->id);
     if (!$product) {
         header('Location: index.php?act=listproducts');

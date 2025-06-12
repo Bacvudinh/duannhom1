@@ -8,7 +8,7 @@ class OrdersController {
         require 'views/orders/index.php';
     }
 
-    public function     detail($id) {
+    public function detail($id) {
         $orderModel = new Order();
         $order = $orderModel->find($id);
 
@@ -109,6 +109,34 @@ class OrdersController {
 
             $orderModel->updatePaymentStatus($orderId, $newStatus);
             $_SESSION['message'] = "Đã cập nhật trạng thái thanh toán.";
+            header("Location: index.php?act=orderDetails&order_id=$orderId");
+            exit;
+        }
+    }
+
+    // OPTIONAL: cập nhật phương thức thanh toán (nếu sau này cho phép người dùng thay đổi)
+    public function updatePaymentMethod() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $orderId = $_POST['order_id'] ?? null;
+            $method = $_POST['payment_method'] ?? 'COD';
+
+            if (!$orderId) {
+                $_SESSION['error'] = "Thiếu ID đơn hàng.";
+                header("Location: index.php?act=myOrders");
+                exit;
+            }
+
+            $orderModel = new Order();
+            $order = $orderModel->find($orderId);
+
+            if (!$order) {
+                $_SESSION['error'] = "Không tìm thấy đơn hàng.";
+                header("Location: index.php?act=myOrders");
+                exit;
+            }
+
+            $orderModel->updatePaymentMethod($orderId, $method);
+            $_SESSION['message'] = "Đã cập nhật phương thức thanh toán.";
             header("Location: index.php?act=orderDetails&order_id=$orderId");
             exit;
         }
