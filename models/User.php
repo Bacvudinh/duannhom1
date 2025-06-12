@@ -25,7 +25,7 @@
             return $user;
 
         }
-        public function register($name, $email, $password) {
+        public function register($name, $email, $password, $phone, $address) {
         // Kiểm tra email đã tồn tại chưa
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
