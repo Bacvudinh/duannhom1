@@ -33,7 +33,7 @@
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Danh sách sizesize</h4>
 
-<a href="index.php?act=admin_size_add" class="btn btn-primary">add</a>
+
 <div class="d-flex align-items-center gap-md-2">
                                     <form action="index.php" method="get" class="d-flex align-items-center">
                                     
