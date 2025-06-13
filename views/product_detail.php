@@ -219,6 +219,11 @@
           <div class="single-product-description-area">
               <div class="nav single-product-description-area-nav">
 
+                  <button class="active" data-bs-toggle="tab" data-bs-target="#product-description">Description</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-comments">Comments</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-reviews">Reviews</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-size-chart">Size Chart</button>
+                  <button data-bs-toggle="tab" data-bs-target="#product-shipping-policy">Shipping Policy</button>
               </div>
 
           </div>
