@@ -33,16 +33,16 @@
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Danh sách sizesize</h4>
 
-<a href="index.php?act=admin_size_add" class="btn btn-primary">add</a>
-                                <div class="d-flex align-items-center gap-md-2">
+<div class="d-flex align-items-center gap-md-2">
                                     <form action="index.php" method="get" class="d-flex align-items-center">
-                                        <input type="hidden" name="act" value="admin_sizessizes">
+                                    
                                         <div class="search-box me-2">
-                                            <input type="text" class="form-control" placeholder="Tìm kiếm bình luận..." name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-                                            <i class="ri-search-line search-icon"></i>
+                                            <a href="index.php?act=admin_size_add" class="btn btn-success"><i
+                                            class="ri-add-line align-bottom me-1"></i> Thêm mới</a>
                                         </div>
-                                        <button type="submit" class="btn btn-primary"><i class="ri-search-line"></i></button>
+                                     
                                     </form>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -55,8 +55,8 @@
                                     <?php if (isset($_GET['success'])): ?>
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             <?php
-                                            if ($_GET['success'] == 'update') echo "Cập nhật bình luận thành công!";
-                                            if ($_GET['success'] == 'delete') echo "Xóa bình luận thành công!";
+                                            if ($_GET['success'] == 'update') echo "Cập nhật size thành công!";
+                                            if ($_GET['success'] == 'delete') echo "Xóa size thành công!";
                                             if ($_GET['success'] == 'toggle') echo "Thay đổi trạng thái thành công!";
                                             ?>
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -66,9 +66,9 @@
                                     <?php if (isset($_GET['error'])): ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <?php
-                                            if ($_GET['error'] == 'notfound') echo "Không tìm thấy bình luận.";
-                                            if ($_GET['error'] == 'invalidid') echo "ID bình luận không hợp lệ.";
-                                            if ($_GET['error'] == 'delete_failed') echo "Xóa bình luận thất bại.";
+                                            if ($_GET['error'] == 'notfound') echo "Không tìm thấy size.";
+                                            if ($_GET['error'] == 'invalidid') echo "ID size không hợp lệ.";
+                                            if ($_GET['error'] == 'delete_failed') echo "Xóa size thất bại.";
                                             ?>
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
@@ -115,7 +115,7 @@
                                                             <td class="text-end">
                                                                 <div class="hstack gap-3 flex-wrap justify-content-end">
                                                                     <a href="index.php?act=admin_size_edit&id=<?= $comment->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                    <a href="index.php?act=admin_size_delete&id=<?= $comment->id ?>" onclick="return confirm('Xóa bình luận này?')" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i> Xóa</a>
+                                                                    <a href="index.php?act=admin_size_delete&id=<?= $comment->id ?>" onclick="return confirm('Xóa size này?')" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i> Xóa</a>
                                                                     <?php if ($comment->status === 1): ?>
                                                                         <a href="index.php?act=admin_size_toggle&id=<?= $comment->id ?>&status=0" class="btn btn-sm btn-secondary"><i class="ri-eye-off-line"></i> Ẩn</a>
                                                                     <?php else: ?>
