@@ -23,18 +23,42 @@ class CommentController
         if (!$id) header('Location: index.php?act=admin_comments');
 
         $comment = $this->commentModel->getCommentById($id);
+        
         require_once './views/Comments//edit.php';
     }
 
-    public function update()
-    {
+public function update()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'];
-        $content = $_POST['content'];
-        $status = $_POST['status'];
+        $content = trim($_POST['content'] ?? '');
+        $status = $_POST['status'] ?? 0;
 
+        $error = [];
+
+        if (empty($content)) {
+            $error['content'] = 'Vui lòng nhập nội dung bình luận.';
+
+            // Lấy lại comment từ DB hoặc tái tạo để hiển thị form lại
+            $comment = $this->commentModel->getCommentById($id);
+            $comment->comment = $content;
+            $comment->status = $status;
+
+            require_once './views/Comments/edit.php';
+            return;
+        }
+
+        // Nếu hợp lệ thì cập nhật
         $this->commentModel->updateComment($id, $content, $status);
         header('Location: index.php?act=admin_comments');
+        exit;
     }
+}
+
+
+
+    
+    
 
     public function delete()
     {

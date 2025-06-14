@@ -64,17 +64,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=Categories">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-categories">Danh mục</span>
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-categories"></span>Quản lí Danh mục</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="index.php?act=Product">
+                        <i class="ri-dashboard-2-line"></i> Quản lí Sản phẩm </span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="index.php?act=Product">
-
-                        <i class="ri-stack-line"> Sản phẩm</i><span data-key="t-advance-ui"></span>
-                    </a>
-                <li class="nav-item">
                     <a class="nav-link menu-link" href="index.php?act=admin_sizes">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-categories">Size </span>
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-categories"> Quản lí Size </span>
                     </a>
                 </li>
                 <div class="collapse menu-dropdown" id="sidebarDanhMuc">
@@ -110,7 +112,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="../index.php?act=/">
-                         <span data-key="t-orders">Quay lại trang chủ </span>
+                        <span data-key="t-orders">Quay lại trang chủ </span>
                     </a>
                 </li>
 
