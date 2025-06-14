@@ -68,7 +68,7 @@ require_once './views/layout/header.php'; // Header
                 <!-- Shop Top Bar End -->
 
                 <!-- Product Tab Start -->
-                <div class="tab-content" id="shopProductTabContent">
+                <div class="" id="shopProductTabContent">
                     <div class="tab-pane fade show active" id="product-grid">
                         <div class="row row-cols-xl-3 row-cols-sm-2 row-cols-1 gy-4">
                             <?php foreach ($products as $product): ?>

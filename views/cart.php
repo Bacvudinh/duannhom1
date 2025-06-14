@@ -54,7 +54,7 @@
                             </td>
                             <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>"
                                     alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
-                            <td><?= number_format($item->price, 2) ?> VNĐ</td>
+                            <td><?= number_format($item->price) ?> VNĐ</td>
                             <td>
                                 <?php if ($isDisabled): ?>
                                 <input type="number" class="form-control form-control-sm" disabled style="width: 80px;"
@@ -66,7 +66,7 @@
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($item->variant_size) ?></td>
-                            <td><?= number_format($subtotal, 2) ?> VNĐ</td>
+                            <td><?= number_format($subtotal) ?> VNĐ</td>
                             <td>
                                 <a href="index.php?act=removeFromCart&item_id=<?= $item->id ?>"
                                     class="btn btn-danger btn-sm">X</a>
