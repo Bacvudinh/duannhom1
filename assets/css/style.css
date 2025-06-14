@@ -1407,7 +1407,7 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
 .btn-dark-hover:hover {
   border-color: #212529;
   background-color: #212529;
-  color: #fff;
+  
 }
 
 /* Form */
