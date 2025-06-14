@@ -47,6 +47,11 @@ if (!isset($comment)) {
                                                 <label for="content" class="form-label">Nội dung</label>
                                                 <textarea class="form-control" id="content" name="name" rows="3" required><?= htmlspecialchars($comment->name) ?></textarea>
                                             </div>
+                                                           <?php if (!empty($error['content'])): ?>
+        <div class="invalid-feedback">
+            <?= htmlspecialchars($error['content']) ?>
+        </div>
+    <?php endif; ?>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Trạng thái</label>
