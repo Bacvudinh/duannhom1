@@ -30,7 +30,7 @@
                     <div class="row mb-3">
                         <div class="col-12 d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Danh sách đơn hàng</h4>
-                            <a href="index.php?act=addOrder" class="btn btn-success"><i class="ri-add-line"></i> Tạo đơn mới</a>
+            
                         </div>
                     </div>
 
