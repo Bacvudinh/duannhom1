@@ -156,6 +156,14 @@ foreach ($cartItems as $item) {
                         <textarea class="form-control" id="note" name="note" rows="2"
                             placeholder="Ví dụ: Giao ngoài giờ hành chính, gọi trước khi đến..."></textarea>
                     </div>
+                    <div class="mb-3">
+    <label for="payment_method" class="form-label">Phương thức thanh toán *</label>
+    <select class="form-select" id="payment_method" name="payment_method" required>
+        <option value="">-- Chọn phương thức --</option>
+ <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+<option value="vnpay">Thanh toán qua vnpay</option>
+    </select>
+</div>
                 </div>
 
                 <div class="modal-footer">

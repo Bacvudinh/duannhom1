@@ -5,11 +5,11 @@ class Order extends BaseModel
     protected $table = 'orders';
 
     // Tạo đơn hàng mới
-    public function createOrder($userId, $total, $paymentStatus = 'Chưa thanh toán')
+    public function createOrder($userId, $total, $paymentStatus = 'Chưa thanh toán', $paymentMethod = 'cod')
     {
-        $sql = "INSERT INTO {$this->table} (user_id, total_amount, payment_status) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO {$this->table} (user_id, total_amount, payment_status, payment_method) VALUES (?, ?, ?, ?)";
         $this->setQuery($sql);
-        $this->execute([$userId, $total, $paymentStatus]);
+        $this->execute([$userId, $total, $paymentStatus, $paymentMethod]);
         return $this->pdo->lastInsertId();
     }
 
@@ -92,6 +92,13 @@ class Order extends BaseModel
         $this->setQuery($sql);
         return $this->execute([$status, $orderId]);
     }
+    public function updatecustomer_confirmed($orderId)
+{
+    $sql = "UPDATE orders SET customer_confirmed = 1 WHERE id = ?";
+    $this->setQuery($sql);
+    return $this->execute([$orderId]);
+}
+
 
     public function updateOrderStatus($orderId, $status)
     {

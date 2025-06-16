@@ -24,27 +24,27 @@ class OrderController
     }
 
     // Sửa hàm hiển thị chi tiết đơn hàng
-  public function orderDetails()
-{
-    if (!isset($_SESSION['user'])) {
-        header('Location: index.php?act=loginForm');
-        exit;
+    public function orderDetails()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?act=loginForm');
+            exit;
+        }
+
+        $orderId = $_GET['order_id'] ?? null;
+        if (!$orderId) {
+            header('Location: index.php?act=myOrders');
+            exit;
+        }
+
+        // ✅ Lấy thông tin đơn hàng (chứa payment_status, note...)
+        $order = $this->orderModel->getOrderById($orderId);
+
+        $orderItems = $this->orderModel->getOrderDetails($orderId);
+        $orderAddress = $this->orderModel->getOrderAddress($orderId);
+
+        require_once './views/orderDetail.php';
     }
-
-    $orderId = $_GET['order_id'] ?? null;
-    if (!$orderId) {
-        header('Location: index.php?act=myOrders');
-        exit;
-    }
-
-    // ✅ Lấy thông tin đơn hàng (chứa payment_status, note...)
-    $order = $this->orderModel->getOrderById($orderId);
-
-    $orderItems = $this->orderModel->getOrderDetails($orderId);
-    $orderAddress = $this->orderModel->getOrderAddress($orderId);
-
-    require_once './views/orderDetail.php';
-}
 
     public function cancelOrder()
     {
@@ -84,13 +84,24 @@ class OrderController
             $this->orderModel->updatePaymentStatus($orderId, $newPaymentStatus);
             // Đồng thời cập nhật trạng thái đơn hàng sang "Hoàn thành"
             $this->orderModel->updateOrderStatus($orderId, 'Hoàn thành');
+            $this->orderModel->$_SESSION['message'] = 'Xác nhận thanh toán thành công. Đơn hàng đã hoàn thành.';
+            $this->confirmReceived();
 
-            $_SESSION['message'] = 'Xác nhận thanh toán thành công. Đơn hàng đã hoàn thành.';
         } else {
             $_SESSION['error'] = 'Thiếu thông tin để cập nhật.';
         }
 
         header('Location: index.php?act=myOrders');
         exit;
+    }
+    public function confirmReceived()
+    {
+        $orderId = $_POST['order_id'];
+        $this->orderModel->updatecustomer_confirmed($orderId);
+
+        
+        $this->orderModel->updateOrderStatus($orderId, 'Hoàn thành');
+
+        header("Location: index.php?act=orderDetails&order_id=$orderId");
     }
 }

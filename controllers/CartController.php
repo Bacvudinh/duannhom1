@@ -144,7 +144,8 @@ public function addToCart()
             'email' => $_POST['email'],
             'phone' => $_POST['phone'],
             'address' => $_POST['address'],
-            'note' => $_POST['note'] ?? ''
+            'note' => $_POST['note'] ?? '',
+            'payment_method' => $_POST['payment_method'] ?? 'cod'
         ];
 
         $userId = $_SESSION['user']['id'];
@@ -191,23 +192,36 @@ public function addToCart()
     foreach ($cartItems as $item) {
         $total += $item->price * $item->quantity;
     }
-
+ $info = $_SESSION['checkout_info'];
+   $paymentMethod = $info['payment_method'];
     // Tạo đơn hàng với trạng thái thanh toán là "Chưa thanh toán"
-    $orderId = $this->orderModel->createOrder($userId, $total, 'Chưa thanh toán');
+    $orderId = $this->orderModel->createOrder($userId, $total, 'Chưa thanh toán',$info['payment_method']);
 
     foreach ($cartItems as $item) {
         $this->orderModel->insertOrderDetail($orderId, $item->product_id, $item->quantity, $item->price,$item->variant_id);
     }
-    $info = $_SESSION['checkout_info'];
-    $this->orderModel->insertOrderAddress($orderId, $info['name'], $info['email'], $info['phone'], $info['address'], $info['note']);
-
+   
+    $this->orderModel->insertOrderAddress($orderId, $info['name'], $info['email'], $info['phone'], $info['address'], $info['note'],);
+ // Nếu thanh toán là COD → xử lý luôn
+    if ($paymentMethod == 'cod') {
+        $this->cartModel->clearCart($cart->id);
+        unset($_SESSION['checkout_info']);
+        echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
+    }
+    // Nếu là VNPAY → chuyển hướng đến trang tạo thanh toán
+    elseif ($paymentMethod == 'vnpay') {
+        $_SESSION['order_id'] = $orderId;
+        $_SESSION['total_payment'] = $total;
+        header("Location: index.php?act=vnpay_payment");
+        exit;
+    }
     // ❌ Không cập nhật thanh toán ở đây nữa
     // ✅ Chỉ cập nhật khi chuyển trạng thái đơn hàng sang 'Hoàn thành'
 
-    $this->cartModel->clearCart($cart->id);
-    unset($_SESSION['checkout_info']);
+    // $this->cartModel->clearCart($cart->id);
+    // unset($_SESSION['checkout_info']);
 
-    echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
+    // echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
 }
 
     public function updateCart()

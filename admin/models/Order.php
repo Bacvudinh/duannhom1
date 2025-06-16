@@ -17,6 +17,7 @@ class Order extends BaseModel
             o.status,
             o.created_at,
             o.payment_status,
+            o.payment_method,
             odr.address AS shipping_address,
             odr.phone AS shipping_phone,
             odr.name AS shipping_name,

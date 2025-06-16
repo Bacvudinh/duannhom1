@@ -5,11 +5,13 @@ class CommentModel extends BaseModel
 
     public function getAllComments($search = '')
     {
-        $sql = "SELECT r.*, r.comment AS content, u.name AS user_name, p.name AS product_name
-                FROM comments r
-                    LEFT JOIN users u ON r.user_id = u.id
-                    LEFT JOIN products p ON r.product_id = p.id
-                    WHERE r.comment LIKE ?";
+      $sql = "SELECT r.*, r.comment AS content, u.name AS user_name, p.name AS product_name
+        FROM comments r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN products p ON r.product_id = p.id
+        WHERE r.comment LIKE ?
+        ORDER BY r.created_at DESC";
+
 
         $this->setQuery($sql);
         return $this->loadAllRows(["%$search%"]);
