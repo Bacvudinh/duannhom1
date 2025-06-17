@@ -31,7 +31,7 @@
                     <?= htmlspecialchars($order->status) ?>
                 </span>
             </p>
-            <p><strong>Phương thức giao:</strong> <?= htmlspecialchars($orderAddress->shipping_method ?? 'COD') ?></p>
+            <p><strong>Phương thức giao:</strong> <?= htmlspecialchars($order->payment_method    ?? 'COD') ?></p>
             <p><strong>Thanh toán:</strong>
                 <span class="<?= ($order->payment_status ?? 'Chưa thanh toán') === 'Đã thanh toán'
                     ? 'payment-status-paid'
