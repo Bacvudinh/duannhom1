@@ -54,7 +54,7 @@
                             </td>
                             <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>"
                                     alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
-                            <td><?= number_format($item->price, 2) ?> VNĐ</td>
+                            <td><?= number_format($item->price) ?> VNĐ</td>
                             <td>
                                 <?php if ($isDisabled): ?>
                                 <input type="number" class="form-control form-control-sm" disabled style="width: 80px;"
@@ -66,7 +66,7 @@
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($item->variant_size) ?></td>
-                            <td><?= number_format($subtotal, 2) ?> VNĐ</td>
+                            <td><?= number_format($subtotal) ?> VNĐ</td>
                             <td>
                                 <a href="index.php?act=removeFromCart&item_id=<?= $item->id ?>"
                                     class="btn btn-danger btn-sm">X</a>
@@ -156,6 +156,14 @@ foreach ($cartItems as $item) {
                         <textarea class="form-control" id="note" name="note" rows="2"
                             placeholder="Ví dụ: Giao ngoài giờ hành chính, gọi trước khi đến..."></textarea>
                     </div>
+                    <div class="mb-3">
+    <label for="payment_method" class="form-label">Phương thức thanh toán *</label>
+    <select class="form-select" id="payment_method" name="payment_method" required>
+        <option value="">-- Chọn phương thức --</option>
+ <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+<option value="vnpay">Thanh toán qua vnpay</option>
+    </select>
+</div>
                 </div>
 
                 <div class="modal-footer">

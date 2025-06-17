@@ -34,7 +34,7 @@
                     <div class="row mb-3">
                         <div class="col-12 d-flex justify-content-between align-items-center">
                             <h4>Danh sách người dùng</h4>
-                            <a href="index.php?act=Users&method=create" class="btn btn-success"><i class="ri-add-line align-bottom me-1"></i> Thêm mới</a>
+                            <!-- <a href="index.php?act=Users&method=create" class="btn btn-success"><i class="ri-add-line align-bottom me-1"></i> Thêm mới</a> -->
                         </div>
                     </div>
                     <form method="get" action="index.php" class="d-flex mb-3">

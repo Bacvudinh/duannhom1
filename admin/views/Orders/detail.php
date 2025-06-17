@@ -7,31 +7,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require_once "views/layouts/libs_css.php"; ?>
     <!-- CSS thêm vào (đặt trong <style> hoặc file riêng) -->
- <style>
-        .order-status-waiting-confirmation { color:#ffb300; font-weight:600; } /* Chờ xác nhận */
-        .order-status-waiting-pickup      { color:#9c27b0; font-weight:600; } /* Chờ lấy hàng  */
-        .order-status-shipping            { color:#2196f3; font-weight:600; } /* Đang giao     */
-        .order-status-shipped             { color:#00bcd4; font-weight:600; } /* Đã giao       */
-        .order-status-completed           { color:#4caf50; font-weight:600; } /* Hoàn thành    */
-        .order-status-cancelled           { color:#f44336; font-weight:600; } /* Đã hủy        */
+    <style>
+        .order-status-waiting-confirmation {
+            color: #ffb300;
+            font-weight: 600;
+        }
 
-        .payment-status-paid { color: green; font-weight: 600; }
-        .payment-status-unpaid { color: red; font-weight: 600; }
+        /* Chờ xác nhận */
+        .order-status-waiting-pickup {
+            color: #9c27b0;
+            font-weight: 600;
+        }
+
+        /* Chờ lấy hàng  */
+        .order-status-shipping {
+            color: #2196f3;
+            font-weight: 600;
+        }
+
+        /* Đang giao     */
+        .order-status-shipped {
+            color: #00bcd4;
+            font-weight: 600;
+        }
+
+        /* Đã giao       */
+        .order-status-completed {
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        /* Hoàn thành    */
+        .order-status-cancelled {
+            color: #f44336;
+            font-weight: 600;
+        }
+
+        /* Đã hủy        */
+
+        .payment-status-paid {
+            color: green;
+            font-weight: 600;
+        }
+
+        .payment-status-unpaid {
+            color: red;
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body>
     <?php
-                                                /* Map trạng thái → lớp màu */
-                                                $statusClasses = [
-                                                    'Chờ xác nhận'  => 'order-status-waiting-confirmation',
-                                                    'Chờ lấy hàng'  => 'order-status-waiting-pickup',
-                                                    'Đang giao hàng'=> 'order-status-shipping',
-                                                    'Đã giao hàng'  => 'order-status-shipped',
-                                                    'Hoàn thành'    => 'order-status-completed',
-                                                    'Đã hủy'        => 'order-status-cancelled'
-                                                ];
-                                                ?>
+    /* Map trạng thái → lớp màu */
+    $statusClasses = [
+        'Chờ xác nhận'  => 'order-status-waiting-confirmation',
+        'Chờ lấy hàng'  => 'order-status-waiting-pickup',
+        'Đang giao hàng' => 'order-status-shipping',
+        'Đã giao hàng'  => 'order-status-shipped',
+        'Hoàn thành'    => 'order-status-completed',
+        'Đã hủy'        => 'order-status-cancelled'
+    ];
+    ?>
     <div id="layout-wrapper">
         <?php
         require_once "views/layouts/header.php";
@@ -65,7 +102,7 @@
                     <?php endif; ?>
 
                     <!-- Thông tin đơn hàng -->
-                  <div class="card card-animate mb-4">
+                    <div class="card card-animate mb-4">
                         <div class="card-body">
                             <!-- Tiêu đề chính nổi bật hơn -->
                             <h4 class="card-title mb-4 fw-bold text-primary">Thông tin đơn hàng</h4>
@@ -75,24 +112,28 @@
                                 <div class="col-md-6 border-end-md pe-md-4 mb-3 mb-md-0">
                                     <h6 class="fw-semibold mb-3">Thông tin chung</h6>
                                     <ul class="list-unstyled">
-                                        <li><strong>Khách hàng:</strong> <?= htmlspecialchars($order['user_name'] ?? 'Chưa có') ?></li>
+                                        <li><strong>Khách hàng:</strong>
+                                            <?= htmlspecialchars($order['user_name'] ?? 'Chưa có') ?></li>
 
                                         <li><strong>Trạng thái đơn hàng:</strong>
-                                            <span class="<?= $statusClasses[$order['status']] ?? 'order-status-cancelled' ?>">
+                                            <span
+                                                class="<?= $statusClasses[$order['status']] ?? 'order-status-cancelled' ?>">
                                                 <?= htmlspecialchars($order['status']) ?>
                                             </span>
                                         </li>
 
                                         <li><strong>Trạng thái thanh toán:</strong>
                                             <span class="<?= $order['payment_status'] === 'Đã thanh toán'
-                                                ? 'payment-status-paid'
-                                                : 'payment-status-unpaid' ?>">
+                                                                ? 'payment-status-paid'
+                                                                : 'payment-status-unpaid' ?>">
                                                 <?= htmlspecialchars($order['payment_status']) ?>
                                             </span>
                                         </li>
-                                        <li><strong>Phương thức đặt hàng:</strong> COD</li>
-                                        <li><strong>Ngày đặt hàng:</strong> <?= htmlspecialchars($order['created_at']) ?></li>
-                                        <li><strong>Tổng tiền:</strong> <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</li>
+                                        <li><strong>Phuong thức thanh toán:</strong> <?= htmlspecialchars($order['payment_method'] ?? 'COD') ?></li>
+                                        <li><strong>Ngày đặt hàng:</strong>
+                                            <?= htmlspecialchars($order['created_at']) ?></li>
+                                        <li><strong>Tổng tiền:</strong>
+                                            <?= number_format($order['total_amount'], 0, '.', ',') ?>₫</li>
                                     </ul>
                                 </div>
 
@@ -100,27 +141,42 @@
                                 <div class="col-md-6 ps-md-4">
                                     <h6 class="fw-semibold mb-3">Thông tin khách hàng</h6>
                                     <ul class="list-unstyled">
-                                        <li><strong>Địa chỉ:</strong> <?= htmlspecialchars($order_items[0]['shipping_address'] ?? 'Không có') ?></li>
-                                        <li><strong>Điện thoại:</strong> <?= htmlspecialchars($order_items[0]['shipping_phone'] ?? 'Không có') ?></li>
-                                        <li><strong>Email:</strong> <?= htmlspecialchars($order_items[0]['shipping_email'] ?? 'Không có') ?></li>
+                                        <li><strong>Địa chỉ:</strong>
+                                            <?= htmlspecialchars($order_items[0]['shipping_address'] ?? 'Không có') ?>
+                                        </li>
+                                        <li><strong>Điện thoại:</strong>
+                                            <?= htmlspecialchars($order_items[0]['shipping_phone'] ?? 'Không có') ?>
+                                        </li>
+                                        <li><strong>Email:</strong>
+                                            <?= htmlspecialchars($order_items[0]['shipping_email'] ?? 'Không có') ?>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
 
                             <!-- Cập nhật trạng thái -->
-                            <form method="POST" action="index.php?act=updateOrderStatus" class="row g-3 align-items-end mt-3">
+                            <form method="POST" action="index.php?act=updateOrderStatus"
+                                class="row g-3 align-items-end mt-3">
                                 <input type="hidden" name="id" value="<?= $order['id'] ?>">
                                 <div class="col-md-4">
                                     <select class="form-select" name="status" onchange="this.form.submit()">
                                         <?php
                                         $statuses = [
-                                            'Chờ xác nhận', 'Xác nhận', 'Đang giao hàng',
-                                            'Đã giao hàng', 'Hoàn thành', 'Đã hủy'
+                                            'Chờ xác nhận',
+                                            'Xác nhận',
+                                            'Đang giao hàng',
+                                            'Đã giao hàng',
+                                            'Hoàn thành',
+                                            'Đã hủy'
                                         ];
                                         foreach ($statuses as $status):
-                                            if ($status === 'Hoàn thành' && $order['payment_status'] !== 'Đã thanh toán') continue;
+                                            if (
+                                                $status === 'Hoàn thành' &&
+                                                ($order['payment_status'] !== 'Đã thanh toán' || $order['customer_confirmed'] != 1)
+                                            ) continue;
                                         ?>
-                                            <option value="<?= $status ?>" <?= $order['status'] === $status ? 'selected' : '' ?>>
+                                            <option value="<?= $status ?>"
+                                                <?= $order['status'] === $status ? 'selected' : '' ?>>
                                                 <?= $status ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -151,7 +207,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php 
+                                            <?php
                                             $grand_total = 0;
                                             foreach ($order_items as $item):
                                                 $item_total = $item['price'] * $item['quantity'];
@@ -159,7 +215,9 @@
                                             ?>
                                                 <tr>
                                                     <td><?= htmlspecialchars($item['product_name']) ?></td>
-                                                    <td><img src="../uploads/product/<?= htmlspecialchars($item['product_img']) ?>" alt="<?= htmlspecialchars($item['product_img']) ?>" style="width:100px;height:100px;"></td>
+                                                    <td><img src="../uploads/product/<?= htmlspecialchars($item['product_img']) ?>"
+                                                            alt="<?= htmlspecialchars($item['product_img']) ?>"
+                                                            style="width:100px;height:100px;"></td>
                                                     <td><?= number_format($item['price'], 0, '.', ',') ?> VNĐ</td>
                                                     <td><?= $item['quantity'] ?></td>
                                                     <td><?= htmlspecialchars($item['variant_size']) ?></td>
@@ -186,7 +244,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © NN Shop.
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © NN Shop.
                         </div>
                         <div class="col-sm-6 text-sm-end">
                             Thiết kế & phát triển bởi nhóm bạn.
@@ -199,4 +259,5 @@
 
     <?php require_once "views/layouts/libs_js.php"; ?>
 </body>
+
 </html>

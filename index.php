@@ -28,6 +28,7 @@ require_once './controllers/OrderController.php';
 require_once './controllers/HomeController.php';
 require_once './controllers/ProductController.php';
 require_once './controllers/CommentController.php';
+require_once './controllers/DangkyController.php'; // Thêm dòng này vào
  // Thêm dòng này vào
 
 // require_once './views/layout/header.php'; // Header
@@ -60,7 +61,11 @@ match ($act) {
     'orderDetails'       => (new OrderController())->orderDetails(),
     'cancelOrder'        => (new OrderController())->cancelOrder(),
     'updateCart'         =>(new CartController())->updateCart(),
+   'confirmReceived'=> (new OrderController())->confirmReceived(),
    'updatePaymentStatus' => (new OrderController())->updatePaymentStatus(),
+    'vnpay_payment'      => (new DangkyController())->vnpay_payment(),
+    'vnpay_return'       => (new DangkyController())->vnpay_return(),
+
 
 };
 
