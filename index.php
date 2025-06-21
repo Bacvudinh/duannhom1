@@ -11,6 +11,7 @@ require_once './models/Categories.php'; // Model danh sách loại
 require_once './models/Products.php'; // Model sản phẩm
 require_once './models/Cart.php'; // Model giỏ hàng
 require_once './models/Comment.php'; // Model bình luận
+require_once './models/Size1.php'; // Model kích thước
 
 // Require toàn bộ file Controllers
 require_once './controllers/HomeController.php';
