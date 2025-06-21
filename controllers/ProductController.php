@@ -2,14 +2,17 @@
 
 class ProductController
 {
+
     public $product;
     public $category;
+    public $size;
 
     public function __construct()
     {
 
         $this->product = new Products();
         $this->category = new Categories();
+        $this->size= new Size1();
     }
     public function index()
     {
@@ -17,7 +20,7 @@ class ProductController
         $keyword = $_GET['keyword'] ?? null;
 
         // Phân trang
-        $limit = $_GET['limit'] ?? 5; // Mặc định là 5 nếu không truyền gì
+        $limit = $_GET['limit'] ?? 6; // Mặc định là 5 nếu không truyền gì
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         if ($page < 1) $page = 1;
 
@@ -31,6 +34,7 @@ class ProductController
         $products = $this->product->getProducts($keyword, $limit, $offset);
         // Lấy danh sách sản phẩm theo loại 
         $categories  = $this->category->getAllCategoriesClient();
+        $sizes= $this->size->getAllSize();
         // Gọi view và truyền biến
         require_once './views/listproducts.php';
     }

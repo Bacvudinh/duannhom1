@@ -31,6 +31,7 @@ class LoginController {
 
         if ($result['role'] === 'admin') {
             header('Location: ./admin/index.php');
+
         } else {
             header('Location: ./?act=/');
         }
@@ -46,6 +47,7 @@ class LoginController {
         session_unset();
         session_destroy();
         header('Location: index.php?act=loginForm');
+        
         exit();
     }
 
