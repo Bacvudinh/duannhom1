@@ -64,7 +64,7 @@
                         <ul>
                             <li><a href="index.php?act=/">Home</a></li>
                             <li><a href="index.php?act=listproducts">Shop</a></li>
-                            <li><a href="index.php?act=contact">Contact</a></li>
+                      
                         </ul>
                     </nav>
                 </div>

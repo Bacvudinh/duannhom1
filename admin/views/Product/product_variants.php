@@ -62,9 +62,9 @@
                                     <a href="index.php?act=Product" class="btn btn-secondary back-to-products">
                                         <i class="ri-arrow-left-line align-bottom me-1"></i> Quay lại
                                     </a>
-                                    <a href="index.php?act=addVariant&product_id=<?= $product->id ?>" class="btn btn-success">
+                                    <!-- <a href="index.php?act=addVariant&product_id=<?= $product->id ?>" class="btn btn-success">
                                         <i class="ri-add-line align-bottom me-1"></i> Thêm biến thể
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                                     <th scope="col">Giá</th>
                                                     <th scope="col">Ngày tạo</th>
                                                     <th scope="col">Ngày cập nhật</th>
-                                                    <th scope="col" class="text-end">Actions</th>
+                                                    <!-- <th scope="col" class="text-end">Actions</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -130,7 +130,7 @@
                                                     <td><?= date('d/m/Y H:i', strtotime($variant->created_at)) ?></td>
                                                     <td><?= date('d/m/Y H:i', strtotime($variant->updated_at)) ?></td>
                                                     <td class="text-end">
-                                                        <div class="hstack gap-3 flex-wrap justify-content-end">
+                                                        <!-- <div class="hstack gap-3 flex-wrap justify-content-end">
                                                             <a href="index.php?act=editVariant&id=<?= htmlspecialchars($variant->id) ?>&product_id=<?= $product->id ?>" class="btn btn-sm btn-warning">
                                                                 <i class="ri-pencil-line"></i> Sửa
                                                             </a>
@@ -139,7 +139,7 @@
                                                                onclick="return confirm('Bạn có chắc muốn xóa biến thể này?')">
                                                                 <i class="ri-delete-bin-line"></i> Xóa
                                                             </a>
-                                                        </div>
+                                                        </div> -->
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>

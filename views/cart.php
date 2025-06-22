@@ -53,7 +53,7 @@
                                 <?php endif; ?>
                             </td>
                             <td><img src="uploads/product/<?= htmlspecialchars($item->image) ?>"
-                                    alt="<?= htmlspecialchars($item->name) ?>" style="width:200px;height:200px;"></td>
+                                    alt="<?= htmlspecialchars($item->name) ?>" style="width:100px;height:100px;"></td>
                             <td><?= number_format($item->price) ?> VNĐ</td>
                             <td>
                                 <?php if ($isDisabled): ?>

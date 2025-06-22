@@ -1,8 +1,13 @@
  <?php
  require_once './views/layout/header.php'; // Header
  ?>
+ <style>
+    
+ </style>
 <section class="hero-section">
+
     <div class="swiper hero-slider">
+
         <div class="swiper-wrapper">
 
             <!-- Slide 1 -->
@@ -241,20 +246,20 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <div class="product-action">
+                                <!-- <div class="product-action">
                                     <button class="product-action-btn" data-tooltip-text="Quick View" data-bs-toggle="modal" data-bs-target="#exampleProductModal"><i class="sli-magnifier"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Add to wishlist"><i class="sli-heart"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Compare"><i class="sli-refresh"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Add to cart"><i class="sli-bag"></i></button>
-                                </div>
+                                </div> -->
 
-                                <div class="product-variation">
+                                <!-- <div class="product-variation">
                                     <div class="product-variation-type">
                                         <button class="product-variation-type-btn" data-tooltip-text="White"><img loading="lazy" src="assets/images/products/variation/type/type-1.jpg" alt="white" width="23" height="23"></button>
                                         <button class="product-variation-type-btn" data-tooltip-text="Gold"><img loading="lazy" src="assets/images/products/variation/type/type-2.jpg" alt="gold" width="23" height="23"></button>
                                         <button class="product-variation-type-btn" data-tooltip-text="Black"><img loading="lazy" src="assets/images/products/variation/type/type-3.jpg" alt="black" width="23" height="23"></button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="product-content">
@@ -320,20 +325,20 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <div class="product-action">
+                                <!-- <div class="product-action">
                                     <button class="product-action-btn" data-tooltip-text="Quick View" data-bs-toggle="modal" data-bs-target="#exampleProductModal"><i class="sli-magnifier"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Add to wishlist"><i class="sli-heart"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Compare"><i class="sli-refresh"></i></button>
                                     <button class="product-action-btn" data-tooltip-text="Add to cart"><i class="sli-bag"></i></button>
-                                </div>
+                                </div> -->
 
-                                <div class="product-variation">
+                                <!-- <div class="product-variation">
                                     <div class="product-variation-type">
                                         <button class="product-variation-type-btn" data-tooltip-text="White"><img loading="lazy" src="assets/images/products/variation/type/type-1.jpg" alt="white" width="23" height="23"></button>
                                         <button class="product-variation-type-btn" data-tooltip-text="Gold"><img loading="lazy" src="assets/images/products/variation/type/type-2.jpg" alt="gold" width="23" height="23"></button>
                                         <button class="product-variation-type-btn" data-tooltip-text="Black"><img loading="lazy" src="assets/images/products/variation/type/type-3.jpg" alt="black" width="23" height="23"></button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="product-content">

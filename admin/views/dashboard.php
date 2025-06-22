@@ -106,7 +106,7 @@ $badgeClasses = [
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Sản phẩm</th><th>Giá</th><th>Đã bán</th>
-                                                <th>Tồn kho</th><th>Doanh thu</th>
+                                              <th>Doanh thu</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -115,7 +115,7 @@ $badgeClasses = [
                                                 <td><?= htmlspecialchars($p['name']) ?></td>
                                                 <td><?= number_format($p['price'],0,',','.') ?> VND</td>
                                                 <td><?= $p['total_sold'] ?></td>
-                                                <td><?= $p['stock'] ?></td>
+                                        
                                                 <td><?= number_format($p['total_revenue'],0,',','.') ?> VND</td>
                                             </tr>
                                         <?php endforeach; ?>
