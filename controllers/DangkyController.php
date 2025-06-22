@@ -24,7 +24,7 @@ public function vnpay_payment()
 
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-   $vnp_Returnurl = "http://localhost/duannhom1/index.php?act=vnpay_return";
+   $vnp_Returnurl = "http://localhost/du_an_nhom1_2025/duan1/duannhom1/index.php?act=vnpay_return";
     // Thông tin cấu hình VNPAY
     // Bạn cần thay đổi các thông tin này theo cấu hình của bạn
 
