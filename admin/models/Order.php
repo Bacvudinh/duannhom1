@@ -93,8 +93,8 @@ WHERE od.order_id = ?
         return $stmt->execute([$paymentStatus, $orderId]);
     }
     public function searchByCustomerName($keyword)
-    {
-        $sql = "
+{
+    $sql = "
         SELECT 
             o.id,
             o.user_id,
@@ -108,16 +108,15 @@ WHERE od.order_id = ?
         FROM orders o
         LEFT JOIN order_details od ON o.id = od.order_id
         LEFT JOIN order_addresses odr ON odr.order_id = o.id
-        WHERE odr.name LIKE :keyword
+        WHERE odr.name LIKE :keyword OR odr.phone LIKE :keyword
         GROUP BY o.id, o.user_id, o.status, o.created_at, 
                  odr.address, odr.phone, odr.name, odr.email
         ORDER BY o.created_at DESC
     ";
-        $stmt = $this->conn->prepare($sql); // ✅ Sử dụng đúng biến kết nối
-        $stmt->execute(['keyword' => '%' . $keyword . '%']);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute(['keyword' => '%' . $keyword . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     public function updatePaymentMethod($orderId, $paymentMethod)
     {
         $stmt = $this->conn->prepare("UPDATE orders SET payment_method = ? WHERE id = ?");

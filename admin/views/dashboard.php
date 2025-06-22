@@ -58,6 +58,27 @@ $badgeClasses = [
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                             <h4 class="mb-sm-0">Tổng quan cửa hàng</h4>
                         </div>
+                        <form method="get" class="mb-4 d-flex gap-2 align-items-center">
+                            <label for="range">Lọc theo:</label>
+                            <select name="range" id="range" class="form-select w-auto" onchange="this.form.submit()">
+                                <?php
+                                $ranges = [
+                                    'today' => 'Hôm nay',
+                                    'yesterday' => 'Hôm qua',
+                                    'last7days' => '7 ngày qua',
+                                    'last30days' => '30 ngày qua',
+                                    'thismonth' => 'Tháng này',
+                                    'lastmonth' => 'Tháng trước',
+                                    '1Y' => '1 năm qua'
+                                ];
+                                foreach ($ranges as $key => $label):
+                                ?>
+                                    <option value="<?= $key ?>" <?= $key === ($_GET['range'] ?? 'yesterday') ? 'selected' : '' ?>>
+                                        <?= $label ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </form>
                     </div>
                 </div>
 

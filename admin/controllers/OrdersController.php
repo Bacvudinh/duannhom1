@@ -3,10 +3,19 @@ require_once 'models/Order.php';
 
 class OrdersController {
     public function index() {
-        $orderModel = new Order();
+    $orderModel = new Order();
+    
+    // Lấy từ khóa tìm kiếm (nếu có)
+    $keyword = $_GET['keyword'] ?? null;
+
+    if ($keyword) {
+        $orders = $orderModel->searchByCustomerName($keyword); // Đã sửa ở model
+    } else {
         $orders = $orderModel->all();
-        require 'views/orders/index.php';
     }
+
+    require 'views/orders/index.php';
+}
 
     public function detail($id) {
         $orderModel = new Order();
