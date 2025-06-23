@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="col text-center">
-                        Đã có tài khoản? <a href="login.html"><b>Đăng nhập</b></a>
+                        Đã có tài khoản? <a href="index.php?act=loginForm"><b>Đăng nhập</b></a>
                     </div>
 
                 </div>

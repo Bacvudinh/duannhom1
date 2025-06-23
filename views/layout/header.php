@@ -108,7 +108,7 @@
                                         <li><a href="index.php?act=logout">Đăng xuất</a></li>
                                     <?php else: ?>
                                         <li><a href="index.php?act=loginForm">Đăng nhập</a></li>
-                                        <li><a href="index.php?act=registerForm">Đănh kí</a></li>
+                                        <li><a href="index.php?act=registerForm">Đăng ký</a></li>
                                     <?php endif; ?>
                                 </ul>
                             </div>

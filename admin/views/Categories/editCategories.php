@@ -40,7 +40,7 @@ if (!isset($danhMuc)) {
 
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Tên loại</label>
-                                                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($danhMuc->name) ?>" required>
+                                                <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($danhMuc->name) ?>" >
                                             </div>
 
                                             <!-- Thêm input chọn trạng thái

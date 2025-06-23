@@ -206,7 +206,9 @@ public function addToCart()
     if ($paymentMethod == 'cod') {
         $this->cartModel->clearCart($cart->id);
         unset($_SESSION['checkout_info']);
-        echo "<script>alert('Đặt hàng thành công!'); window.location.href='index.php';</script>";
+    $_SESSION['success'] = "Đơn hàng của bạn đã được đặt thành công!";
+header("Location: index.php?act=myOrders");
+exit;
     }
     // Nếu là VNPAY → chuyển hướng đến trang tạo thanh toán
     elseif ($paymentMethod == 'vnpay') {

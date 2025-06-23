@@ -50,11 +50,14 @@
 
 
                                         <div class="mb-3">
-                                            <label for="size" class="form-label">Size <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="size" name="size"
-                                                placeholder="VD: S, M, L, XL, 39, 40..."
-                                                value="<?= $_POST['size'] ?? '' ?>" required>
+                                            <label for="size" class="form-label">Tên size</label>
+                                            <input type="text"
+                                                class="form-control <?= isset($error['size']) ? 'is-invalid' : '' ?>"
+                                                name="size" id="size"
+                                                value="<?= htmlspecialchars($comment->name ?? '') ?>">
+                                            <?php if (!empty($error['size'])): ?>
+                                            <div class="invalid-feedback d-block"><?= $error['size'] ?></div>
+                                            <?php endif; ?>
                                         </div>
 
                                         <div class="mb-3">

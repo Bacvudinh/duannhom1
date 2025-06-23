@@ -34,6 +34,12 @@
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Danh sách size</h4>
 
+<?php if (isset($_SESSION['success'])): ?>
+    <div id="success-alert" class="alert alert-success">
+        <?= htmlspecialchars($_SESSION['success']) ?>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 
 
                                 <div class="d-flex align-items-center gap-md-2">
@@ -184,6 +190,20 @@
         });
     };
     </script>
+    <script>
+    // Tự động ẩn thông báo sau 3 giây
+    document.addEventListener("DOMContentLoaded", function () {
+        const alertBox = document.getElementById('success-alert');
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.style.transition = 'opacity 0.5s ease';
+                alertBox.style.opacity = '0';
+                setTimeout(() => alertBox.remove(), 500); // Xóa khỏi DOM sau khi mờ dần
+            }, 3000); // 3 giây
+        }
+    });
+</script>
+
 </body>
 
 </html>

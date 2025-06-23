@@ -9,6 +9,16 @@
         <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
     <h2 class="mb-4">Đơn hàng của bạn</h2>
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success" id="success-message"><?= $_SESSION['success'] ?></div>
+    <script>
+        setTimeout(function() {
+            const msg = document.getElementById('success-message');
+            if (msg) msg.remove();
+        }, 3000); // 3 giây
+    </script>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 
     <?php if (!empty($orders)): ?>
         <table class="table table-bordered">

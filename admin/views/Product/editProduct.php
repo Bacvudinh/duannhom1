@@ -55,18 +55,18 @@
                                             <div class="mb-3">
                                                 <label for="productName" class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="productName" name="name" placeholder="Nhập tên sản phẩm"
-                                                    value="<?= htmlspecialchars($_POST['name'] ?? $product->name ?? '') ?>" required>
+                                                    value="<?= htmlspecialchars($_POST['name'] ?? $product->name ?? '') ?>" >
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="productPrice" class="form-label">Giá sản phẩm <span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="productPrice" name="price" placeholder="Nhập giá sản phẩm" min="0" step="0.01"
-                                                    value="<?= htmlspecialchars($_POST['price'] ?? $product->price ?? '') ?>" required>
+                                                    value="<?= htmlspecialchars($_POST['price'] ?? $product->price ?? '') ?>" >
                                             </div>
 
                                             <div class="mb-3">
                                                 <label for="productCategory" class="form-label">Danh mục <span class="text-danger">*</span></label>
-                                                <select class="form-select" id="productCategory" name="category_id" required>
+                                                <select class="form-select" id="productCategory" name="category_id" >
                                                     <option value="">-- Chọn danh mục --</option>
                                                     <?php if (!empty($listCategories)): ?>
                                                         <?php foreach ($listCategories as $category): ?>
