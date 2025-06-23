@@ -48,6 +48,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
                                     </div>
+                                    <div id="variant-error" class="alert alert-danger d-none"></div>
                                     <?php endif; ?>
 
                                     <!-- Hidden size template để tái sử dụng -->
@@ -65,7 +66,7 @@
                                             <label for="productName" class="form-label">Tên sản phẩm <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="productName" name="name"
-                                                value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
+                                                value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" >
                                         </div>
 
                                         <div class="mb-3">
@@ -73,14 +74,14 @@
                                                     class="text-danger">*</span></label>
                                             <input type="number" class="form-control" id="productPrice" name="price"
                                                 value="<?= htmlspecialchars($_POST['price'] ?? '') ?>" min="0"
-                                                step="0.01" required>
+                                                step="0.01" >
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="productCategory" class="form-label">Danh mục <span
                                                     class="text-danger">*</span></label>
                                             <select class="form-select" id="productCategory" name="category_id"
-                                                required>
+                                                >
                                                 <option value="">-- Chọn danh mục --</option>
                                                 <?php foreach ($listCategories as $category): ?>
                                                 <option value="<?= $category->id ?>"
@@ -105,131 +106,124 @@
                                         </div>
 
                                         <!-- Biến thể -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Biến thể sản phẩm (Size + Giá)</label>
-                                            <div id="variants-container">
-                                                <div class="variant-item row mb-2">
-                                                    <div class="col-md-5">
-                                                        <select class="form-select size-select" name="size_id[]"
-                                                            required>
-                                                            <option value="">-- Chọn size --</option>
-                                                            <?php foreach ($sizes as $size): ?>
-                                                            <option value="<?= $size->name ?>">
-                                                                <?= htmlspecialchars($size->name) ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <input type="number" class="form-control" name="variant_price[]"
-                                                            placeholder="Giá" min="0" step="0.01" required>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button type="button"
-                                                            class="btn btn-danger remove-variant">Xóa</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="button" id="add-variant"
-                                                class="btn btn-sm btn-success mt-2">Thêm biến thể</button>
-                                        </div>
+                                      <!-- Biến thể -->
+<div class="mb-3">
+    <label class="form-label">Biến thể sản phẩm (Size + Giá)</label>
 
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
-                                            <a href="index.php?act=Product" class="btn btn-secondary">Hủy</a>
-                                        </div>
-                                    </form>
+    <!-- ✅ Thông báo lỗi -->
+    <div id="variant-error" class="alert alert-danger d-none"></div>
 
-                                    <!-- Script JS xử lý biến thể -->
-                                    <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        const container = document.getElementById('variants-container');
-                                        const addBtn = document.getElementById('add-variant');
-                                        const sizeTemplate = document.getElementById('size-options-template');
-                                        addBtn.addEventListener('click', function() {
-                                            // Kiểm tra tất cả các biến thể hiện tại đã được điền đủ chưa
-                                            const currentVariants = document.querySelectorAll(
-                                                '.variant-item'); // lấy tất cả các biến thể hiện 
-                                            for (const item of currentVariants) {
-                                                const select = item.querySelector(
-                                                '.size-select'); // lấy size
-                                                const priceInput = item.querySelector(
-                                                    'input[name="variant_price[]"]'
-                                                    ); // lấy giá để xuống dưới keiemr tra
-                                                if (select.value === '' || priceInput.value.trim() ===
-                                                    '') {
-                                                    alert(
-                                                        'Vui lòng chọn size và nhập giá cho tất cả biến thể trước khi thêm mới.'
-                                                        );
-                                                    return; // Ngăn không cho thêm nếu chưa đủ dữ liệu
-                                                }
-                                            }
-
-                                            // Nếu hợp lệ thì thêm biến thể mới
-                                            const newVariant = document.createElement('div');
-                                            newVariant.className = 'variant-item row mb-2';
-                                            const options = sizeTemplate.innerHTML;
-
-                                            newVariant.innerHTML = `
-        <div class="col-md-5">
-            <select class="form-select size-select" name="size_id[]" required>
-                ${options}
-            </select>
+    <div id="variants-container">
+        <div class="variant-item row mb-2">
+            <div class="col-md-5">
+                <select class="form-select size-select" name="size_id[]" required>
+                    <option value="">-- Chọn size --</option>
+                    <?php foreach ($sizes as $size): ?>
+                    <option value="<?= $size->name ?>"><?= htmlspecialchars($size->name) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <input type="number" class="form-control" name="variant_price[]" placeholder="Giá" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger remove-variant">Xóa</button>
+            </div>
         </div>
-        <div class="col-md-5">
-            <input type="number" class="form-control" name="variant_price[]" placeholder="Giá" min="0" step="0.01" required>
-        </div>
-        <div class="col-md-2">
-            <button type="button" class="btn btn-danger remove-variant">Xóa</button>
-        </div>
-    `;
-                                            container.appendChild(newVariant);
-                                            updateDisabledOptions();
-                                        });
+    </div>
+    <button type="button" id="add-variant" class="btn btn-sm btn-success mt-2">Thêm biến thể</button>
+    <div class="text-end">
+    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+    <a href="index.php?act=Product" class="btn btn-secondary">Hủy</a>
+</div>
+</div>
 
-                                        container.addEventListener('click', function(e) {
-                                            if (e.target.classList.contains('remove-variant')) {
-                                                if (container.children.length > 1) {
-                                                    e.target.closest('.variant-item').remove();
-                                                    updateDisabledOptions();
-                                                } else {
-                                                    alert('Phải có ít nhất một biến thể');
-                                                }
-                                            }
-                                        });
+<!-- JS xử lý biến thể -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const container = document.getElementById('variants-container');
+    const addBtn = document.getElementById('add-variant');
+    const sizeTemplate = document.getElementById('size-options-template');
+    const errorDiv = document.getElementById('variant-error');
 
-                                        container.addEventListener('change', function(e) {
-                                            if (e.target.classList.contains('size-select')) {
-                                                updateDisabledOptions();
-                                            }
-                                        });
+    addBtn.addEventListener('click', function () {
+        errorDiv.classList.add('d-none'); // Ẩn lỗi trước khi kiểm tra
 
-                                        function updateDisabledOptions() {
-                                            const allSelects = document.querySelectorAll('.size-select');
-                                            const selected = Array.from(allSelects).map(s => s.value).filter(
-                                                v => v !== '');
-                                            //Duyệt qua tất cả select, lấy giá trị.value(tức là size đã chọn).
+        const currentVariants = document.querySelectorAll('.variant-item');
+        for (const item of currentVariants) {
+            const select = item.querySelector('.size-select');
+            const priceInput = item.querySelector('input[name="variant_price[]"]');
+            const price = parseFloat(priceInput.value);
 
-                                           // filter(val => val !== ''): loại bỏ những select chưa chọn gì(
-                                              //  giá trị rỗng).
-                                            
-                                            //📌 Kết quả: Một mảng chứa tất cả các size đã được chọn(VD: ["M",
-                                           //     "S"]).
-                                        
-                                            allSelects.forEach(select => {
-                                                const current = select.value;
-                                                Array.from(select.options).forEach(opt => {
-                                                    if (opt.value !== '' && opt.value !==
-                                                        current) {
-                                                        opt.disabled = selected.includes(opt
-                                                            .value);
-                                                    } else {
-                                                        opt.disabled = false;
-                                                    }
-                                                });
-                                            });
-                                        }
-                                    });
-                                    </script>
+            if (
+                select.value === '' ||
+                priceInput.value.trim() === '' ||
+                isNaN(price) ||
+                price <= 0
+            ) {
+                errorDiv.textContent = 'Vui lòng chọn size và nhập giá hợp lệ (> 0) cho tất cả biến thể trước khi thêm mới.';
+                errorDiv.classList.remove('d-none');
+                return;
+            }
+        }
+
+        // Thêm biến thể mới
+        const newVariant = document.createElement('div');
+        newVariant.className = 'variant-item row mb-2';
+        const options = sizeTemplate.innerHTML;
+
+        newVariant.innerHTML = `
+            <div class="col-md-5">
+                <select class="form-select size-select" name="size_id[]" required>
+                    ${options}
+                </select>
+            </div>
+            <div class="col-md-5">
+                <input type="number" class="form-control" name="variant_price[]" placeholder="Giá" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger remove-variant">Xóa</button>
+            </div>
+        `;
+        container.appendChild(newVariant);
+        updateDisabledOptions();
+    });
+
+    container.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-variant')) {
+            if (container.children.length > 1) {
+                e.target.closest('.variant-item').remove();
+                updateDisabledOptions();
+            } else {
+                errorDiv.textContent = 'Phải có ít nhất một biến thể.';
+                errorDiv.classList.remove('d-none');
+            }
+        }
+    });
+
+    container.addEventListener('change', function (e) {
+        if (e.target.classList.contains('size-select')) {
+            updateDisabledOptions();
+        }
+    });
+
+    function updateDisabledOptions() {
+        const allSelects = document.querySelectorAll('.size-select');
+        const selected = Array.from(allSelects).map(s => s.value).filter(v => v !== '');
+        allSelects.forEach(select => {
+            const current = select.value;
+            Array.from(select.options).forEach(opt => {
+                if (opt.value !== '' && opt.value !== current) {
+                    opt.disabled = selected.includes(opt.value);
+                } else {
+                    opt.disabled = false;
+                }
+            });
+        });
+    }
+});
+</script>
+
                                 </div>
                             </div>
                         </div>
