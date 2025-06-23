@@ -23,22 +23,23 @@
         white-space: normal;
         /* Allow text to wrap within cells if needed */
     }
+
     .variant-count-link {
-    text-decoration: none;
-    color: inherit;
-}
+        text-decoration: none;
+        color: inherit;
+    }
 
-.variant-count-link:hover .badge {
-    background-color: #0b5ed7 !important;
-    transform: scale(1.05);
-}
+    .variant-count-link:hover .badge {
+        background-color: #0b5ed7 !important;
+        transform: scale(1.05);
+    }
 
-.badge {
-    font-size: 0.9em;
-    padding: 5px 8px;
-    border-radius: 10px;
-    transition: all 0.2s ease;
-}
+    .badge {
+        font-size: 0.9em;
+        padding: 5px 8px;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
     </style>
 </head>
 
@@ -55,6 +56,23 @@
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Danh sách sản phẩm</h4>
+                                <?php if (isset($_SESSION['success'])): ?>
+                                <div id="alert-box" class="alert alert-success alert-dismissible fade show"
+                                    role="alert">
+                                    <strong>Thành công!</strong> <?= $_SESSION['success'] ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                                <script>
+                                setTimeout(function() {
+                                    var alertBox = document.getElementById('alert-box');
+                                    if (alertBox) {
+                                        alertBox.style.display = 'none';
+                                    }
+                                }, 3000);
+                                </script>
+                                <?php unset($_SESSION['success']); ?>
+                                <?php endif; ?>
 
                                 <div class="d-flex align-items-center gap-md-2">
                                     <form action="index.php" method="get" class="d-flex align-items-center">

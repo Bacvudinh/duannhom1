@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable" data-theme="default" data-theme-colors="default">
 
 <head>
     <meta charset="utf-8" />
@@ -22,17 +23,28 @@
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                 <h4 class="mb-sm-0">Danh sách danh mục</h4>
+                             <?php if (isset($_SESSION['success'])): ?>
+    <div id="success-alert" class="alert alert-success">
+        <?= htmlspecialchars($_SESSION['success']) ?>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
 
                                 <div class="d-flex align-items-center gap-md-2">
-                                    <form action="index.php?act=Categories" method="get" class="d-flex align-items-center">
+                                    <form action="index.php?act=Categories" method="get"
+                                        class="d-flex align-items-center">
                                         <input type="hidden" name="act" value="Categories">
                                         <div class="search-box me-2">
-                                            <input type="text" class="form-control" placeholder="Tìm kiếm danh mục..." name="keyword" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>">
+                                            <input type="text" class="form-control" placeholder="Tìm kiếm danh mục..."
+                                                name="keyword"
+                                                value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>">
                                             <i class="ri-search-line search-icon"></i>
                                         </div>
-                                        <button type="submit" class="btn btn-primary"><i class="ri-search-line"></i></button>
+                                        <button type="submit" class="btn btn-primary"><i
+                                                class="ri-search-line"></i></button>
                                     </form>
-                                    <a href="index.php?act=addCategories" class="btn btn-success"><i class="ri-add-line align-bottom me-1"></i> Thêm mới</a>
+                                    <a href="index.php?act=addCategories" class="btn btn-success"><i
+                                            class="ri-add-line align-bottom me-1"></i> Thêm mới</a>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +60,8 @@
                                                 <tr>
                                                     <th scope="col" class="text-center">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="selectAll">
                                                             <label class="form-check-label" for="selectAll"></label>
                                                         </div>
                                                     </th>
@@ -60,61 +73,67 @@
                                             </thead>
                                             <tbody>
                                                 <?php if (isset($listDanhMuc) && is_array($listDanhMuc)): ?>
-                                                    <?php foreach ($listDanhMuc as $danhMuc): ?>
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="selected[]" value="<?= $danhMuc->id ?>">
-                                                                    <label class="form-check-label"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td><?= $danhMuc->id ?></td>
-                                                            <td><?= htmlspecialchars($danhMuc->name) ?></td>
-                                                            <td>
-                                                                <?php if($danhMuc->status == 1): ?>
-                                                                    <span class="badge bg-success">Hiển thị</span>
-                                                                <?php else: ?>
-                                                                    <span class="badge bg-danger">Ẩn</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="text-end">
-                                                                <div class="hstack gap-3 flex-wrap justify-content-end">
-                                                                    <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endforeach; ?>
+                                                <?php foreach ($listDanhMuc as $danhMuc): ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="selected[]" value="<?= $danhMuc->id ?>">
+                                                            <label class="form-check-label"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td><?= $danhMuc->id ?></td>
+                                                    <td><?= htmlspecialchars($danhMuc->name) ?></td>
+                                                    <td>
+                                                        <?php if($danhMuc->status == 1): ?>
+                                                        <span class="badge bg-success">Hiển thị</span>
+                                                        <?php else: ?>
+                                                        <span class="badge bg-danger">Ẩn</span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div class="hstack gap-3 flex-wrap justify-content-end">
+                                                            <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>"
+                                                                class="btn btn-sm btn-warning"><i
+                                                                    class="ri-pencil-line"></i> Sửa</a>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
                                                 <?php elseif (isset($listDanhMuc) && is_object($listDanhMuc) && method_exists($listDanhMuc, 'fetch')): ?>
-                                                    <?php while ($danhMuc = $listDanhMuc->fetch(PDO::FETCH_OBJ)): ?>
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name="selected[]" value="<?= $danhMuc->id ?>">
-                                                                    <label class="form-check-label"></label>
-                                                                </div>
-                                                            </td>
-                                                            <td><?= $danhMuc->id ?></td>
-                                                            <td><?= htmlspecialchars($danhMuc->name) ?></td>
-                                                            <td>
-                                                                <?php if($danhMuc->status == 1): ?>
-                                                                    <span class="badge bg-success">Hiển thị</span>
-                                                                <?php else: ?>
-                                                                    <span class="badge bg-danger">Ẩn</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="text-end">
-                                                                <div class="hstack gap-3 flex-wrap justify-content-end">
-                                                                    <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>" class="btn btn-sm btn-warning"><i class="ri-pencil-line"></i> Sửa</a>
-                                                                    
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endwhile; ?>
+                                                <?php while ($danhMuc = $listDanhMuc->fetch(PDO::FETCH_OBJ)): ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="selected[]" value="<?= $danhMuc->id ?>">
+                                                            <label class="form-check-label"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td><?= $danhMuc->id ?></td>
+                                                    <td><?= htmlspecialchars($danhMuc->name) ?></td>
+                                                    <td>
+                                                        <?php if($danhMuc->status == 1): ?>
+                                                        <span class="badge bg-success">Hiển thị</span>
+                                                        <?php else: ?>
+                                                        <span class="badge bg-danger">Ẩn</span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div class="hstack gap-3 flex-wrap justify-content-end">
+                                                            <a href="index.php?act=editCategories&id=<?= $danhMuc->id ?>"
+                                                                class="btn btn-sm btn-warning"><i
+                                                                    class="ri-pencil-line"></i> Sửa</a>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php endwhile; ?>
                                                 <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="5" class="text-center">Không có danh mục nào.</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Không có danh mục nào.</td>
+                                                </tr>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>
@@ -126,18 +145,32 @@
 
                 </div>
             </div>
-           
+
         </div>
     </div>
     <script>
-        // Select all checkboxes
-        document.getElementById('selectAll').onclick = function() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-        };
+    // Select all checkboxes
+    document.getElementById('selectAll').onclick = function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    };
     </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const alertBox = document.getElementById('success-alert');
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.style.transition = 'opacity 0.5s ease';
+                alertBox.style.opacity = '0';
+                setTimeout(() => alertBox.remove(), 500);
+            }, 3000); // 3 giây
+        }
+    });
+</script>
+
+
 </body>
 
 </html>

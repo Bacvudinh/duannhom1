@@ -209,8 +209,10 @@ public function deleteVariant()
             if (empty($error)) {
                 if ($this->productModel->updateProduct($id, $name, $price, $categoryId, $status, $description, $image)
 ) {
-                    header("Location: index.php?act=Product&success=update");
-                    exit();
+    $_SESSION['success'] = "Cập nhật sản phẩm thành công!";
+header("Location: index.php?act=Product");
+exit();
+                
                 } else {
                     $error[] = "Cập nhật sản phẩm thất bại vào cơ sở dữ liệu.";
                 }

@@ -39,7 +39,7 @@ public function update()
         if (empty($content)) {
             $error['content'] = 'Vui lòng nhập nội dung bình luận.';
 
-            // Lấy lại comment từ DB hoặc tái tạo để hiển thị form lại
+            // Lấy lại comment từ DB để hiển thị lại form kèm lỗi
             $comment = $this->commentModel->getCommentById($id);
             $comment->comment = $content;
             $comment->status = $status;
@@ -50,6 +50,9 @@ public function update()
 
         // Nếu hợp lệ thì cập nhật
         $this->commentModel->updateComment($id, $content, $status);
+
+        // Thêm thông báo session
+        $_SESSION['success'] = "Cập nhật bình luận thành công!";
         header('Location: index.php?act=admin_comments');
         exit;
     }
@@ -57,17 +60,21 @@ public function update()
 
 
 
+
     
     
 
     public function delete()
-    {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $this->commentModel->deleteComment($id);
-        }
-        header('Location: index.php?act=admin_comments');
+{
+    $id = $_GET['id'] ?? null;
+    if ($id) {
+        $this->commentModel->deleteComment($id);
+        $_SESSION['success'] = "Xóa bình luận thành công!";
     }
+    header('Location: index.php?act=admin_comments');
+    exit;
+}
+
 
     public function toggle()
     {

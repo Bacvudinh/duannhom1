@@ -100,7 +100,7 @@ require_once './views/layout/header.php'; // Header
                     </div>
 
                     <div class="col text-center">
-                        Don't have an account? <a href="register.html"><b>Create One</b></a>
+                        Don't have an account? <a href="index.php?act=registerForm"><b>Create One</b></a>
                     </div>
                 </div>
             </form>

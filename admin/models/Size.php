@@ -21,7 +21,12 @@ class Size extends BaseModel
         $this->setQuery($sql);
         return $this->loadRow([$id]);
     }
-
+public function getByName($name)
+{
+    $sql = "SELECT * FROM $this->table WHERE name = ?";
+    $this->setQuery($sql);
+    return $this->loadRow([$name]);
+}
     public function deleteSize($id)
     {
         $sql = "DELETE FROM $this->table WHERE id = ?";

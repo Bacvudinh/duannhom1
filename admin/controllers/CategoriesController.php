@@ -79,7 +79,10 @@ class categoriesController
                 // Kiểm tra xem ID có hợp lệ không
                 if (is_numeric($id) && $id > 0) {
                     if ($this->categoryModel->updateCategory($id, $name, $status)) {
-                        header("Location: index.php?act=Categories&success=update");
+            
+                        $_SESSION['success'] = "Cập nhật danh mục thành công.";
+                        // Chuyển hướng về trang danh sách
+            header("Location: index.php?act=Categories&success=update");
                         exit();
                     } else {
                         $error = "Cập nhật danh mục thất bại.";
