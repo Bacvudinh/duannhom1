@@ -100,6 +100,7 @@ public function deleteVariant()
             if (empty($name)) { $error[] = "Vui lòng nhập tên sản phẩm."; }
             if (empty($categoryId)) { $error[] = "Vui lòng chọn danh mục."; }
             if (empty($variants)) { $error[] = "Vui lòng thêm ít nhất một biến thể size."; }
+             if (empty( $price)) { $error[] = "Vui lòng thêm giá sản phẩm"; }
 
             // Xử lý upload ảnh
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {

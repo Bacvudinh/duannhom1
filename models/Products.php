@@ -21,6 +21,7 @@ class Products extends BaseModel
     if ($keyword) {
         $sql .= " AND (p.name LIKE ? OR p.description LIKE ?)";
         $params[] = "%$keyword%";
+        $params[] = "%$keyword%"; 
      
     }
 

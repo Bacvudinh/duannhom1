@@ -32,7 +32,7 @@
                                         <form action="index.php?act=saveCategory" method="post">
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Tên loại</label>
-                                                <input type="text" class="form-control" id="name" name="name" required>
+                                                <input type="text" class="form-control" id="name" name="name" >
                                             </div> <div class="mb-3">
                                                 <label for="name" class="form-label">Trạng thái</label>
                                                 <select name="status" class="form-select">
