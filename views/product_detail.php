@@ -1,10 +1,9 @@
   <?php
     require_once './views/layout/header.php'; // Header
     ?>
-<style>
+  <style>
 /* General Styling */
-
-</style>
+  </style>
   <div class="page-banner-section section">
       <div class="container">
           <ul class="breadcrumb">
@@ -184,30 +183,31 @@
                       });
                       </script>
 
-                   <div class="single-product-actions-item">
-    <?php if (isset($_SESSION['add_to_cart_error'])): ?>
-        <div class="alert alert-danger mt-2">
-            <?= htmlspecialchars($_SESSION['add_to_cart_error']) ?>
-        </div>
-        <?php unset($_SESSION['add_to_cart_error']); ?>
-    <?php endif; ?>
+                      <div class="single-product-actions-item">
+                          <?php if (isset($_SESSION['add_to_cart_error'])): ?>
+                          <div class="alert alert-danger mt-2">
+                              <?= htmlspecialchars($_SESSION['add_to_cart_error']) ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_error']); ?>
+                          <?php endif; ?>
 
-    <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3">
-        <input type="hidden" name="product_id" value="<?= $product->id ?>">
-        <input type="hidden" name="size" id="selected-size" value="<?= $productVariants[0]->size ?>">
+                          <form action="index.php?act=addToCart" method="post"
+                              class="d-flex align-items-center gap-3 mt-3">
+                              <input type="hidden" name="product_id" value="<?= $product->id ?>">
+                              <input type="hidden" name="size" id="selected-size"
+                                  value="<?= $productVariants[0]->size ?>">
 
-        <div class="quantity-wrapper">
-<input type="number" name="quantity"
-    class="form-control form-control-sm"
-    style="width: 70px; border-radius: 6px;">
-        </div>
+                              <div class="quantity-wrapper">
+                                  <input type="number" name="quantity" value="1" class="form-control form-control-sm"
+                                      style="width: 70px; border-radius: 6px;">
+                              </div>
 
-        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
-            style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
-            <i class="sli-bag"></i> Thêm vào giỏ hàng
-        </button>
-    </form>
-</div>
+                              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
+                                  style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
+                                  <i class="sli-bag"></i> Thêm vào giỏ hàng
+                              </button>
+                          </form>
+                      </div>
 
                   </div>
               </div>
@@ -404,7 +404,7 @@
 
                               </div>
 
-                             
+
                           </div>
 
                           <div class="product-content">
