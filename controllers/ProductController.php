@@ -38,7 +38,6 @@ class ProductController
         // Gọi view và truyền biến
         require_once './views/listproducts.php';
     }
-
    public function productDetail()
 {
     $id = $_GET['id'] ?? 0;
