@@ -53,34 +53,33 @@ class LoginController {
         require_once 'views/register.php';
     }
 
-    public function register() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = trim($_POST['name']);
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm_password'];
-            $phone = trim($_POST['phone']);
-            $address = trim($_POST['address']);
+   public function register()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
 
-
-            if ($password !== $confirmPassword) {
-                $error = "Mật khẩu không khớp.";
-                require_once 'views/register.php';
-                return;
-            }
-
-            $userModel = new UserModel();
-            $result = $userModel->register($name, $email, $password, $phone, $address);
-
-            if ($result) {
-                header('Location: index.php?act=loginForm');
-                exit;
-            } else {
-                $error = "Email đã tồn tại.";
-                require_once 'views/register.php';
-            }
+        if ($password !== $confirm_password) {
+            $error = "Mật khẩu không khớp!";
         } else {
-            require_once 'views/register.php';
+            $userModel = new UserModel();
+            $success = $userModel->register($name, $email, $password, $phone, $address);
+
+            if (!$success) {
+                $error = "Email đã tồn tại!";
+            } else {
+                $_SESSION['success'] = "Đăng ký thành công!";
+                header("Location: index.php?act=login");
+                exit;
+            }
         }
     }
+
+    // Load lại view và truyền biến lỗi nếu có
+    require 'views/register.php'; // hoặc đúng path view của bạn
+}
 }
