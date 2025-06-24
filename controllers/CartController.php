@@ -48,6 +48,15 @@ public function addToCart()
     $quantity = max(1, (int)($_POST['quantity'] ?? 1));
     $variantSize = $_POST['size'] ?? '';
 
+
+
+$quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
+
+if ($quantity <= 0) {
+    $_SESSION['add_to_cart_error'] = "Số lượng phải lớn hơn 0.";
+    header("Location: index.php?act=product_detail&id=" . $_POST['product_id']);
+    exit;
+}
     // Lấy danh sách biến thể theo sản phẩm
     $variants = $this->productModel->getVariantsByProductId($productId);
 
