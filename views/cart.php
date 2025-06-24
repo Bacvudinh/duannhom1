@@ -188,8 +188,6 @@
         }
         return true;
     }
-   
-
     // Kiểm tra số lượng trước khi submit form
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("input", function() {
