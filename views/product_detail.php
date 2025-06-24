@@ -184,39 +184,31 @@
                       });
                       </script>
 
-                      <div class="single-product-actions">
-                          <div class="single-product-actions-item">
-                              <form action="index.php?act=addToCart" method="post"
-                                  class="d-flex align-items-center gap-3 mt-3">
-                                  <input type="hidden" name="product_id" value="<?= $product->id ?>">
+                   <div class="single-product-actions-item">
+    <?php if (isset($_SESSION['add_to_cart_error'])): ?>
+        <div class="alert alert-danger mt-2">
+            <?= htmlspecialchars($_SESSION['add_to_cart_error']) ?>
+        </div>
+        <?php unset($_SESSION['add_to_cart_error']); ?>
+    <?php endif; ?>
 
-                                  <!-- ✅ THÊM hidden field để lưu giá trị size được chọn -->
-                                  <input type="hidden" name="size" id="selected-size"
-                                      value="<?= $productVariants[0]->size ?>">
+    <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3">
+        <input type="hidden" name="product_id" value="<?= $product->id ?>">
+        <input type="hidden" name="size" id="selected-size" value="<?= $productVariants[0]->size ?>">
 
-                                  <div class="quantity-wrapper">
-                                      <input type="number" name="quantity" value="1" min="1"
-                                          class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
-                                  </div>
+        <div class="quantity-wrapper">
+<input type="number" name="quantity"
+    class="form-control form-control-sm"
+    style="width: 70px; border-radius: 6px;">
+        </div>
 
-                                  <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
-                                      style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
-                                      <i class="sli-bag"></i> Thêm vào giỏ hàng
-                                  </button>
-                              </form>
+        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
+            style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
+            <i class="sli-bag"></i> Thêm vào giỏ hàng
+        </button>
+    </form>
+</div>
 
-                              <button class="wishlist-btn" onclick="toggleWishlist(this)">
-                                  <i class="fa-regular fa-heart"></i>
-                              </button>
-                              <script>
-                              function toggleWishlist(btn) {
-                                  const icon = btn.querySelector('i');
-                                  icon.classList.toggle('fa-regular');
-                                  icon.classList.toggle('fa-solid');
-                              }
-                              </script>
-                          </div>
-                      </div>
                   </div>
               </div>
 
