@@ -15,7 +15,6 @@ class HomeController
         $topproducts= $this->product->TopProducts(10);
 
         // Gọi view
-
         require_once './views/home.php';
     }
 }
