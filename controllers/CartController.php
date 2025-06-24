@@ -23,7 +23,6 @@ class CartController
             header('Location: index.php?act=loginForm');
             exit;
         }
-
         $userId = $_SESSION['user']['id'];
         $cart = $this->cartModel->getCartByUserId($userId);
 
@@ -59,7 +58,6 @@ public function addToCart()
             break;
         }
     }
-
     if (!$foundVariant) {
         $_SESSION['add_to_cart_error'] = "Không tìm thấy biến thể sản phẩm.";
         header("Location: index.php?act=product_detail&id=$productId");

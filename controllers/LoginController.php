@@ -26,9 +26,7 @@ class LoginController {
             require_once 'views/login.php';
             return;
         }
-
         $_SESSION['user'] = $result;
-
         if ($result['role'] === 'admin') {
             header('Location: ./admin/index.php');
 

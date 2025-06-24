@@ -188,15 +188,7 @@
         }
         return true;
     }
-    document.querySelectorAll(".quantity-input").forEach(input => {
-        input.addEventListener("input", function() {
-            if (this.value <= 0 || isNaN(this.value)) {
-                this.classList.add("is-invalid");
-            } else {
-                this.classList.remove("is-invalid");
-            }
-        });
-    });
+   
 
     // Kiểm tra số lượng trước khi submit form
     document.querySelectorAll(".quantity-input").forEach(input => {
