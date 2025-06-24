@@ -2,7 +2,7 @@
     require_once './views/layout/header.php'; // Header
     ?>
   <style>
-/* General Styling */
+      /* General Styling */
   </style>
   <div class="page-banner-section section">
       <div class="container">
@@ -82,42 +82,38 @@
 
                       </div>
                       <script>
-                      document.addEventListener("DOMContentLoaded", function() {
-                          const sizeRadios = document.querySelectorAll('input[name="size"]');
-                          const priceDisplay = document.getElementById('dynamic-price');
+                          document.addEventListener("DOMContentLoaded", function() {
+                              const sizeRadios = document.querySelectorAll('input[name="size"]');
+                              const priceDisplay = document.getElementById('dynamic-price');
 
-                          sizeRadios.forEach(radio => {
-                              radio.addEventListener('change', function() {
-                                  const newPrice = this.getAttribute('data-price');
+                              sizeRadios.forEach(radio => {
+                                  radio.addEventListener('change', function() {
+                                      const newPrice = this.getAttribute('data-price');
 
-                                  priceDisplay.textContent = `${parseFloat(newPrice).toLocaleString('vi-VN', {
+                                      priceDisplay.textContent = `${parseFloat(newPrice).toLocaleString('vi-VN', {
                 style: 'currency',
                 currency: 'VND'
             })}`;
 
+                                  });
                               });
                           });
-                      });
                       </script>
                       <script>
-                      document.addEventListener("DOMContentLoaded", function() {
-                          const sizeRadios = document.querySelectorAll('input[name="size"]');
-                          const priceDisplay = document.getElementById('dynamic-price');
+                          document.addEventListener("DOMContentLoaded", function() {
+                              const sizeRadios = document.querySelectorAll('input[name="size"]');
+                              const priceDisplay = document.getElementById('dynamic-price');
 
-                          sizeRadios.forEach(radio => {
-                              radio.addEventListener('change', function() {
-                                  const newPrice = this.getAttribute('data-price');
-                                  const formatted = new Intl.NumberFormat('vi-VN').format(
-                                      newPrice);
-                                  priceDisplay.textContent = `${formatted} VNĐ`;
+                              sizeRadios.forEach(radio => {
+                                  radio.addEventListener('change', function() {
+                                      const newPrice = this.getAttribute('data-price');
+                                      const formatted = new Intl.NumberFormat('vi-VN').format(
+                                          newPrice);
+                                      priceDisplay.textContent = `${formatted} VNĐ`;
+                                  });
                               });
                           });
-                      });
                       </script>
-
-
-
-
                       <ul class="single-product-meta">
                           <li><span class="label">Danh mục :</span> <span
                                   class="value"><?= htmlspecialchars($product->category_name) ?></span></li>
@@ -132,12 +128,12 @@
                               <div class="value">
                                   <div class="single-product-variation-size-wrap">
                                       <?php foreach ($productVariants as $index => $variant): ?>
-                                      <div class="single-product-variation-size-item">
-                                          <input type="radio" name="size" id="size-<?= $index ?>"
-                                              value="<?= $variant->size ?>" data-price="<?= $variant->price ?>"
-                                              <?= $index === 0 ? 'checked' : '' ?>>
-                                          <label for="size-<?= $index ?>"><?= strtoupper($variant->size) ?></label>
-                                      </div>
+                                          <div class="single-product-variation-size-item">
+                                              <input type="radio" name="size" id="size-<?= $index ?>"
+                                                  value="<?= $variant->size ?>" data-price="<?= $variant->price ?>"
+                                                  <?= $index === 0 ? 'checked' : '' ?>>
+                                              <label for="size-<?= $index ?>"><?= strtoupper($variant->size) ?></label>
+                                          </div>
                                       <?php endforeach; ?>
                                   </div>
                               </div>
@@ -148,72 +144,74 @@
 
                       </div>
                       <?php if (!empty($_SESSION['add_to_cart_error'])): ?>
-                      <div class="alert alert-danger mt-3">
-                          <?= $_SESSION['add_to_cart_error'] ?>
-                      </div>
-                      <?php unset($_SESSION['add_to_cart_error']); ?>
+                          <div class="alert alert-danger mt-3">
+                              <?= $_SESSION['add_to_cart_error'] ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_error']); ?>
                       <?php endif; ?>
                       <!-- Hiển thị thông báo lỗi nếu có -->
                       <?php if (!empty($_SESSION['add_to_cart_error'])): ?>
-                      <div class="alert alert-danger mt-3">
-                          <?= $_SESSION['add_to_cart_error'] ?>
-                      </div>
-                      <?php unset($_SESSION['add_to_cart_error']); ?>
+                          <div class="alert alert-danger mt-3">
+                              <?= $_SESSION['add_to_cart_error'] ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_error']); ?>
                       <?php endif; ?>
 
                       <!-- ✅ Hiển thị thông báo thành công nếu thêm vào giỏ hàng -->
                       <?php if (!empty($_SESSION['add_to_cart_success'])): ?>
-                      <div class="alert alert-success mt-3" id="addToCartSuccess">
-                          <?= $_SESSION['add_to_cart_success'] ?>
-                      </div>
-                      <?php unset($_SESSION['add_to_cart_success']); ?>
+                          <div class="alert alert-success mt-3" id="addToCartSuccess">
+                              <?= $_SESSION['add_to_cart_success'] ?>
+                          </div>
+                          <?php unset($_SESSION['add_to_cart_success']); ?>
                       <?php endif; ?>
 
                       <!-- ✅ Script tự động ẩn thông báo sau 3 giây -->
                       <script>
-                      document.addEventListener("DOMContentLoaded", function() {
-                          const alertBox = document.getElementById("addToCartSuccess");
-                          if (alertBox) {
-                              setTimeout(() => {
-                                  alertBox.style.opacity = "0";
-                                  setTimeout(() => alertBox.style.display = "none",
-                                      300); // ẩn hẳn sau hiệu ứng mờ
-                              }, 3000);
-                          }
-                      });
+                          document.addEventListener("DOMContentLoaded", function() {
+                              const alertBox = document.getElementById("addToCartSuccess");
+                              if (alertBox) {
+                                  setTimeout(() => {
+                                      alertBox.style.opacity = "0";
+                                      setTimeout(() => alertBox.style.display = "none",
+                                          300); // ẩn hẳn sau hiệu ứng mờ
+                                  }, 3000);
+                              }
+                          });
                       </script>
+                     <div id="quantity-error" class="alert alert-danger" style="display: none;"></div>
+                      <div class="single-product-actions">
+                          <div class="single-product-actions-item">
+                              <form action="index.php?act=addToCart" method="post" class="d-flex align-items-center gap-3 mt-3" onsubmit="return validateQuantity()">
+                                  <input type="hidden" name="product_id" value="<?= $product->id ?>">
+                                  <input type="hidden" name="size" id="selected-size" value="<?= $productVariants[0]->size ?>">
 
-                      <div class="single-product-actions-item">
-                          <?php if (isset($_SESSION['add_to_cart_error'])): ?>
-                          <div class="alert alert-danger mt-2">
-                              <?= htmlspecialchars($_SESSION['add_to_cart_error']) ?>
-                          </div>
-                          <?php unset($_SESSION['add_to_cart_error']); ?>
-                          <?php endif; ?>
-
-                          <form action="index.php?act=addToCart" method="post"
-                              class="d-flex align-items-center gap-3 mt-3">
-                              <input type="hidden" name="product_id" value="<?= $product->id ?>">
-                              <input type="hidden" name="size" id="selected-size"
-                                  value="<?= $productVariants[0]->size ?>">
-
-                              <div class="quantity-wrapper">
-                                  <input type="number" name="quantity" value="1" class="form-control form-control-sm"
-                                      style="width: 70px; border-radius: 6px;">
-                              </div>
-
-                              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
-                                  style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
-                                  <i class="sli-bag"></i> Thêm vào giỏ hàng
+                                  <div class="quantity-wrapper">
+                                      <input type="number" id="quantity" name="quantity" value="1" class="form-control form-control-sm" style="width: 70px; border-radius: 6px;">
+                                  </div>
+                                  <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
+                                      style="border-radius: 6px; padding: 10px 20px; font-weight: 500;">
+                                      <i class="sli-bag"></i> Thêm vào giỏ hàng
+                                  </button>
+                                   
+                              </form>
+                              <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                  <i class="fa-regular fa-heart"></i>
                               </button>
-                          </form>
+                              
+                              <script>
+                                  function toggleWishlist(btn) {
+                                      const icon = btn.querySelector('i');
+                                      icon.classList.toggle('fa-regular');
+                                      icon.classList.toggle('fa-solid');
+                                  }
+                              </script>
+                             
+                          </div>
                       </div>
-
                   </div>
               </div>
 
               <!-- Product Content End -->
-
           </div>
           <!-- Single Product Top Area End -->
 
@@ -254,97 +252,97 @@
 
                       <!-- Form thêm bình luận mới -->
                       <?php if (isset($_SESSION['user'])): ?>
-                      <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post" class="mb-4">
-                          <div class="mb-3">
-                              <textarea name="comment" rows="4" class="form-control"
-                                  placeholder="Nhập bình luận của bạn..." required></textarea>
-                          </div>
-                          <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
-                              <i class="fas fa-paper-plane"></i> Gửi bình luận
-                          </button>
-                      </form>
+                          <form action="index.php?act=addComment&product_id=<?= $product->id ?>" method="post" class="mb-4">
+                              <div class="mb-3">
+                                  <textarea name="comment" rows="4" class="form-control"
+                                      placeholder="Nhập bình luận của bạn..." required></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                                  <i class="fas fa-paper-plane"></i> Gửi bình luận
+                              </button>
+                          </form>
 
                       <?php else: ?>
-                      <p>Vui lòng <a href="index.php?act=loginForm">đăng nhập</a> để bình luận.</p>
+                          <p>Vui lòng <a href="index.php?act=loginForm">đăng nhập</a> để bình luận.</p>
                       <?php endif; ?>
 
                       <!-- Danh sách bình luận -->
                       <ul>
                           <?php foreach ($comments as $comment): ?>
-                          <?php if (!$comment['parent_id']): // chỉ hiển thị comment cha 
+                              <?php if (!$comment['parent_id']): // chỉ hiển thị comment cha 
                                 ?>
-                          <li>
-                              <strong><?= htmlspecialchars($comment['user_name']) ?></strong>:
-                              <?= htmlspecialchars($comment['comment']) ?>
-                              <br>
-                              <small><?= $comment['created_at'] ?></small>
-
-                              <!-- Nếu là người gửi thì có quyền xóa -->
-                              <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
-                              <form
-                                  action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
-                                  method="post" style="display: inline;">
-                                  <button type="submit"
-                                      class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
-                                      onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
-                                      <i class="fas fa-trash-alt"></i> Xóa
-                                  </button>
-                              </form>
-
-                              <?php endif; ?>
-
-                              <!-- Nút trả lời -->
-                              <?php if (isset($_SESSION['user'])): ?>
-                              <button type="button"
-                                  class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1 mt-2"
-                                  onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block';">
-                                  <i class="fas fa-reply"></i> Trả lời
-                              </button>
-
-                              <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 10px;"
-                                  method="post" action="index.php?act=addComment&product_id=<?= $product->id ?>">
-                                  <div class="mb-2">
-                                      <textarea name="comment" rows="3" class="form-control"
-                                          placeholder="Nhập phản hồi..." required></textarea>
-                                  </div>
-                                  <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
-                                  <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
-                                      <i class="fas fa-paper-plane"></i> Gửi trả lời
-                                  </button>
-                              </form>
-
-                              <?php endif; ?>
-
-                              <!-- Danh sách trả lời -->
-                              <ul style="margin-left: 20px;">
-                                  <?php foreach ($comments as $reply): ?>
-                                  <?php if ($reply['parent_id'] == $comment['id']): ?>
                                   <li>
-                                      <strong><?= htmlspecialchars($reply['user_name']) ?></strong>:
-                                      <?= htmlspecialchars($reply['comment']) ?>
+                                      <strong><?= htmlspecialchars($comment['user_name']) ?></strong>:
+                                      <?= htmlspecialchars($comment['comment']) ?>
                                       <br>
-                                      <small><?= $reply['created_at'] ?></small>
+                                      <small><?= $comment['created_at'] ?></small>
 
                                       <!-- Nếu là người gửi thì có quyền xóa -->
-                                      <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
-                                      <form
-                                          action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>"
-                                          method="post" style="display: inline;">
-                                          <button type="submit"
-                                              class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
-                                              onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
-                                              <i class="fas fa-trash-alt"></i> Xóa
-                                          </button>
-                                      </form>
+                                      <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $comment['user_id']): ?>
+                                          <form
+                                              action="index.php?act=deleteComment&id=<?= $comment['id'] ?>&product_id=<?= $product->id ?>"
+                                              method="post" style="display: inline;">
+                                              <button type="submit"
+                                                  class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
+                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                                                  <i class="fas fa-trash-alt"></i> Xóa
+                                              </button>
+                                          </form>
+
                                       <?php endif; ?>
 
+                                      <!-- Nút trả lời -->
+                                      <?php if (isset($_SESSION['user'])): ?>
+                                          <button type="button"
+                                              class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1 mt-2"
+                                              onclick="document.getElementById('reply-form-<?= $comment['id'] ?>').style.display='block';">
+                                              <i class="fas fa-reply"></i> Trả lời
+                                          </button>
 
+                                          <form id="reply-form-<?= $comment['id'] ?>" style="display:none; margin-top: 10px;"
+                                              method="post" action="index.php?act=addComment&product_id=<?= $product->id ?>">
+                                              <div class="mb-2">
+                                                  <textarea name="comment" rows="3" class="form-control"
+                                                      placeholder="Nhập phản hồi..." required></textarea>
+                                              </div>
+                                              <input type="hidden" name="parent_id" value="<?= $comment['id'] ?>">
+                                              <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+                                                  <i class="fas fa-paper-plane"></i> Gửi trả lời
+                                              </button>
+                                          </form>
+
+                                      <?php endif; ?>
+
+                                      <!-- Danh sách trả lời -->
+                                      <ul style="margin-left: 20px;">
+                                          <?php foreach ($comments as $reply): ?>
+                                              <?php if ($reply['parent_id'] == $comment['id']): ?>
+                                                  <li>
+                                                      <strong><?= htmlspecialchars($reply['user_name']) ?></strong>:
+                                                      <?= htmlspecialchars($reply['comment']) ?>
+                                                      <br>
+                                                      <small><?= $reply['created_at'] ?></small>
+
+                                                      <!-- Nếu là người gửi thì có quyền xóa -->
+                                                      <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $reply['user_id']): ?>
+                                                          <form
+                                                              action="index.php?act=deleteComment&id=<?= $reply['id'] ?>&product_id=<?= $product->id ?>"
+                                                              method="post" style="display: inline;">
+                                                              <button type="submit"
+                                                                  class="btn btn-danger btn-sm d-inline-flex align-items-center gap-1"
+                                                                  onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?')">
+                                                                  <i class="fas fa-trash-alt"></i> Xóa
+                                                              </button>
+                                                          </form>
+                                                      <?php endif; ?>
+
+
+                                                  </li>
+                                              <?php endif; ?>
+                                          <?php endforeach; ?>
+                                      </ul>
                                   </li>
-                                  <?php endif; ?>
-                                  <?php endforeach; ?>
-                              </ul>
-                          </li>
-                          <?php endif; ?>
+                              <?php endif; ?>
                           <?php endforeach; ?>
                       </ul>
 
@@ -390,43 +388,43 @@
 
 
                   <?php foreach ($relatedProducts as $item): ?>
-                  <div class="swiper-slide">
-                      <div class="product">
+                      <div class="swiper-slide">
+                          <div class="product">
 
-                          <div class="product-thumb">
-                              <a href="index.php?act=product_detail&id=<?= $item->id ?> class=" product-image">
-                                  <img loading="lazy" src="uploads/product/<?= $item->image ?>"
-                                      alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
-                              </a>
+                              <div class="product-thumb">
+                                  <a href="index.php?act=product_detail&id=<?= $item->id ?> class=" product-image">
+                                      <img loading="lazy" src="uploads/product/<?= $item->image ?>"
+                                          alt="<?= htmlspecialchars($item->name) ?>" width="268" height="306">
+                                  </a>
 
-                              <!-- Badge right -->
-                              <div class="product-badge-right">
+                                  <!-- Badge right -->
+                                  <div class="product-badge-right">
+
+                                  </div>
+
 
                               </div>
 
-
-                          </div>
-
-                          <div class="product-content">
-                              <h5 class="product-title">
-                                  <a
-                                      href="index.php?action=product-detail&id=<?= $item->id ?>"><?= htmlspecialchars($item->name) ?></a>
-                              </h5>
-                              <div class="product-price">
+                              <div class="product-content">
+                                  <h5 class="product-title">
+                                      <a
+                                          href="index.php?action=product-detail&id=<?= $item->id ?>"><?= htmlspecialchars($item->name) ?></a>
+                                  </h5>
+                                  <div class="product-price">
 
 
 
-                                  <?= number_format($item->price, 0, ',', '.') ?> VNĐ
+                                      <?= number_format($item->price, 0, ',', '.') ?> VNĐ
 
-                              </div>
-                              <div class="product-rating">
-                                  <span class="product-rating-bg">
-                                      <span class="product-rating-active" style="width: 80%;"></span>
-                                  </span>
+                                  </div>
+                                  <div class="product-rating">
+                                      <span class="product-rating-bg">
+                                          <span class="product-rating-active" style="width: 80%;"></span>
+                                      </span>
+                                  </div>
                               </div>
                           </div>
                       </div>
-                  </div>
                   <?php endforeach; ?>
               </div>
 
@@ -447,14 +445,62 @@
   <!-- Product Section End -->
   </div>
   <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const radios = document.querySelectorAll('input[name="size"]');
-    const hiddenSize = document.getElementById('selected-size');
+      document.addEventListener("DOMContentLoaded", function() {
+          const radios = document.querySelectorAll('input[name="size"]');
+          const hiddenSize = document.getElementById('selected-size');
 
-    radios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            hiddenSize.value = this.value;
-        });
-    });
-});
+          radios.forEach(radio => {
+              radio.addEventListener('change', function() {
+                  hiddenSize.value = this.value;
+              });
+          });
+      });
+
+      function validateQuantity() {
+          const quantityInput = document.getElementById('quantity');
+          const quantity = parseInt(quantityInput.value);
+
+          if (isNaN(quantity) || quantity < 1) {
+              alert("Vui lòng nhập số lượng hợp lệ (tối thiểu là 1).");
+              quantityInput.focus();
+              return false;
+          }
+
+          if (quantity > 99) { // Bạn có thể thay đổi giới hạn này
+              alert("Số lượng không được vượt quá 99 sản phẩm.");
+              quantityInput.focus();
+              return false;
+          }
+
+          return true;
+      }
+  </script>
+  <script>
+      function validateQuantity() {
+          const quantityInput = document.getElementById('quantity');
+          const quantity = parseInt(quantityInput.value);
+          const errorDiv = document.getElementById('quantity-error');
+
+          // Reset trạng thái hiển thị lỗi
+          errorDiv.style.display = 'none';
+          errorDiv.textContent = '';
+
+          if (isNaN(quantity) || quantity < 1) {
+              errorDiv.textContent = "⚠️ Vui lòng nhập số lượng hợp lệ (tối thiểu là 1).";
+              errorDiv.style.display = 'block';
+              quantityInput.value = 1;
+              quantityInput.focus();
+              return false;
+          }
+
+          if (quantity > 99) {
+              errorDiv.textContent = "⚠️ Số lượng không được vượt quá 99 sản phẩm.";
+              errorDiv.style.display = 'block';
+              quantityInput.value = 99;
+              quantityInput.focus();
+              return false;
+          }
+
+          return true;
+      }
   </script>
