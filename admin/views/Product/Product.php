@@ -141,7 +141,6 @@
                                                     <th scope="col">Description</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Biến thể</th>
-                                                    
 
                                                     <th scope="col" class="text-end">Actions</th>
                                                 </tr>
