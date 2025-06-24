@@ -1,4 +1,5 @@
 <?php require_once './views/layout/header.php'; // Header ?>
+
 <body>
 
 <!-- Page Banner Section Start -->
@@ -70,6 +71,11 @@
     <div class="container">
         <div class="login-register-form">
             <h3 class="title">Create Account</h3>
+            <?php if (!empty($error)): ?>
+                <div style="color: red; margin-bottom: 10px; font-weight: bold;">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
             <p>Please register using the account details below.</p>
 
             <form method="POST" action="index.php?act=register">
